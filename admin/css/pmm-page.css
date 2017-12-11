@@ -1,0 +1,36 @@
+#pickle-mega-menu-admin {
+    
+}
+#pickle-mega-menu-admin .pmm-manage-menus {
+    
+}
+#pickle-mega-menu-admin .menu-items-column {
+    float: left;
+    width: 15%;
+    margin-right: 2%;
+}    
+#pickle-mega-menu-admin .menu-items-column .menu-items-container {
+    
+} 
+#pickle-mega-menu-admin .menu-items-column .menu-items-container .menu-items-list {
+    
+} 
+#pickle-mega-menu-admin .menu-items-column .menu-items-container .menu-items-list .pages-list {
+    
+} 
+#pickle-mega-menu-admin .menu-items-column .menu-items-container .menu-items-list .pages-list li {
+    
+}                     
+#pickle-mega-menu-admin .menu-management-column {
+    float: left;
+    width: 83%;
+}                 
+#pickle-mega-menu-admin .menu-management-column .menu-management {
+    
+} 
+#pickle-mega-menu-admin .menu-management-column #pmm-menu-grid {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 15px;
+}

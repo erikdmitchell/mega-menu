@@ -82,6 +82,8 @@ final class PickleMegaMenu {
      * @return void
      */
     public function includes() {
+        include_once(PMM_PATH.'functions.php');
+        
         include_once(PMM_PATH.'admin/class-pmm-admin.php');
         
         if (is_admin()) :
