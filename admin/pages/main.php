@@ -65,19 +65,20 @@ $num_locations = count( array_keys( $locations ) );
     
     <div class="menu-management-column">
         
-        <form>
+       
             
             <div class="menu-management">
                 
                 <h3>Menu</h3>
                 
-                <form>
+                <form name="save-menu" id="save-menu" action="" method="post">
+                    <?php wp_nonce_field('pmm_save_menu', 'pmm_admin'); ?>
                     
                     <label for="menu-name">Menu Name</label>
                     <input type="text" name="menu_name" id="menu-name" value="" />
                     
                      <span class="save-menu-button">
-                        <input type="button" class="button button-primary" value="Save Menu">
+                        <input type="submit" class="button button-primary" value="Save Menu">
                     </span> 
                     
                 </form>
@@ -88,7 +89,7 @@ $num_locations = count( array_keys( $locations ) );
                 
             </div>
             
-        </form>
+        
         
     </div>
     

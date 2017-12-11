@@ -5,6 +5,7 @@ class PMM_Admin {
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'scripts_styles'));
         add_action('admin_menu', array($this, 'menu'));
+        add_action('admin_init', array($this, 'save_menu'));
     }
     
     public function scripts_styles() {
@@ -43,6 +44,29 @@ class PMM_Admin {
         ob_end_clean();
 
         return $html;
+    }
+    
+    public function save_menu() {
+        if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm_save_menu'))
+            return;
+            
+/*
+        wp_terms
+            term_id **
+            name ($_POST['menu_name'])
+            slug (sanitize_title_with_dashes($_POST['menu_name']))
+            term_group
+            
+        wp_term_taxonomy
+            term_taxonomy_id
+            term_id **
+            taxonomy nav_menu
+            description
+            parent
+            count
+            
+        generates a custom post type 'nav_menu_item'
+*/
     }
     
 }
