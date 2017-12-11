@@ -1,22 +1,22 @@
 {
-  "name": "mega-menu",
+  "name": "pickle-mega-menu",
   "version": "1.0.0-alpha",
   "description": "Create awesome mega menus.",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"MEGA MENU\" && exit 1"
+    "test": "echo \"pickle MEGA MENU\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://erikdmitchell@github.com/erikdmitchell/mega-menu.git"
+    "url": "git+https://erikdmitchell@github.com/erikdmitchell/pickle-mega-menu.git"
   },
   "keywords": [],
   "author": "Erik Mitchell",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/erikdmitchell/mega-menu/issues"
+    "url": "https://github.com/erikdmitchell/pickle-mega-menu/issues"
   },
-  "homepage": "https://github.com/erikdmitchell/mega-menu#readme",
+  "homepage": "https://github.com/erikdmitchell/pickle-mega-menu#readme",
   "devDependencies": {
     "autoprefixer": "^7.1.6",
     "css-declaration-sorter": "^2.1.0",

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Mega Menu
+ * Plugin Name: Pickle Mega Menu
  * Plugin URI:
  * Description: Create awesome mega menus.
  * Version: 1.0.0-alpha
@@ -8,7 +8,7 @@
  * Author URI:
  * Requires at least: 4.0
  * Tested up to: 49.1
- * Text Domain: mega-menu
+ * Text Domain: pickle-mega-menu
  */
 
 // If this file is called directly, abort.
@@ -16,11 +16,11 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-if ( ! defined( 'MM_PLUGIN_FILE' ) ) {
-    define( 'MM_PLUGIN_FILE', __FILE__ );
+if ( ! defined( 'PMM_PLUGIN_FILE' ) ) {
+    define( 'PMM_PLUGIN_FILE', __FILE__ );
 }
 
-final class MegaMenu {
+final class PickleMegaMenu {
 
     public $version = '1.0.0-alpha';
 
@@ -55,9 +55,9 @@ final class MegaMenu {
      * @return void
      */
     private function define_constants() {
-        $this->define( 'MM_VERSION', $this->version );
-        $this->define( 'MM_PATH', plugin_dir_path( __FILE__ ) );
-        $this->define( 'MM_URL', plugin_dir_url( __FILE__ ) );
+        $this->define( 'PMM_VERSION', $this->version );
+        $this->define( 'PMM_PATH', plugin_dir_path( __FILE__ ) );
+        $this->define( 'PMM_URL', plugin_dir_url( __FILE__ ) );
 
     }
 
@@ -82,7 +82,11 @@ final class MegaMenu {
      * @return void
      */
     public function includes() {
-
+        include_once(PMM_PATH.'admin/class-pmm-admin.php');
+        
+        if (is_admin()) :
+            new PMM_Admin();
+        endif;
     }
 
     /**
@@ -148,8 +152,8 @@ final class MegaMenu {
         }
 
         $username    = 'erikdmitchell';
-        $repo_name   = 'mega-menu';
-        $folder_name = 'mega-menu';
+        $repo_name   = 'pickle-mega-menu';
+        $folder_name = 'pickle-mega-menu';
 
         $config = array(
             'slug'               => plugin_basename( __FILE__ ), // this is the slug of your plugin.
@@ -164,15 +168,15 @@ final class MegaMenu {
             'readme'             => 'readme.txt', // which file to use as the readme for the version number.
         );
 
-        new DM_GitHub_Updater( $config );
+        new PMM_GitHub_Updater( $config );
     }
 
 }
 
-function Mega_Menu() {
-    return MegaMenu::instance();
+function PickleMegaMenu() {
+    return PickleMegaMenu::instance();
 }
 
 // Global for backwards compatibility.
-$GLOBALS['megamenu'] = Mega_Menu();
+$GLOBALS['picklemegamenu'] = PickleMegaMenu();
 
