@@ -13,7 +13,11 @@ class PMM_Admin {
     public function menu_page() {
         $html='';
         
-        $html.='foo';
+        $html.='<div class="wrap">';
+        
+            $html.='<h1>Pickle Mega Menu</h1>';
+        
+        $html.='</div>';
         
         echo $html;
     }
