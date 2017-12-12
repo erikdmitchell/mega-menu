@@ -21,9 +21,7 @@ $num_locations = count( array_keys( $locations ) );
         <form>
             
             <label for="select-menu">Select a menu to edit:</label>
-            <select name="menu" id="pmm-to-edit">
-                
-            </select>
+            <?php pmm_menu_list_dropdown($nav_menu_selected_id); ?>
             
             <span class="submit-button">
                 <input type="submit" class="button" value="Select">

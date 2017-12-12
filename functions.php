@@ -1,9 +1,27 @@
 <?php
     
-function pmm_menu_list() {
+function pmm_menu_list_dropdown($selected='', $name='pmm-to-edit', $echo=true) {
+    $html='';
+    $menus=wp_get_nav_menus();
     
+    $html.='<select name="" id="">';
+        
+        foreach ($menus as $menu) :
+        
+            $html.='<option value="'.$menu->term_id.'" '.selected($selected, $menu->term_id, 0).'>'.$menu->name.'</option>';
+        
+        endforeach;
+        
+    $html.='</select>';
+            
+    if ($echo) :
+        echo $html;
+    else :
+        return $html;
+    endif;
 }
 
+/*
 function pmm_do_accordion_sections( $screen, $context, $object ) {
     global $wp_meta_boxes;
 echo '<pre>';
@@ -63,3 +81,4 @@ echo '</pre>';
     <?php
     return $i;
 }
+*/
