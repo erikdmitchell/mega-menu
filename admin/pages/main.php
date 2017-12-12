@@ -104,7 +104,7 @@ $num_locations = count( array_keys( $locations ) );
                 </div>  
                                 
                 <div id="pmm-menu-grid" class="">
-                    <label>Cursor At:</label><label id="cursor"></label>
+
                     <div id="column-1" class="column">
                         <ul class="sortable-list">
                             <li class="item">Item 1<ol></ol></li>
@@ -136,25 +136,3 @@ $num_locations = count( array_keys( $locations ) );
     </div>
     
 </div>
-
-<?php if ( current_theme_supports( 'menus' ) ) : ?>
-
-	<fieldset class="menu-settings-group menu-theme-locations">
-		<legend class="menu-settings-group-name howto"><?php _e( 'Display location' ); ?></legend>
-		<?php foreach ( $locations as $location => $description ) : ?>
-		<div class="menu-settings-input checkbox-input">
-			<input type="checkbox"<?php checked( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == 0 ); ?> name="menu-locations[<?php echo esc_attr( $location ); ?>]" id="locations-<?php echo esc_attr( $location ); ?>" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
-			<label for="locations-<?php echo esc_attr( $location ); ?>"><?php echo $description; ?></label>
-			<?php if ( ! empty( $menu_locations[ $location ] ) && $menu_locations[ $location ] != 0 ) : ?>
-				<span class="theme-location-set"><?php
-					/* translators: %s: menu name */
-					printf( _x( '(Currently set to: %s)', 'menu location' ),
-						wp_get_nav_menu_object( $menu_locations[ $location ] )->name
-					);
-				?></span>
-			<?php endif; ?>
-		</div>
-		<?php endforeach; ?>
-	</fieldset>
-
-<?php endif; ?>
