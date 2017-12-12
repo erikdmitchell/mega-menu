@@ -29,6 +29,7 @@ $( function() {
         sort: function(event, ui) {
             var basePos = $(this).parent().position().left;
             var pos = ui.position.left - basePos;
+                        
             if (ui.helper.hasClass('second-level')) {
                 pos+=20; 
             }
@@ -39,6 +40,12 @@ $( function() {
             } else if (pos < 25 && ui.helper.hasClass('second-level')) {
                 ui.placeholder.removeClass('second-level');
                 ui.helper.removeClass('second-level');
+            }
+        },
+        stop: function(event, ui) {
+            // first item has to be top level //
+            if (ui.item.index() == 0) {
+                ui.item.removeClass('second-level');
             }
         }
     }).disableSelection();
