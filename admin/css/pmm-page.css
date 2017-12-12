@@ -92,3 +92,6 @@
     padding: 20px 0;
     text-align: center;    
 }
+#pmm-menu-grid .column ul li.placeholder {
+    border-style: dashed;    
+}

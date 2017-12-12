@@ -10,3 +10,7 @@ console.log(cols);
     
 });
 
+
+$(".sortable-list").sortable({
+  group: 'sortable-list',
+});

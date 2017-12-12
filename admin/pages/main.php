@@ -121,14 +121,15 @@ $num_locations = count( array_keys( $locations ) );
                         </ul>
                     </div>
                     
+                    
+<ol class='example'>
+  <li>First</li>
+  <li>Second</li>
+  <li>Third</li>
+</ol>                    
+                    
                 </div>
-<script>
-$( function() {
-    $( '.sortable-list' ).sortable({
-      connectWith: '.sortable-list'
-    }).disableSelection();
-  } );
-    </script>              
+
             </div>
             
             <input type="hidden" name="menu_id" id="menu-id" value="<?php echo $nav_menu_selected_id; ?>" />
