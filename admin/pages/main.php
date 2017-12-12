@@ -84,7 +84,11 @@ $num_locations = count( array_keys( $locations ) );
                     <label for="menu-name">Menu Name</label>
                     <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_object->name; ?>" />
                     
-                     <span class="save-menu-button">
+                    <span class="menu-columns">
+                        
+                    </span> 
+                    
+                    <span class="save-menu-button">
                         <input type="submit" class="button button-primary" value="Save Menu">
                     </span> 
                 </div>  
