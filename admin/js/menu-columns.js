@@ -47,7 +47,7 @@ if( nextThreshold && offset.top > nextThreshold ) {
 						//next.after( ui.placeholder );
 						updateSharedVars( ui );
 						$( this ).sortable( 'refreshPositions' );
-						ui.placeholder.addClass('level-1');
+						ui.placeholder.addClass('level-1'); // we need to determine prev item level, then add 1
 					}
 /*
 					if( nextThreshold && offset.top + helperHeight > nextThreshold ) {
