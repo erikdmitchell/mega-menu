@@ -45,7 +45,7 @@
     margin-left: 10px;
 }
 #pickle-mega-menu-admin .menu-options .menu-columns .columns-dropdown {
-    //display: none;
+    display: none;
     background-color: #fff;
     z-index: 9999;
     width: 50px;
@@ -65,4 +65,30 @@
 } 
 #pickle-mega-menu-admin .menu-options .save-menu-button {
     float: right;
-} 
+}
+
+#pmm-menu-grid {
+    overflow: hidden;
+}
+#pmm-menu-grid .column {
+    width: 32%;
+    float: left;
+    margin-right: 2%;
+}  
+#pmm-menu-grid .column ul {
+    background-color: #F93;
+    list-style: none;
+    margin: 0;
+    min-height: 60px;
+    padding: 10px;    
+}
+#pmm-menu-grid .column ul li {
+    background-color: #FFF;
+    border: 1px solid #000;
+    cursor: move;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 20px 0;
+    text-align: center;    
+}

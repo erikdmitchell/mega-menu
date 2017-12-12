@@ -102,12 +102,33 @@ $num_locations = count( array_keys( $locations ) );
                         <input type="submit" class="button button-primary" value="Save Menu">
                     </span> 
                 </div>  
-                
-                
-                <div id="pmm-menu-grid">
-                    gRID
+                                
+                <div id="pmm-menu-grid" class="">
+                    
+                    <div id="column-1" class="column">
+                        <ul class="sortable-list ui-sortable">
+                            <li class="sortable-item">Item 1</li>
+                            <li class="sortable-item">Item 2</li>
+                            <li class="sortable-item">Item 3</li>                                                
+                        </ul>
+                    </div>
+
+                    <div id="column-2" class="column">
+                        <ul class="sortable-list ui-sortable">
+                            <li class="sortable-item">Item 4</li>
+                            <li class="sortable-item">Item 5</li>
+                            <li class="sortable-item">Item 6</li>                                                
+                        </ul>
+                    </div>
+                    
                 </div>
-                
+<script>
+$( function() {
+    $( '.sortable-list' ).sortable({
+      connectWith: '.sortable-list'
+    }).disableSelection();
+  } );
+    </script>              
             </div>
             
             <input type="hidden" name="menu_id" id="menu-id" value="<?php echo $nav_menu_selected_id; ?>" />
