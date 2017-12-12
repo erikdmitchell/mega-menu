@@ -81,12 +81,22 @@ $num_locations = count( array_keys( $locations ) );
                 <div class="menu-options">
                     <?php wp_nonce_field('pmm_save_menu', 'pmm_admin'); ?>
                     
-                    <label for="menu-name">Menu Name</label>
-                    <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_object->name; ?>" />
+                    <div class="menu-name">
+                        <label for="menu-name">Menu Name</label>
+                        <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_object->name; ?>" />
+                    </div>
                     
-                    <span class="menu-columns">
+                    <div class="menu-columns">
+                        <a href="#" id="pmm-menu-columns-selector"><i class="fa fa-columns" aria-hidden="true"></i></a>
                         
-                    </span> 
+                        <div class="columns-dropdown">
+                            <ul class="columns-list">
+                                <li><a href="#" data-cols="1">1</a></li>
+                                <li><a href="#" data-cols="2">2</a></li>
+                                <li><a href="#" data-cols="3">3</a></li>
+                            </ul> 
+                        </div>
+                    </div> 
                     
                     <span class="save-menu-button">
                         <input type="submit" class="button button-primary" value="Save Menu">

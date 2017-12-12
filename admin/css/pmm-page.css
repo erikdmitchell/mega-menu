@@ -34,6 +34,35 @@
     background: #fff;
     padding: 15px;
 }
-#pickle-mega-menu-admin #save-menu .save-menu-button {
+#pickle-mega-menu-admin .menu-options {
+    overflow: hidden;
+}
+#pickle-mega-menu-admin .menu-options .menu-name {
+    float: left;
+}
+#pickle-mega-menu-admin .menu-options .menu-columns {
+    float: left;
+    margin-left: 10px;
+}
+#pickle-mega-menu-admin .menu-options .menu-columns .columns-dropdown {
+    //display: none;
+    background-color: #fff;
+    z-index: 9999;
+    width: 50px;
+    padding: 5px 10px;
+}
+#pickle-mega-menu-admin .menu-options .menu-columns:hover .columns-dropdown {
+    display: block;
+}
+#pickle-mega-menu-admin .menu-options .menu-columns .columns-dropdown ul {
+    margin: 0;
+}
+#pickle-mega-menu-admin .menu-options .menu-columns .columns-dropdown ul li {
+    margin-bottom: 0;
+}
+#pickle-mega-menu-admin .menu-options .menu-columns #pmm-menu-columns-selector {
+    font-size: 18px;
+} 
+#pickle-mega-menu-admin .menu-options .save-menu-button {
     float: right;
 } 
