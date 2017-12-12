@@ -18,7 +18,8 @@ $num_locations = count( array_keys( $locations ) );
     
     <div class="pmm-manage-menus">
         
-        <form>
+        <form name="select_menu" id="select-menu" action="" method="post">
+            <?php wp_nonce_field('pmm-select-menu', 'pmm_admin'); ?>
             
             <label for="select-menu">Select a menu to edit:</label>
             <?php pmm_menu_list_dropdown($nav_menu_selected_id); ?>
@@ -71,13 +72,13 @@ $num_locations = count( array_keys( $locations ) );
     
     <div class="menu-management-column">
         
-        <form name="save-menu" id="save-menu" action="" method="post">       
+        <form name="save_menu" id="save-menu" action="" method="post">       
             
             <div class="menu-management">
                 
                 <h3>Menu</h3>
                 
-                
+                <div class="menu-options">
                     <?php wp_nonce_field('pmm_save_menu', 'pmm_admin'); ?>
                     
                     <label for="menu-name">Menu Name</label>
@@ -86,7 +87,7 @@ $num_locations = count( array_keys( $locations ) );
                      <span class="save-menu-button">
                         <input type="submit" class="button button-primary" value="Save Menu">
                     </span> 
-                    
+                </div>  
                 
                 
                 <div id="pmm-menu-grid">

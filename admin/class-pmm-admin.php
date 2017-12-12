@@ -6,6 +6,7 @@ class PMM_Admin {
         add_action('admin_enqueue_scripts', array($this, 'scripts_styles'));
         add_action('admin_menu', array($this, 'menu'));
         add_action('admin_init', array($this, 'save_menu'));
+        add_action('admin_init', array($this, 'select_menu'));
     }
     
     public function scripts_styles() {
@@ -146,6 +147,16 @@ class PMM_Admin {
 */      
        endif;
         
+    }
+ 
+     public function select_menu() {
+        if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm-select-menu'))
+            return;
+
+        if (isset($_POST['pmm_menu_id'])) :
+            wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . $_POST['pmm_menu_id'] ) );
+            exit();        
+        endif;    
     }
     
 }

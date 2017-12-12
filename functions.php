@@ -1,10 +1,10 @@
 <?php
     
-function pmm_menu_list_dropdown($selected='', $name='pmm-to-edit', $echo=true) {
+function pmm_menu_list_dropdown($selected='', $name='pmm_menu_id', $echo=true) {
     $html='';
     $menus=wp_get_nav_menus();
     
-    $html.='<select name="" id="">';
+    $html.='<select name="'.$name.'" id="'.$name.'">';
         
         foreach ($menus as $menu) :
         
