@@ -106,29 +106,26 @@ $num_locations = count( array_keys( $locations ) );
                 <div id="pmm-menu-grid" class="">
                     
                     <div id="column-1" class="column">
-                        <ul class="sortable-list ui-sortable">
-                            <li class="sortable-item">Item 1</li>
-                            <li class="sortable-item">Item 2</li>
-                            <li class="sortable-item">Item 3</li>                                                
+                        <ul class="sortable-list">
+                            <li class="item">Item 1<ol></ol></li>
+                            <li class="item">Item 2<ol></ol></li>
+                            <li class="item">Item 3<ol></ol></li>                                               
+                            <li class="item">Item 4<ol></ol></li>
                         </ul>
                     </div>
 
                     <div id="column-2" class="column">
-                        <ul class="sortable-list ui-sortable">
-                            <li class="sortable-item">Item 4</li>
-                            <li class="sortable-item">Item 5</li>
-                            <li class="sortable-item">Item 6</li>                                                
+                        <ul class="sortable-list">
+                            <li class="item">Item 5</li>
+                            <li class="item">Item 6</li>
+                            <li class="item">Item 7</li>                                                
                         </ul>
                     </div>
-                    
-                    
-<ol class='example'>
-  <li>First</li>
-  <li>Second</li>
-  <li>Third</li>
-</ol>                    
-                    
+
                 </div>
+
+                    
+                
 
             </div>
             
