@@ -95,9 +95,11 @@
 #pmm-menu-grid .column .sortable-list li.placeholder {
     border-style: dashed;    
 }
-#pmm-menu-grid .column .sortable-list li.placeholder.second-level {
-    margin-left: 20px;
-}
-#pmm-menu-grid .column .sortable-list li.second-level {
+#pmm-menu-grid .column .sortable-list li.placeholder.level-1,
+#pmm-menu-grid .column .sortable-list li.level-1 {
     margin-left: 20px;  
+}
+#pmm-menu-grid .column .sortable-list li.placeholder.level-2,
+#pmm-menu-grid .column .sortable-list li.level-2 {
+    margin-left: 40px;
 }
