@@ -17,27 +17,42 @@ $( function() {
 
     $( '.sortable-list' ).sortable({
         connectWith: '.sortable-list',
-        sort: function(e, ui) {
-			var offset = ui.helper.offset();
-// Check and correct if depth is not within range.
-					// Also, if the dragged element is dragged upwards over
-					// an item, shift the placeholder to a child position.
-					
-					// update depth.
-/*
-console.log(offset);
-
-
-if ( depth > maxDepth || offset.top < ( prevBottom - api.options.targetTolerance ) ) {
-						depth = maxDepth;
-					} else if ( depth < minDepth ) {
-						depth = minDepth;
-					}
-					
-					
-console.log(depth);	
-*/				
-
+        placeholder: 'placeholder',
+        update: function(event, ui) {
+            // update
+        },
+        start: function(event, ui) {
+            if(ui.helper.hasClass('second-level')){
+                //ui.placeholder.removeClass('placeholder');
+                ui.placeholder.addClass('second-level');
+            }
+            else{ 
+                ui.placeholder.removeClass('second-level');
+                //ui.placeholder.addClass('placeholder');
+            }
+        },
+        sort: function(event, ui) {
+            var pos;
+            if(ui.helper.hasClass('second-level')){
+                pos = ui.position.left+20; 
+                $('#cursor').text(ui.position.left+20);
+            }
+            else{
+                pos = ui.position.left; 
+                $('#cursor').text(ui.position.left);    
+            }
+console.log(pos);
+console.log(ui.helper.offset());            
+            if(pos >= 32 && !ui.helper.hasClass('second-level')){
+                //ui.placeholder.removeClass('placeholder');
+                ui.placeholder.addClass('second-level');
+                ui.helper.addClass('second-level');
+            }
+            else if(pos < 25 && ui.helper.hasClass('second-level')){
+                ui.placeholder.removeClass('second-level');
+                //ui.placeholder.addClass('placeholder');
+                ui.helper.removeClass('second-level');
+            }
         }
     }).disableSelection();
 

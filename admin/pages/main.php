@@ -104,7 +104,7 @@ $num_locations = count( array_keys( $locations ) );
                 </div>  
                                 
                 <div id="pmm-menu-grid" class="">
-                    
+                    <label>Cursor At:</label><label id="cursor"></label>
                     <div id="column-1" class="column">
                         <ul class="sortable-list">
                             <li class="item">Item 1<ol></ol></li>
