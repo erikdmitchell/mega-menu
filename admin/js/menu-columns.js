@@ -63,6 +63,7 @@ $( function() {
 
 jQuery( function($) {
 
+    // sets all columns to equal width.
     var updateColumnWidth = function() {
         var totalCols = $('.pmm-column').length;
         var colWidthPerc = (100 / totalCols) + '%';
@@ -72,10 +73,19 @@ jQuery( function($) {
            $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
         });
     }
+    
+    // gets id from an id string.
+    var getID = function(string) {
+        var pattern = /\d/;
 
+        return string.match(pattern)[0];
+    };
+
+    // our mega menu function.
     var pmmMegaMenu = {
         init: function() {
             $(document).on('click', '#pmm-add-column', this.addColumn);
+            $(document).on('click', '.pmm-column .add-block', this.addBlock);            
         },
         
         addColumn: function(e) {
@@ -83,16 +93,24 @@ jQuery( function($) {
             
             var colId=$('.pmm-column').length + 1;
             
-            
-            
-            $('<div/>', {
-                class: 'pmm-column',
-                id: 'pmm-column-'.colId
-            }).appendTo('#pmm-menu-grid'); 
+            $('<div id="pmm-column-' + colId + '" class="pmm-column"><a href="#" class="add-block">Add Block</a></div>').appendTo('#pmm-menu-grid'); 
             
             // update column width
             updateColumnWidth();                     
         },
+        
+        addBlock: function(e) {
+            e.preventDefault();
+            
+            var $col = $(this).parent();
+            var colIdNum = getID($col.attr('id'));
+            var order = $col.find('.pmm-block').length +1;
+
+            $('<div/>', {
+               id: 'pmm-block-' + colIdNum + '-' + order,
+               class: 'pmm-block' 
+            }).appendTo($col);          
+        }
         
     };
 
