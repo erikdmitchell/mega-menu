@@ -99,8 +99,10 @@ class PMM_Admin {
     public function save_menu() {
         if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm_save_menu'))
             return;
-
-        $this->update_menu($_POST['menu_name'], $_POST['menu_id']);
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+        //$this->update_menu($_POST['menu_name'], $_POST['menu_id']);
     }
     
     private function update_menu($menu_name='', $menu_id=0) {

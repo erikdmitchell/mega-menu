@@ -1,13 +1,13 @@
 jQuery(document).ready(function($) {
  
-   $('#pickle-mega-menu-admin .columns-list li a').on('click', function(e) {
+    // add a column.
+    $('#pickle-mega-menu-admin .columns-list li a').on('click', function(e) {
       e.preventDefault();
       
-      var cols = $(this).data('cols');
-      
-console.log(cols);       
+      // add column       
    });
    
+   // toggles the edit details for an item.
    $(document).on('click', '.pmm-block .pmm-item .edit-item', function(e) {
        e.preventDefault();
        
@@ -58,3 +58,44 @@ $( function() {
     });
     
 } );
+
+
+
+jQuery( function($) {
+
+    var updateColumnWidth = function() {
+        var totalCols = $('.pmm-column').length;
+        var colWidthPerc = (100 / totalCols) + '%';
+        var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
+
+        $('.pmm-column').each(function() {
+           $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
+        });
+    }
+
+    var pmmMegaMenu = {
+        init: function() {
+            $(document).on('click', '#pmm-add-column', this.addColumn);
+        },
+        
+        addColumn: function(e) {
+            e.preventDefault();
+            
+            var colId=$('.pmm-column').length + 1;
+            
+            
+            
+            $('<div/>', {
+                class: 'pmm-column',
+                id: 'pmm-column-'.colId
+            }).appendTo('#pmm-menu-grid'); 
+            
+            // update column width
+            updateColumnWidth();                     
+        },
+        
+    };
+
+    pmmMegaMenu.init();
+    
+});

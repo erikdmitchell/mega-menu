@@ -71,15 +71,7 @@ $num_locations = count( array_keys( $locations ) );
                     </div>
                     
                     <div class="menu-columns">
-                        <a href="#" id="pmm-menu-columns-selector"><i class="fa fa-columns" aria-hidden="true"></i></a>
-                        
-                        <div class="columns-dropdown">
-                            <ul class="columns-list">
-                                <li><a href="#" data-cols="1">1</a></li>
-                                <li><a href="#" data-cols="2">2</a></li>
-                                <li><a href="#" data-cols="3">3</a></li>
-                            </ul> 
-                        </div>
+                        <a href="#" id="pmm-add-column"><i class="fa fa-columns" aria-hidden="true"></i></a>
                     </div> 
                     
                     <span class="save-menu-button">
