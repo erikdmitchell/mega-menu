@@ -79,48 +79,7 @@ $num_locations = count( array_keys( $locations ) );
                     </span> 
                 </div>  
                                 
-                <div id="pmm-menu-grid" class="">
-
-                    <div id="pmm-column-1" class="pmm-column">
-                        
-                        <p>Column 1</p>
-                        
-                        <div id="pmm-block-1-1" class="pmm-block">
-                            
-                            <p>Block One</p>
-                        
-                        </div>
-                        
-                        <div id="pmm-block-1-2" class="pmm-block">
-                            
-                            <p>Block Two</p>
-                        
-                        </div>                        
-                        
-                    </div>
-
-                    <div id="pmm-column-2" class="pmm-column">
-                        
-                        <p>Column 2</p>
-                        
-                        <div id="pmm-block-2-1" class="pmm-block">
-                            
-                            <p>Block One</p>
-                        
-                        </div>
-                        
-                        <div id="pmm-block-2-2" class="pmm-block">
-                            
-                            <p>Block Two</p>
-                        
-                        </div> 
-
-                    </div>
-
-                </div>
-
-                    
-                
+                <div id="pmm-menu-grid" class=""></div>
 
             </div>
             
