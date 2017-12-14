@@ -16,29 +16,6 @@ jQuery(document).ready(function($) {
 
 });
 
-
-$( function() {
-
-    // make column (blocks) sortable.
-    $( '.pmm-column' ).sortable({
-        connectWith: '.pmm-column',
-        placeholder: 'pmm-block-placeholder',
-    }).disableSelection();
-    
-    // make block (items) sortable.
-    $( '.pmm-block' ).sortable({
-        connectWith: '.pmm-block',
-        placeholder: 'item-placeholder',
-        receive: function(event, ui) {
-            // append edit if need be
-            if (!$(ui.helper).hasClass('editable')) {
-                $(ui.helper).addClass('editable');            
-            }
-        }
-    }).disableSelection();
-
-} );
-
 $( function() {
     
     // list items are draggable to blocks.
@@ -80,6 +57,26 @@ jQuery( function($) {
 
         return string.match(pattern)[0];
     };
+    
+    var refreshSortables = function() {
+        // make column (blocks) sortable.
+        $( '.pmm-column' ).sortable({
+            connectWith: '.pmm-column',
+            placeholder: 'pmm-block-placeholder',
+        }).disableSelection();  
+        
+        // make block (items) sortable.
+        $( '.pmm-block' ).sortable({
+            connectWith: '.pmm-block',
+            placeholder: 'item-placeholder',
+            receive: function(event, ui) {
+                // append edit if need be
+                if (!$(ui.helper).hasClass('editable')) {
+                    $(ui.helper).addClass('editable');            
+                }
+            }
+        }).disableSelection();               
+    }
 
     // our mega menu function.
     var pmmMegaMenu = {
@@ -109,7 +106,9 @@ jQuery( function($) {
             $('<div/>', {
                id: 'pmm-block-' + colIdNum + '-' + order,
                class: 'pmm-block' 
-            }).appendTo($col);          
+            }).appendTo($col);
+            
+            refreshSortables();    
         }
         
     };
