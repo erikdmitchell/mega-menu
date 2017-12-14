@@ -69,7 +69,7 @@ jQuery( function($) {
             start: function(event, ui) {},
             drag: function(event, ui) {},
             stop: function(event, ui) {
-                $(ui.helper).css('width', $(ui.helper).parent().width()); // on drop, set column width                   
+                setItemWidth($(ui.helper)); // on drop, set item width                   
             }        
         });        
     };
@@ -77,7 +77,7 @@ jQuery( function($) {
     // sets item width to block width.
     var adjustItemsWidth = function() {
         $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
-           $(this).width($(this).parent().width());
+           setItemWidth($(this));
         });
     };
     
@@ -90,6 +90,14 @@ jQuery( function($) {
         }
         
     };
+    
+    // sets the actual item width.
+    var setItemWidth = function($el) {
+        var fullWidth = $el.parent().width();
+        var itemPadding = parseInt($el.css('padding-right')) + parseInt($el.css('padding-left'));
+
+        $el.width(fullWidth - itemPadding);        
+    }
 
     // our mega menu function.
     var pmmMegaMenu = {
