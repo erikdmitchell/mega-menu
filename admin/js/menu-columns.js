@@ -7,6 +7,12 @@ jQuery(document).ready(function($) {
       
 console.log(cols);       
    });
+   
+   $(document).on('click', '.pmm-block .pmm-item .edit-item', function(e) {
+       e.preventDefault();
+       
+       $(this).parent().find('.options').toggle();
+   });
 
 });
 
@@ -36,7 +42,7 @@ $( function() {
 $( function() {
     
     // list items are draggable to blocks.
-    $( '.pmm-menu-items-list .item-list .item' ).draggable({
+    $( '.pmm-menu-items-list .pmm-item-list .pmm-item' ).draggable({
         connectToSortable: '.pmm-block',
         'helper': 'clone',
         revert: 'invalid',

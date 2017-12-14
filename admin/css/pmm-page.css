@@ -89,7 +89,7 @@
 #pmm-menu-grid .pmm-column .pmm-block-placeholder {
     border: 1px dashed #000;  
 }
-#pmm-menu-grid .pmm-column .pmm-block .item,
+#pmm-menu-grid .pmm-column .pmm-block .pmm-item,
 #pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     background-color: #FFF;
     border: 1px solid #000;
@@ -106,20 +106,20 @@
 }
 
 /** ITEMS **/
-.item-list {
+.pmm-item-list {
     
 }
-.item-list .item {
+.pmm-item-list .pmm-item {
     overflow: hidden;
 }
-.item-list .item a.edit-item,
-.item-list .item .options {
+.pmm-item a.edit-item,
+.pmm-item .options {
     display: none;
 }
-.item-list .item.editable a.edit-item {
+.pmm-item.editable a.edit-item {
     display: block;
 }
-.item-list .item a.edit-item {
+.pmm-item a.edit-item {
     float: right;
     text-decoration: none;
 }
