@@ -80,13 +80,13 @@
 #pmm-menu-grid .block {
     background: #eee;
 }
-#pmm-menu-grid .column .sortable-list {
+#pmm-menu-grid .column .block {
     list-style: none;
     margin: 0;
     min-height: 60px;
     padding: 10px;    
 }
-#pmm-menu-grid .column .sortable-list li {
+#pmm-menu-grid .column .block li {
     background-color: #FFF;
     border: 1px solid #000;
     cursor: move;
@@ -94,18 +94,10 @@
     font-weight: bold;
     margin-bottom: 5px;
     padding: 20px 0;
-    text-align: center;    
+    text-align: center;   
 }
-#pmm-menu-grid .column .sortable-list li.placeholder {
+#pmm-menu-grid .column .block li.placeholder {
     border-style: dashed;    
-}
-#pmm-menu-grid .column .sortable-list li.placeholder.level-1,
-#pmm-menu-grid .column .sortable-list li.level-1 {
-    margin-left: 20px;  
-}
-#pmm-menu-grid .column .sortable-list li.placeholder.level-2,
-#pmm-menu-grid .column .sortable-list li.level-2 {
-    margin-left: 40px;
 }
 
 /** ITEMS **/

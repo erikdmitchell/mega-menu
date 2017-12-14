@@ -26,8 +26,8 @@ $( function() {
 
 $( function() {
     
-    $( '.block' ).sortable({
-        connectWith: '.block',
+    $( '#pmm-menu-grid .block' ).sortable({
+        connectWith: '#pmm-menu-grid .block',
         placeholder: 'placeholder',
     }).disableSelection();
 
@@ -38,6 +38,15 @@ $( function() {
         connectToSortable: '.block',
         'helper': 'clone',
         revert: 'invalid',
+        start: function(event, ui) {
+            //$(ui.helper).css('width', '100%')
+        },
+        drag: function(event, ui) {
+            //$(ui.helper).css('width', 'atuo')
+        },
+        stop: function(event, ui) {
+            $(ui.helper).css('width', '100%')
+        }        
     });
 } );
 
