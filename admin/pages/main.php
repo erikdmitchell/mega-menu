@@ -78,7 +78,7 @@ $num_locations = count( array_keys( $locations ) );
                     </span> 
                 </div>  
                                 
-                <div id="pmm-menu-grid" class=""></div>
+                <div id="pmm-menu-grid" class="pmm-menu-grid"></div>
 
             </div>
             

@@ -17,7 +17,7 @@
 #pickle-mega-menu-admin .menu-management-column .menu-management {
     
 } 
-#pickle-mega-menu-admin .menu-management-column #pmm-menu-grid {
+#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid {
     margin-top: 30px;
     margin-bottom: 30px;
     background: #fff;
@@ -37,33 +37,48 @@
     float: right;
 }
 
-#pmm-menu-grid {
+.pmm-menu-grid {
     overflow: hidden;
 }
-#pmm-menu-grid .pmm-column {
+.pmm-menu-grid .pmm-column {
     float: left;
     margin-right: 15px;
     background-color: #F93;
-    padding: 5px;
+    padding: 10px 15px;
     min-height: 20px;
 } 
-#pmm-menu-grid .pmm-column:last-child {
+.pmm-menu-grid .pmm-column:last-child {
     margin-right: 0;
 } 
-#pmm-menu-grid .pmm-block {
+.pmm-menu-grid .pmm-column .block-actions {
+    overflow: hidden;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.pmm-menu-grid .pmm-column .block-actions .add-block-wrap {
+    float: right;
+}
+.pmm-menu-grid .pmm-column .block-actions .add-block-wrap a {
+    text-decoration: none;
+    color: #fff;
+}
+.pmm-menu-grid .pmm-block {
     background: #eee;
 }
-#pmm-menu-grid .pmm-column .pmm-block,
-#pmm-menu-grid .pmm-column .pmm-block-placeholder {
+.pmm-menu-grid .pmm-block {
+    background: #eee;
+}
+.pmm-menu-grid .pmm-column .pmm-block,
+.pmm-menu-grid .pmm-column .pmm-block-placeholder {
     min-height: 60px;
     padding: 10px; 
     margin-bottom: 15px;   
 }
-#pmm-menu-grid .pmm-column .pmm-block-placeholder {
+.pmm-menu-grid .pmm-column .pmm-block-placeholder {
     border: 1px dashed #000;  
 }
-#pmm-menu-grid .pmm-column .pmm-block .pmm-item,
-#pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
+.pmm-menu-grid .pmm-column .pmm-block .pmm-item,
+.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     background-color: #FFF;
     border: 1px solid #000;
     cursor: move;
@@ -74,7 +89,7 @@
     text-align: center;  
     width: 100%; 
 }
-#pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
+.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     border-style: dashed;    
 }
 

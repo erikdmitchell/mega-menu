@@ -85,12 +85,11 @@ jQuery( function($) {
     var setupDefaults = function() {
         
         if (!$('#pmm-menu-grid .pmm-column').length) {
-console.log('add col, add block');  
-pmmMegaMenu.addColumn();
-pmmMegaMenu.manualAddBlock(1, 1);          
+            pmmMegaMenu.addColumn();
+            pmmMegaMenu.manualAddBlock(1, 1);          
         }
         
-    }
+    };
 
     // our mega menu function.
     var pmmMegaMenu = {
@@ -112,7 +111,7 @@ pmmMegaMenu.manualAddBlock(1, 1);
             
             var colId=$('.pmm-column').length + 1;
             
-            $('<div id="pmm-column-' + colId + '" class="pmm-column"><a href="#" class="add-block">Add Block</a></div>').appendTo('#pmm-menu-grid'); 
+            $('<div id="pmm-column-' + colId + '" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
             
             // update column width
             updateColumnWidth();                     
@@ -122,8 +121,8 @@ pmmMegaMenu.manualAddBlock(1, 1);
             if (typeof e !== 'undefined') {
                 e.preventDefault();
             }
-            
-            var $col = $(this).parent();
+          
+            var $col = $(this).parents('.pmm-column');
             var colIdNum = getID($col.attr('id'));
             var order = $col.find('.pmm-block').length +1;
 
