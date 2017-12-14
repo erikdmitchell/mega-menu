@@ -4,8 +4,7 @@ $nav_menu_selected_id = isset( $_REQUEST['menu'] ) ? (int) $_REQUEST['menu'] : 0
 
 // Nav menu object
 $nav_menu_object = wp_get_nav_menu_object($nav_menu_selected_id);
-
-//print_r($nav_menu_object);
+$nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
     
 // Get existing menu locations assignments
 $locations = get_registered_nav_menus();
@@ -67,7 +66,7 @@ $num_locations = count( array_keys( $locations ) );
                     
                     <div class="menu-name">
                         <label for="menu-name">Menu Name</label>
-                        <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_object->name; ?>" />
+                        <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_name; ?>" />
                     </div>
                     
                     <div class="menu-columns">
