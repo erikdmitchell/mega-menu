@@ -66,7 +66,41 @@ class PMM_Admin {
 			
 			$this->items[$ic->slug]=$ic;
 		endforeach;
-	}    
+	}  
+	
+	public function items_accordian() {
+        wp_enqueue_script( 'accordion' );
+
+        $html='';
+        /*
+foreach (PickleMegaMenu()->admin->items as $item) :
+                        <div class="">
+                            echo $item->label;
+                            $item->display();
+                        </div>
+                    endforeach; 
+                    */      
+        $html.='<div class="accordion-container">';
+            $html.='<ul class="outer-border">';
+
+                foreach (PickleMegaMenu()->admin->items as $item) :
+
+                    $html.='<li class="control-section accordion-section '.$item->slug.'" id="'.$item->slug.'">';
+                        $html.='<h3 class="accordion-section-title hndle" tabindex="0">'.$item->label.'</h3>';
+                        $html.='<div class="accordion-section-content">';
+                            $html.='<div class="inside">';
+                                $html.=$item->display();
+                            $html.='</div><!-- .inside -->';
+                        $html.='</div><!-- .accordion-section-content -->';
+                    $html.='</li><!-- .accordion-section -->';
+                    
+                endforeach;
+
+            $html.='</ul><!-- .outer-border -->';
+        $html.='</div><!-- .accordion-container -->';
+    
+        echo $html;    	
+	}  
     
     public function save_menu() {
         if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm_save_menu'))

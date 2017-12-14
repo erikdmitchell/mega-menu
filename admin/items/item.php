@@ -22,6 +22,6 @@ class PMM_Item {
 	}
 
     public function display() {
-        echo "<p>This should be overriden by your class.</p>";
+        return "<p>This should be overriden by your class.</p>";
     }
 }

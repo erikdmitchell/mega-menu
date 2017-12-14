@@ -44,12 +44,8 @@ $num_locations = count( array_keys( $locations ) );
                 
                 <div class="menu-items-list">
                     
-                    <?php foreach (PickleMegaMenu()->admin->items as $item) : ?>
-                        <div class="">
-                            <?php echo $item->label; ?>
-                            <?php $item->display(); ?>
-                        </div>
-                    <?php endforeach; ?>
+                    <?php PickleMegaMenu()->admin->items_accordian(); ?>
+
                 </div>
                 
             </div>

@@ -14,11 +14,11 @@ class PMM_Item_Pages extends PMM_Item {
     	
         $html.='<ul class="pages-list">';
             foreach (get_pages() as $page) :
-                $html.='<li id="page-'.$page->ID.'"><label for="page_'.$page->ID.'"><input type="checkbox" name="page[]" id="page_'.$page->ID.'" value="'.$page->ID.'">'.$page->post_title.'</label></li>';
+                $html.='<li id="page-'.$page->ID.'">'.$page->post_title.'</li>';
             endforeach; 
         $html.='</ul>';
         
-        echo $html;  	
+        return $html;  	
 	}
 
 }
