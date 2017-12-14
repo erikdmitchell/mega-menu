@@ -13,15 +13,13 @@ console.log(cols);
 
 $( function() {
 
-    // make block sortable.
-/*
-    $( '#pmm-menu-grid .cloumn' ).sortable({
-        connectWith: '#pmm-menu-grid .column',
+    // make column (blocks) sortable.
+    $( '.pmm-cloumn' ).sortable({
+        connectWith: '.pmm-column',
         placeholder: 'placeholder',
     }).disableSelection();
-*/
     
-    // make block sortable.
+    // make block (items) sortable.
     $( '.pmm-block' ).sortable({
         connectWith: '.pmm-block',
         placeholder: 'placeholder',
@@ -43,7 +41,7 @@ $( function() {
             //$(ui.helper).css('width', 'atuo')
         },
         stop: function(event, ui) {
-            $(ui.helper).css('width', '100%')
+            //$(ui.helper).css('width', '100%')
         }        
     });
     
