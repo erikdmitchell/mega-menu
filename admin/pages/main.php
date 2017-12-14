@@ -89,15 +89,21 @@ $num_locations = count( array_keys( $locations ) );
                                 
                 <div id="pmm-menu-grid" class="">
 
-                    <div id="column-1" class="column">
+                    <div id="pmm-column-1" class="pmm-column">
                         
                         <p>Column 1</p>
                         
-                        <div class="block">
+                        <div id="pmm-block-1-1" class="pmm-block">
                             
-                            <p>Block</p>
+                            <p>Block One</p>
                         
                         </div>
+                        
+                        <div id="pmm-block-1-2" class="pmm-block">
+                            
+                            <p>Block Two</p>
+                        
+                        </div>                        
                         
                     </div>
 

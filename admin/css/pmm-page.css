@@ -70,23 +70,24 @@
 #pmm-menu-grid {
     overflow: hidden;
 }
-#pmm-menu-grid .column {
+#pmm-menu-grid .pmm-column {
     width: 32%;
     float: left;
     margin-right: 2%;
     background-color: #F93;
     padding: 5px;
 }  
-#pmm-menu-grid .block {
+#pmm-menu-grid .pmm-block {
     background: #eee;
 }
-#pmm-menu-grid .column .block {
+#pmm-menu-grid .pmm-column .pmm-block {
     list-style: none;
     margin: 0;
     min-height: 60px;
-    padding: 10px;    
+    padding: 10px; 
+    margin-bottom: 15px;   
 }
-#pmm-menu-grid .column .block li {
+#pmm-menu-grid .pmm-column .pmm-block li {
     background-color: #FFF;
     border: 1px solid #000;
     cursor: move;
@@ -96,7 +97,7 @@
     padding: 20px 0;
     text-align: center;   
 }
-#pmm-menu-grid .column .block li.placeholder {
+#pmm-menu-grid .pmm-column .pmm-block li.placeholder {
     border-style: dashed;    
 }
 
