@@ -26,8 +26,7 @@ $( function() {
         receive: function(event, ui) {
             // append edit if need be
             if (!$(ui.helper).hasClass('editable')) {
-                $(ui.helper).addClass('editable');
-                $(ui.helper).append('<a href="" class="edit-item">Edit</a>');            
+                $(ui.helper).addClass('editable');            
             }
         }
     }).disableSelection();

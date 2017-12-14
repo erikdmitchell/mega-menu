@@ -14,7 +14,11 @@ class PMM_Item_Pages extends PMM_Item {
     	
         $html.='<div class="pages-list item-list">';
             foreach (get_pages() as $page) :
-                $html.='<div id="page-'.$page->ID.'" class="page item" data-type="page">'.$page->post_title.'</div>';
+                $html.='<div id="page-'.$page->ID.'" class="page item" data-type="page">';
+                    $html.=$page->post_title;
+                    $html.='<a href="" class="edit-item">Edit</a>';
+                    $html.='<div class="options">OPTIONS</div>';
+                $html.='</div>';
             endforeach; 
         $html.='</div>';
         

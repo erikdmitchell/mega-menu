@@ -112,6 +112,13 @@
 .item-list .item {
     overflow: hidden;
 }
+.item-list .item a.edit-item,
+.item-list .item .options {
+    display: none;
+}
+.item-list .item.editable a.edit-item {
+    display: block;
+}
 .item-list .item a.edit-item {
     float: right;
     text-decoration: none;
