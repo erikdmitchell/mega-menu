@@ -14,7 +14,7 @@ class PMM_Item {
 			'label' => '',
 			'options' => array(),
 		);
-		$args=wp_parse_args($args, $default_args);
+		$args=pmm_wp_parse_args($args, $default_args);
 
 		$this->slug=$args['slug'];
 		$this->label=$args['label'];
@@ -22,6 +22,6 @@ class PMM_Item {
 	}
 
     public function display() {
-        return "<p>This should be overriden by your class.</p>";
+        return "<p>This should be overridden by your class.</p>";
     }
 }

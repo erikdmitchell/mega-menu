@@ -12,11 +12,11 @@ class PMM_Item_Pages extends PMM_Item {
 	public function display() {
     	$html='';
     	
-        $html.='<ul class="pages-list item-list">';
+        $html.='<div class="pages-list item-list">';
             foreach (get_pages() as $page) :
-                $html.='<li id="page-'.$page->ID.'" class="page item" data-type="page">'.$page->post_title.'</li>';
+                $html.='<div id="page-'.$page->ID.'" class="page item" data-type="page">'.$page->post_title.'</div>';
             endforeach; 
-        $html.='</ul>';
+        $html.='</div>';
         
         return $html;  	
 	}

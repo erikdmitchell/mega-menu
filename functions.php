@@ -20,4 +20,19 @@ function pmm_menu_list_dropdown($selected='', $name='pmm_menu_id', $echo=true) {
         return $html;
     endif;
 }
-                       
+
+ 
+/* Similar to wp_parse_args() just a bit extended to work with multidimensional arrays :) */
+function pmm_wp_parse_args( &$a, $b ) {
+	$a = (array) $a;
+	$b = (array) $b;
+	$result = $b;
+	foreach ( $a as $k => &$v ) {
+		if ( is_array( $v ) && isset( $result[ $k ] ) ) {
+			$result[ $k ] = meks_wp_parse_args( $v, $result[ $k ] );
+		} else {
+			$result[ $k ] = $v;
+		}
+	}
+	return $result;
+}                       

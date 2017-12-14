@@ -22,7 +22,7 @@ $( function() {
     // make block (items) sortable.
     $( '.pmm-block' ).sortable({
         connectWith: '.pmm-block',
-        placeholder: 'placeholder',
+        placeholder: 'item-placeholder',
         receive: function(event, ui) {
             // append edit if need be
             if (!$(ui.helper).hasClass('editable')) {

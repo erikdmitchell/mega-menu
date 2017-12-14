@@ -89,7 +89,8 @@
 #pmm-menu-grid .pmm-column .pmm-block-placeholder {
     border: 1px dashed #000;  
 }
-#pmm-menu-grid .pmm-column .pmm-block li {
+#pmm-menu-grid .pmm-column .pmm-block .item,
+#pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     background-color: #FFF;
     border: 1px solid #000;
     cursor: move;
@@ -99,7 +100,7 @@
     padding: 20px 0;
     text-align: center;   
 }
-#pmm-menu-grid .pmm-column .pmm-block li.placeholder {
+#pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     border-style: dashed;    
 }
 
@@ -122,4 +123,5 @@
 .pages-list .page {
     background-color: #eee;
     padding: 5px 10px;
+    margin-bottom: 5px;
 }
