@@ -11,6 +11,7 @@ console.log(cols);
 });
 
 
+/*
 $( function() {
     
     var prevBottom, nextThreshold;
@@ -21,11 +22,23 @@ $( function() {
     }).disableSelection();
 
 } );
-
-
+*/
 
 $( function() {
-    $( '.pmm-menu-items-list .item-list .item' ).draggable();
+    
+    $( '.block' ).sortable({
+        connectWith: '.block',
+        placeholder: 'placeholder',
+    }).disableSelection();
+
+} );
+
+$( function() {
+    $( '.pmm-menu-items-list .item-list .item' ).draggable({
+        connectToSortable: '.block',
+        'helper': 'clone',
+        revert: 'invalid',
+    });
 } );
 
 
