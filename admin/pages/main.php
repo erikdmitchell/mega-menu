@@ -102,12 +102,31 @@ $num_locations = count( array_keys( $locations ) );
                         <input type="submit" class="button button-primary" value="Save Menu">
                     </span> 
                 </div>  
-                
-                
-                <div id="pmm-menu-grid">
-                    gRID
+                                
+                <div id="pmm-menu-grid" class="">
+
+                    <div id="column-1" class="column">
+                        <ul class="sortable-list">
+                            <li class="item">Item 1<ol></ol></li>
+                            <li class="item">Item 2<ol></ol></li>
+                            <li class="item">Item 3<ol></ol></li>                                               
+                            <li class="item">Item 4<ol></ol></li>
+                        </ul>
+                    </div>
+
+                    <div id="column-2" class="column">
+                        <ul class="sortable-list">
+                            <li class="item">Item 5</li>
+                            <li class="item">Item 6</li>
+                            <li class="item">Item 7</li>                                                
+                        </ul>
+                    </div>
+
                 </div>
+
+                    
                 
+
             </div>
             
             <input type="hidden" name="menu_id" id="menu-id" value="<?php echo $nav_menu_selected_id; ?>" />
@@ -117,25 +136,3 @@ $num_locations = count( array_keys( $locations ) );
     </div>
     
 </div>
-
-<?php if ( current_theme_supports( 'menus' ) ) : ?>
-
-	<fieldset class="menu-settings-group menu-theme-locations">
-		<legend class="menu-settings-group-name howto"><?php _e( 'Display location' ); ?></legend>
-		<?php foreach ( $locations as $location => $description ) : ?>
-		<div class="menu-settings-input checkbox-input">
-			<input type="checkbox"<?php checked( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == 0 ); ?> name="menu-locations[<?php echo esc_attr( $location ); ?>]" id="locations-<?php echo esc_attr( $location ); ?>" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
-			<label for="locations-<?php echo esc_attr( $location ); ?>"><?php echo $description; ?></label>
-			<?php if ( ! empty( $menu_locations[ $location ] ) && $menu_locations[ $location ] != 0 ) : ?>
-				<span class="theme-location-set"><?php
-					/* translators: %s: menu name */
-					printf( _x( '(Currently set to: %s)', 'menu location' ),
-						wp_get_nav_menu_object( $menu_locations[ $location ] )->name
-					);
-				?></span>
-			<?php endif; ?>
-		</div>
-		<?php endforeach; ?>
-	</fieldset>
-
-<?php endif; ?>
