@@ -14,9 +14,9 @@ console.log(cols);
 $( function() {
 
     // make column (blocks) sortable.
-    $( '.pmm-cloumn' ).sortable({
+    $( '.pmm-column' ).sortable({
         connectWith: '.pmm-column',
-        placeholder: 'placeholder',
+        placeholder: 'pmm-block-placeholder',
     }).disableSelection();
     
     // make block (items) sortable.

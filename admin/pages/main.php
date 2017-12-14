@@ -107,15 +107,22 @@ $num_locations = count( array_keys( $locations ) );
                         
                     </div>
 
-                    <div id="column-2" class="column">
+                    <div id="pmm-column-2" class="pmm-column">
                         
                         <p>Column 2</p>
                         
-                        <ul class="sortable-list">
-                            <li class="item">Item 5</li>
-                            <li class="item">Item 6</li>
-                            <li class="item">Item 7</li>                                                
-                        </ul>
+                        <div id="pmm-block-2-1" class="pmm-block">
+                            
+                            <p>Block One</p>
+                        
+                        </div>
+                        
+                        <div id="pmm-block-2-2" class="pmm-block">
+                            
+                            <p>Block Two</p>
+                        
+                        </div> 
+
                     </div>
 
                 </div>

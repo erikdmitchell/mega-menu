@@ -80,12 +80,14 @@
 #pmm-menu-grid .pmm-block {
     background: #eee;
 }
-#pmm-menu-grid .pmm-column .pmm-block {
-    list-style: none;
-    margin: 0;
+#pmm-menu-grid .pmm-column .pmm-block,
+#pmm-menu-grid .pmm-column .pmm-block-placeholder {
     min-height: 60px;
     padding: 10px; 
     margin-bottom: 15px;   
+}
+#pmm-menu-grid .pmm-column .pmm-block-placeholder {
+    border: 1px dashed #000;  
 }
 #pmm-menu-grid .pmm-column .pmm-block li {
     background-color: #FFF;
