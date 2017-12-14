@@ -16,28 +16,6 @@ jQuery(document).ready(function($) {
 
 });
 
-$( function() {
-    
-    // list items are draggable to blocks.
-    $( '.pmm-menu-items-list .pmm-item-list .pmm-item' ).draggable({
-        connectToSortable: '.pmm-block',
-        'helper': 'clone',
-        revert: 'invalid',
-        start: function(event, ui) {
-            //$(ui.helper).css('width', '100%')
-        },
-        drag: function(event, ui) {
-            //$(ui.helper).css('width', 'atuo')
-        },
-        stop: function(event, ui) {
-            $(ui.helper).css('width', $(ui.helper).parent().width()); // on drop, set column width                   
-        }        
-    });
-    
-} );
-
-
-
 jQuery( function($) {
 
     // sets all columns to equal width.
@@ -76,7 +54,25 @@ jQuery( function($) {
                 }
             }
         }).disableSelection();               
-    }
+    };
+    
+    var refreshDraggable = function() {
+        // list items are draggable to blocks.
+        $( '.pmm-menu-items-list .pmm-item-list .pmm-item' ).draggable({
+            connectToSortable: '.pmm-block',
+            'helper': 'clone',
+            revert: 'invalid',
+            start: function(event, ui) {
+                //$(ui.helper).css('width', '100%')
+            },
+            drag: function(event, ui) {
+                //$(ui.helper).css('width', 'atuo')
+            },
+            stop: function(event, ui) {
+                $(ui.helper).css('width', $(ui.helper).parent().width()); // on drop, set column width                   
+            }        
+        });        
+    };
 
     // our mega menu function.
     var pmmMegaMenu = {
@@ -85,7 +81,8 @@ jQuery( function($) {
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
             
             updateColumnWidth();
-            refreshSortables();            
+            refreshSortables(); 
+            refreshDraggable();           
         },
         
         addColumn: function(e) {
@@ -111,7 +108,8 @@ jQuery( function($) {
                class: 'pmm-block' 
             }).appendTo($col);
             
-            refreshSortables();    
+            refreshSortables();
+            refreshDraggable();    
         }
         
     };
