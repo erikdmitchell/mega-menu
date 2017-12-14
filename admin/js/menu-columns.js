@@ -27,6 +27,8 @@ jQuery( function($) {
         $('.pmm-column').each(function() {
            $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
         });
+        
+        adjustItemsWidth();
     }
     
     // gets id from an id string.
@@ -73,6 +75,12 @@ jQuery( function($) {
             }        
         });        
     };
+    
+    var adjustItemsWidth = function() {
+        $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
+           $(this).width($(this).parent().width());
+        });
+    }
 
     // our mega menu function.
     var pmmMegaMenu = {
