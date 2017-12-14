@@ -21,7 +21,15 @@ $( function() {
     }).disableSelection();
 
 } );
-console.log(pmmItemsOptions);
+
+
+
+$( function() {
+    $( '.pmm-menu-items-list .item-list .item' ).draggable();
+} );
+
+
+//console.log(pmmItemsOptions);
 jQuery( function($) {
     
     // geneates a tingle modal.
@@ -67,6 +75,7 @@ jQuery( function($) {
     }
 */
     
+/*
     var pmmMegaMenu = {
         init: function() {
             $(document).on('click', '#pmm-menu-grid .add-item', this.addItem);
@@ -80,6 +89,7 @@ jQuery( function($) {
     };
 
     pmmMegaMenu.init();
+*/
     
 });
 

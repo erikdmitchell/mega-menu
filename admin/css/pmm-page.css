@@ -108,20 +108,13 @@
     margin-left: 40px;
 }
 
-.add-item-modal {
+/** ITEMS **/
+
+/* pages */
+.pages-list {
     
 }
-.add-item-modal .item-list {
-    
-}
-.add-item-modal .item-list .item {
-    background: #808080;
-    padding: 10px 15px;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #fff;
-}
-.add-item-modal .item-list .item.col-3 {
-    width: 32%
-    margin-right
+.pages-list .page {
+    background-color: #eee;
+    padding: 5px 10px;
 }

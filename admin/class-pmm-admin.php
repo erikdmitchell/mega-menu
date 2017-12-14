@@ -13,7 +13,8 @@ class PMM_Admin {
     }
     
     public function scripts_styles() {
-        wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery'), '0.1.0', true);
+        wp_enqueue_script('jquery-ui-draggable');
+        wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery-ui-draggable'), '0.1.0', true);
     
         wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-page.css', '', PMM_VERSION);
         wp_enqueue_style('pmm-font-awesome', PMM_URL.'admin/css/font-awesome.min.css', '', '4.7.0');          
@@ -72,20 +73,13 @@ class PMM_Admin {
         wp_enqueue_script( 'accordion' );
 
         $html='';
-        /*
-foreach (PickleMegaMenu()->admin->items as $item) :
-                        <div class="">
-                            echo $item->label;
-                            $item->display();
-                        </div>
-                    endforeach; 
-                    */      
+    
         $html.='<div class="accordion-container">';
             $html.='<ul class="outer-border">';
 
                 foreach (PickleMegaMenu()->admin->items as $item) :
 
-                    $html.='<li class="control-section accordion-section '.$item->slug.'" id="'.$item->slug.'">';
+                    $html.='<li class="control-section accordion-section open '.$item->slug.'" id="'.$item->slug.'">';
                         $html.='<h3 class="accordion-section-title hndle" tabindex="0">'.$item->label.'</h3>';
                         $html.='<div class="accordion-section-content">';
                             $html.='<div class="inside">';

@@ -42,7 +42,7 @@ $num_locations = count( array_keys( $locations ) );
             <div class="menu-items-container">
                 <h3>Items</h3>
                 
-                <div class="menu-items-list">
+                <div class="pmm-menu-items-list">
                     
                     <?php PickleMegaMenu()->admin->items_accordian(); ?>
 
