@@ -2,18 +2,21 @@
     
 class PMM_Admin {
     
+    public $items='';
+    
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'scripts_styles'));
         add_action('admin_menu', array($this, 'menu'));
         add_action('admin_init', array($this, 'save_menu'));
         add_action('admin_init', array($this, 'select_menu'));
+        add_action('admin_init', array($this, 'register_items'));
     }
     
     public function scripts_styles() {
         wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery'), '0.1.0', true);
-        
+    
         wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-page.css', '', PMM_VERSION);
-        wp_enqueue_style('pmm-font-awesome', PMM_URL.'admin/css/font-awesome.min.css', '', '4.7.0');    
+        wp_enqueue_style('pmm-font-awesome', PMM_URL.'admin/css/font-awesome.min.css', '', '4.7.0');          
     }
     
     public function menu() {
@@ -49,6 +52,21 @@ class PMM_Admin {
 
         return $html;
     }
+    
+	public function register_items() {
+		$item_classes=array();
+		
+		foreach (get_declared_classes() as $class) :
+			if (is_subclass_of($class, 'PMM_Item'))
+				$item_classes[]=$class;
+		endforeach;
+		
+		foreach ($item_classes as $item_class) :
+			$ic=new $item_class();
+			
+			$this->items[$ic->slug]=$ic;
+		endforeach;
+	}    
     
     public function save_menu() {
         if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm_save_menu'))
@@ -152,7 +170,7 @@ class PMM_Admin {
         
     }
  
-     public function select_menu() {
+    public function select_menu() {
         if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm-select-menu'))
             return;
 

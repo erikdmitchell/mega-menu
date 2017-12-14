@@ -44,24 +44,12 @@ $num_locations = count( array_keys( $locations ) );
                 
                 <div class="menu-items-list">
                     
-                    <h4>Pages</h4>
-                    
-                   
-                    
-                    <form>
-                    
-                        <ul class="pages-list">
-                            
-                            <?php foreach (get_pages() as $page) : ?>
-                        
-                                <li id="page-<?php echo $page->ID; ?>"><label for="page_<?php echo $page->ID; ?>"><input type="checkbox" name="page[]" id="page_<?php echo $page->ID; ?>" value="<?php echo $page->ID; ?>"><?php echo $page->post_title; ?></label></li>
-                        
-                            <?php endforeach; ?>
-                            
-                        </ul>
-                    
-                    </form>
-                    
+                    <?php foreach (PickleMegaMenu()->admin->items as $item) : ?>
+                        <div class="">
+                            <?php echo $item->label; ?>
+                            <?php $item->display(); ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
                 
             </div>
@@ -106,15 +94,21 @@ $num_locations = count( array_keys( $locations ) );
                 <div id="pmm-menu-grid" class="">
 
                     <div id="column-1" class="column">
-                        <ul class="sortable-list">
-                            <li class="item">Item 1<ol></ol></li>
-                            <li class="item">Item 2<ol></ol></li>
-                            <li class="item">Item 3<ol></ol></li>                                               
-                            <li class="item">Item 4<ol></ol></li>
-                        </ul>
+                        
+                        <p>Column 1</p>
+                        
+                        <div class="block">
+                            
+                            <p>Block</p>
+                        
+                        </div>
+                        
                     </div>
 
                     <div id="column-2" class="column">
+                        
+                        <p>Column 2</p>
+                        
                         <ul class="sortable-list">
                             <li class="item">Item 5</li>
                             <li class="item">Item 6</li>

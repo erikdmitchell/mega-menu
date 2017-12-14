@@ -74,9 +74,13 @@
     width: 32%;
     float: left;
     margin-right: 2%;
-}  
-#pmm-menu-grid .column .sortable-list {
     background-color: #F93;
+    padding: 5px;
+}  
+#pmm-menu-grid .block {
+    background: #eee;
+}
+#pmm-menu-grid .column .sortable-list {
     list-style: none;
     margin: 0;
     min-height: 60px;
@@ -102,4 +106,22 @@
 #pmm-menu-grid .column .sortable-list li.placeholder.level-2,
 #pmm-menu-grid .column .sortable-list li.level-2 {
     margin-left: 40px;
+}
+
+.add-item-modal {
+    
+}
+.add-item-modal .item-list {
+    
+}
+.add-item-modal .item-list .item {
+    background: #808080;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #fff;
+}
+.add-item-modal .item-list .item.col-3 {
+    width: 32%
+    margin-right
 }
