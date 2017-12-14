@@ -82,7 +82,10 @@ jQuery( function($) {
     var pmmMegaMenu = {
         init: function() {
             $(document).on('click', '#pmm-add-column', this.addColumn);
-            $(document).on('click', '.pmm-column .add-block', this.addBlock);            
+            $(document).on('click', '.pmm-column .add-block', this.addBlock);
+            
+            updateColumnWidth();
+            refreshSortables();            
         },
         
         addColumn: function(e) {
