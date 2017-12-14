@@ -104,6 +104,16 @@
 }
 
 /** ITEMS **/
+.item-list {
+    
+}
+.item-list .item {
+    overflow: hidden;
+}
+.item-list .item a.edit-item {
+    float: right;
+    text-decoration: none;
+}
 
 /* pages */
 .pages-list {

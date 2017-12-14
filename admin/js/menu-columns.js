@@ -23,6 +23,13 @@ $( function() {
     $( '.pmm-block' ).sortable({
         connectWith: '.pmm-block',
         placeholder: 'placeholder',
+        receive: function(event, ui) {
+            // append edit if need be
+            if (!$(ui.helper).hasClass('editable')) {
+                $(ui.helper).addClass('editable');
+                $(ui.helper).append('<a href="" class="edit-item">Edit</a>');            
+            }
+        }
     }).disableSelection();
 
 } );
@@ -41,7 +48,7 @@ $( function() {
             //$(ui.helper).css('width', 'atuo')
         },
         stop: function(event, ui) {
-            //$(ui.helper).css('width', '100%')
+            //$(ui.helper).css('width', '100%')           
         }        
     });
     
