@@ -38,6 +38,7 @@ jQuery( function($) {
         return string.match(pattern)[0];
     };
     
+    // allows us to rerun our sortables.
     var refreshSortables = function() {
         // make column (blocks) sortable.
         $( '.pmm-column' ).sortable({
@@ -58,28 +59,37 @@ jQuery( function($) {
         }).disableSelection();               
     };
     
+    // allows us to rerun our draggables.
     var refreshDraggable = function() {
         // list items are draggable to blocks.
         $( '.pmm-menu-items-list .pmm-item-list .pmm-item' ).draggable({
             connectToSortable: '.pmm-block',
             'helper': 'clone',
             revert: 'invalid',
-            start: function(event, ui) {
-                //$(ui.helper).css('width', '100%')
-            },
-            drag: function(event, ui) {
-                //$(ui.helper).css('width', 'atuo')
-            },
+            start: function(event, ui) {},
+            drag: function(event, ui) {},
             stop: function(event, ui) {
                 $(ui.helper).css('width', $(ui.helper).parent().width()); // on drop, set column width                   
             }        
         });        
     };
     
+    // sets item width to block width.
     var adjustItemsWidth = function() {
         $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
            $(this).width($(this).parent().width());
         });
+    };
+    
+    // adds a default column and block on empty menu setup.
+    var setupDefaults = function() {
+        
+        if (!$('#pmm-menu-grid .pmm-column').length) {
+console.log('add col, add block');  
+pmmMegaMenu.addColumn();
+pmmMegaMenu.manualAddBlock(1, 1);          
+        }
+        
     }
 
     // our mega menu function.
@@ -88,13 +98,17 @@ jQuery( function($) {
             $(document).on('click', '#pmm-add-column', this.addColumn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
             
+            setupDefaults();
+            
             updateColumnWidth();
             refreshSortables(); 
             refreshDraggable();           
         },
         
         addColumn: function(e) {
-            e.preventDefault();
+            if (typeof e !== 'undefined') {
+                e.preventDefault();
+            }           
             
             var colId=$('.pmm-column').length + 1;
             
@@ -105,7 +119,9 @@ jQuery( function($) {
         },
         
         addBlock: function(e) {
-            e.preventDefault();
+            if (typeof e !== 'undefined') {
+                e.preventDefault();
+            }
             
             var $col = $(this).parent();
             var colIdNum = getID($col.attr('id'));
@@ -118,6 +134,18 @@ jQuery( function($) {
             
             refreshSortables();
             refreshDraggable();    
+        },
+        
+        manualAddBlock: function(colIdNum, order) {
+            $col=$('#pmm-column-' + colIdNum);
+
+            $('<div/>', {
+               id: 'pmm-block-' + colIdNum + '-' + order,
+               class: 'pmm-block' 
+            }).appendTo($col);
+            
+            refreshSortables();
+            refreshDraggable();            
         }
         
     };
