@@ -98,7 +98,8 @@
     font-weight: bold;
     margin-bottom: 5px;
     padding: 20px 0;
-    text-align: center;   
+    text-align: center;  
+    width: 100%; 
 }
 #pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     border-style: dashed;    

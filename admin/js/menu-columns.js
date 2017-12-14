@@ -48,7 +48,7 @@ $( function() {
             //$(ui.helper).css('width', 'atuo')
         },
         stop: function(event, ui) {
-            //$(ui.helper).css('width', '100%')           
+            $(ui.helper).css('width', $(ui.helper).parent().width()); // on drop, set column width                   
         }        
     });
     
