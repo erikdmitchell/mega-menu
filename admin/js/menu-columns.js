@@ -49,6 +49,9 @@ jQuery( function($) {
         $( '.pmm-column' ).sortable({
             connectWith: '.pmm-column',
             placeholder: 'pmm-block-placeholder',
+            stop: function(event, ui) {
+                updateBlockIds();                
+            }            
         }).disableSelection();  
         
         // make block (items) sortable.
@@ -156,6 +159,19 @@ jQuery( function($) {
         return '_' + Math.random().toString(36).substr(2, 9);
     };
     
+    // update block ids.
+    var updateBlockIds = function() {      
+        $('.pmm-column').each(function(colIndex) {
+            var $col = $(this); 
+            var colIdNum = getID($col.attr('id'));
+           
+            $col.find('.pmm-block').each(function(blockIndex) {
+                $(this).attr('id', 'pmm-block-' + colIdNum + '-' + blockIndex);
+            });
+        });
+    };    
+    
+    // updates item options with the proper name.
     var updateItemOptions = function($el) {
         var uId = $el.attr('uid');
 
