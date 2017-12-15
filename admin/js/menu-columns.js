@@ -147,9 +147,9 @@ jQuery( function($) {
                 $(this).attr('id', baseId + itemIndex);
                 
                 // update column, block and order (pos).
-                $(this).find('input[name="' + uId + '[column]"]').val(itemLocation[0]);
-                $(this).find('input[name="' + uId + '[block]"]').val(itemLocation[1]);
-                $(this).find('input[name="' + uId + '[order]"]').val(itemLocation[2]);                
+                $(this).find('input[name="pmm_menu_items[' + uId + '][column]"]').val(itemLocation[0]);
+                $(this).find('input[name="pmm_menu_items[' + uId + '][block]"]').val(itemLocation[1]);
+                $(this).find('input[name="pmm_menu_items[' + uId + '][order]"]').val(itemLocation[2]);                
             });           
         });
     };
@@ -178,7 +178,7 @@ jQuery( function($) {
         $el.find(':input').each(function() {
             var name = $(this).attr('name');
             
-            $(this).attr('name', uId + '[' + name + ']');
+            $(this).attr('name', 'pmm_menu_items' + '[' + uId + ']' + '[' + name + ']');
         });        
     };
     
