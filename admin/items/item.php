@@ -53,9 +53,9 @@ class PMM_Item {
         
         switch ($type):
             default:
-                $field.='<label for="edit-menu-item-title-1252">';
-				    $field.='Navigation Label<br>';
-                    $field.='<input type="text" id="edit-menu-item-title-1252" class="widefat edit-menu-item-title" name="menu-item-title[1252]" value="Home">';
+                $field.='<label for="'.$type.'">';
+				    $field.=$type.'<br>';
+                    $field.='<input type="text" id="'.$type.'" class="'.$type.'" name="'.$type.'" value="">';
 				$field.='</label>';
         endswitch;
         

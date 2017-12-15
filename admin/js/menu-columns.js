@@ -106,7 +106,7 @@ jQuery( function($) {
         
         if (!$('#pmm-menu-grid .pmm-column').length) {
             pmmMegaMenu.addColumn();
-            pmmMegaMenu.manualAddBlock(1, 0);          
+            pmmMegaMenu.manualAddBlock(0, 0);          
         }
         
     };
@@ -163,7 +163,7 @@ jQuery( function($) {
                 e.preventDefault();
             }           
             
-            var colId=$('.pmm-column').length + 1;
+            var colId=$('.pmm-column').length;
             
             $('<div id="pmm-column-' + colId + '" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
             
