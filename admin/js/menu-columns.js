@@ -61,8 +61,18 @@ jQuery( function($) {
                     $(ui.helper).addClass('editable');            
                 }               
             },
+            update: function(event, ui) {
+//console.log('update'); 
+//console.log($(ui.item).parent().attr('id')); 
+/*
+      $('select').each(function(index){
+         $(this).attr('id', index + 1);
+      });
+*/
+            },            
             stop: function(event, ui) {
-                // setup our id here.                
+                // setup our id here.
+//console.log('stop');                                
                 setItemId(ui);                     
             }
         }).disableSelection();               
@@ -96,7 +106,7 @@ jQuery( function($) {
         
         if (!$('#pmm-menu-grid .pmm-column').length) {
             pmmMegaMenu.addColumn();
-            pmmMegaMenu.manualAddBlock(1, 1);          
+            pmmMegaMenu.manualAddBlock(1, 0);          
         }
         
     };
@@ -114,9 +124,18 @@ jQuery( function($) {
         var $el = $(ui.item);       
         var blockId = getID($el.parent().attr('id')).join('-');
         var itemId = 'pmm-item-' + blockId + '-' + ui.item.index();
-console.log(itemId);        
+        
         $el.attr('id', itemId);
+        
+        updateItemIds();
     };
+    
+    var updateItemIds = function() {
+        $('.pmm-block').each(function(index) {
+console.log($(this).attr('id'));            
+console.log('i: ' + index);            
+        });
+    }
 
     // our mega menu function.
     var pmmMegaMenu = {
@@ -151,7 +170,7 @@ console.log(itemId);
           
             var $col = $(this).parents('.pmm-column');
             var colIdNum = getID($col.attr('id'));
-            var order = $col.find('.pmm-block').length +1;
+            var order = $col.find('.pmm-block').length;
 
             $('<div/>', {
                id: 'pmm-block-' + colIdNum + '-' + order,
