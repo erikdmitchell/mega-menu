@@ -130,10 +130,18 @@ jQuery( function($) {
         updateItemIds();
     };
     
+    // update all item ids.
     var updateItemIds = function() {
-        $('.pmm-block').each(function(index) {
-console.log($(this).attr('id'));            
-console.log('i: ' + index);            
+        var pattern = /.*-/g;
+        
+        $('.pmm-block').each(function(blockIndex) {
+            var $block = $(this);
+            
+            $block.find('.pmm-item').each(function(itemIndex) {
+                var baseId = $(this).attr('id').match(pattern)[0];
+
+                $(this).attr('id', baseId + itemIndex);           
+            });           
         });
     }
 
