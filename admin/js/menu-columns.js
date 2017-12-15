@@ -59,21 +59,12 @@ jQuery( function($) {
                 // append edit if need be.
                 if (!$(ui.helper).hasClass('editable')) {
                     $(ui.helper).addClass('editable');            
-                }               
-            },
-            update: function(event, ui) {
-//console.log('update'); 
-//console.log($(ui.item).parent().attr('id')); 
-/*
-      $('select').each(function(index){
-         $(this).attr('id', index + 1);
-      });
-*/
-            },            
+                }
+                
+                addItemHiddenFields($(ui.helper));              
+            },           
             stop: function(event, ui) {
-                // setup our id here.
-//console.log('stop');
-console.log('update item options');                                
+                // setup our id here.                               
                 setItemId(ui);                     
             }
         }).disableSelection();               
@@ -129,7 +120,10 @@ console.log('update item options');
         $el.attr('id', itemId);
         
         // set unique id.
-        $el.attr('uID', ID());
+        $el.attr('uID', uniqueID());
+        
+        // update fields/options.
+        updateItemOptions($el);
         
         // update all item ids.
         updateItemIds();
@@ -143,15 +137,46 @@ console.log('update item options');
             var $block = $(this);
             
             $block.find('.pmm-item').each(function(itemIndex) {
+                var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
+                var uId = $(this).attr('uId');
                 var baseId = $(this).attr('id').match(pattern)[0];
 
-                $(this).attr('id', baseId + itemIndex);           
+                $(this).attr('id', baseId + itemIndex);
+                
+                // update column, block and order (pos).
+                $(this).find('input[name="' + uId + '[column]"]').val(itemLocation[0]);
+                $(this).find('input[name="' + uId + '[block]"]').val(itemLocation[1]);
+                $(this).find('input[name="' + uId + '[order]"]').val(itemLocation[2]);                
             });           
         });
     };
     
-    var ID = function() {
+    // generates a unique id.
+    var uniqueID = function() {
         return '_' + Math.random().toString(36).substr(2, 9);
+    };
+    
+    var updateItemOptions = function($el) {
+        var uId = $el.attr('uid');
+
+        $el.find(':input').each(function() {
+            var name = $(this).attr('name');
+            
+            $(this).attr('name', uId + '[' + name + ']');
+        });        
+    };
+    
+    // adds hidden fields to item.
+    var addItemHiddenFields = function($el) {
+        var fields = ['column', 'block', 'order'];
+        
+        $.each(fields, function(key, value) {
+            $('<input>').attr({
+                type: 'hidden',
+                id: value,
+                name: value
+            }).appendTo($el);
+        });
     };
 
     // our mega menu function.
