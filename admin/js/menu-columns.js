@@ -33,9 +33,14 @@ jQuery( function($) {
     
     // gets id from an id string.
     var getID = function(string) {
-        var pattern = /\d/;
+        var pattern = /[0-9]/g;
+        var matches = string.match(pattern);
+        
+        if (matches.length == 1) {
+            return matches[0];
+        }
 
-        return string.match(pattern)[0];
+        return matches;
     };
     
     // allows us to rerun our sortables.
@@ -51,10 +56,13 @@ jQuery( function($) {
             connectWith: '.pmm-block',
             placeholder: 'item-placeholder',
             receive: function(event, ui) {
-                // append edit if need be
+                // append edit if need be.
                 if (!$(ui.helper).hasClass('editable')) {
                     $(ui.helper).addClass('editable');            
                 }
+                
+                // setup our id here.
+                setItemId($(ui.helper));
             }
         }).disableSelection();               
     };
@@ -98,6 +106,20 @@ jQuery( function($) {
         var itemPadding = parseInt($el.css('padding-right')) + parseInt($el.css('padding-left'));
 
         $el.width(fullWidth - itemPadding);        
+    };
+    
+    // sets the id of our item within a block.
+    var setItemId = function($el) {
+        console.log(getID($el.parent().attr('id')));
+/*
+        var id = $el.parent().attr('id');
+        var pattern = /[0-9]/g;
+console.log('set id');
+console.log(id.match(pattern)); 
+*/       
+
+
+
     };
 
     // our mega menu function.
