@@ -105,8 +105,10 @@ class PMM_Admin {
     }
     
     private function update_menu($menu_name='', $menu_id=0) {
-       // Add new menu.
-       if (0 == $menu_id) :
+        $messages = array();
+        
+        // Add new menu.
+        if (0 == $menu_id) :
             $new_menu_title = trim(esc_html($menu_name));
             
             if ($new_menu_title) :
@@ -161,8 +163,8 @@ class PMM_Admin {
                 // message about error
             endif;
        
-       // Update existing menu.
-       else :
+        // Update existing menu.
+        else :
             $_menu_object = wp_get_nav_menu_object( $menu_id );
 
 			$menu_title = trim( $menu_name );
@@ -186,8 +188,7 @@ class PMM_Admin {
 
 			// Update menu items.
 			if ( ! is_wp_error( $_menu_object ) ) {
-    			$this->nav_menu_update_menu_items( $_menu_object->term_id, $nav_menu_selected_title );
-				//$messages = array_merge( $messages, wp_nav_menu_update_menu_items( $_nav_menu_selected_id, $nav_menu_selected_title ) );
+				$messages = array_merge( $messages, $this->nav_menu_update_menu_items( $_menu_object->term_id, $nav_menu_selected_title ) );
 /*
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
@@ -197,13 +198,12 @@ class PMM_Admin {
 */
 			} 
      
-       endif;
+        endif;
         
     }
     
+    // https://developer.wordpress.org/reference/functions/wp_nav_menu_update_menu_items/
     private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title) {
-echo "nav_menu_update_menu_items<br>";
-
         $unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
         $messages = array();
         $menu_items = array();
@@ -219,10 +219,6 @@ echo "nav_menu_update_menu_items<br>";
             'menu-item-attr-title', 'menu-item-target', 'menu-item-classes', 'menu-item-xfn'
         );
 
-echo '<pre>';
-//print_r($unsorted_menu_items);     
-
-echo '</pre>';
         wp_defer_term_counting( true );
         
         // Loop through all the menu items' POST variables
@@ -250,12 +246,18 @@ echo '</pre>';
                     $messages[] = '<div id="message" class="error"><p>' . $menu_item_db_id->get_error_message() . '</p></div>';
                 else :
                     unset( $menu_items[ $menu_item_db_id ] );
+                    
+                    // this is a force publish for now - long term we may need to fix this
+                    wp_update_post(array(
+                        'ID' => $menu_item_db_id,
+                        'post_status' => 'publish',
+                    ));                    
+                    
                 endif;
             endforeach;       
         endif;
      
         // Remove menu items from the menu that weren't in $_POST
-/*
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
@@ -263,32 +265,9 @@ echo '</pre>';
                 }
             }
         }
-*/
-     
-        // Store 'auto-add' pages.
-/*
-        $auto_add = ! empty( $_POST['auto-add-pages'] );
-        $nav_menu_option = (array) get_option( 'nav_menu_options' );
-        if ( ! isset( $nav_menu_option['auto_add'] ) )
-            $nav_menu_option['auto_add'] = array();
-        if ( $auto_add ) {
-            if ( ! in_array( $nav_menu_selected_id, $nav_menu_option['auto_add'] ) )
-                $nav_menu_option['auto_add'][] = $nav_menu_selected_id;
-        } else {
-            if ( false !== ( $key = array_search( $nav_menu_selected_id, $nav_menu_option['auto_add'] ) ) )
-                unset( $nav_menu_option['auto_add'][$key] );
-        }
-*/
-        // Remove nonexistent/deleted menus
-        //$nav_menu_option['auto_add'] = array_intersect( $nav_menu_option['auto_add'], wp_get_nav_menus( array( 'fields' => 'ids' ) ) );
-        //update_option( 'nav_menu_options', $nav_menu_option );
      
         wp_defer_term_counting( false );
-     
-        /** This action is documented in wp-includes/nav-menu.php */
-        //do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
-     
-/*
+
         $messages[] = '<div id="message" class="updated notice is-dismissible"><p>' .
             // translators: %s: nav menu title.
             sprintf( __( '%s has been updated.' ),
@@ -296,10 +275,8 @@ echo '</pre>';
             ) . '</p></div>';
      
         unset( $menu_items, $unsorted_menu_items );
-*/
- print_r($messages);    
+   
         return $messages;
-            
     }
     
     private function pmm_item_args_to_wp() {
