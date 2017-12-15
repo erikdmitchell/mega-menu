@@ -33,7 +33,33 @@ class PMM_Item {
     }
     
     public function display_options() {
-        return '<div class="options">OPTIONS</div>';
+        $html='';
+        
+        $html.='<div class="options">';
+        
+            foreach ($this->options as $option) :
+                $html.='<div class="option-field">';
+                    $html.=$this->option_field($option);
+                $html.='</div>';
+            endforeach;
+        
+        $html.='</div>';
+        
+        return $html;
+    }
+    
+    protected function option_field($type='') {
+        $field='';
+        
+        switch ($type):
+            default:
+                $field.='<label for="edit-menu-item-title-1252">';
+				    $field.='Navigation Label<br>';
+                    $field.='<input type="text" id="edit-menu-item-title-1252" class="widefat edit-menu-item-title" name="menu-item-title[1252]" value="Home">';
+				$field.='</label>';
+        endswitch;
+        
+        return $field;
     }
     
 }
