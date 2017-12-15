@@ -6,6 +6,7 @@ class PMM_Item_Pages extends PMM_Item {
 		parent::__construct(array(
 			'slug' => 'pages',
 			'label' => 'Pages',
+			'options' => array('label', 'title', 'classes'),
 		));
 	}
 	
@@ -16,8 +17,8 @@ class PMM_Item_Pages extends PMM_Item {
             foreach (get_pages() as $page) :
                 $html.='<div id="page-'.$page->ID.'" class="page pmm-item" data-type="page">';
                     $html.=$page->post_title;
-                    $html.='<a href="" class="edit-item">Edit</a>';
-                    $html.='<div class="options">OPTIONS</div>';
+                    $html.=$this->edit_link();
+                    $html.=$this->display_options();
                 $html.='</div>';
             endforeach; 
         $html.='</div>';
