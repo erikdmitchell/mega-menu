@@ -59,10 +59,11 @@ jQuery( function($) {
                 // append edit if need be.
                 if (!$(ui.helper).hasClass('editable')) {
                     $(ui.helper).addClass('editable');            
-                }
-                
-                // setup our id here.
-                setItemId($(ui.helper));
+                }               
+            },
+            stop: function(event, ui) {
+                // setup our id here.                
+                setItemId(ui);                     
             }
         }).disableSelection();               
     };
@@ -109,17 +110,12 @@ jQuery( function($) {
     };
     
     // sets the id of our item within a block.
-    var setItemId = function($el) {
-        console.log(getID($el.parent().attr('id')));
-/*
-        var id = $el.parent().attr('id');
-        var pattern = /[0-9]/g;
-console.log('set id');
-console.log(id.match(pattern)); 
-*/       
-
-
-
+    var setItemId = function(ui) {
+        var $el = $(ui.item);       
+        var blockId = getID($el.parent().attr('id')).join('-');
+        var itemId = 'pmm-item-' + blockId + '-' + ui.item.index();
+console.log(itemId);        
+        $el.attr('id', itemId);
     };
 
     // our mega menu function.
