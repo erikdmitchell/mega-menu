@@ -18,7 +18,9 @@ class PMM_Item_Pages extends PMM_Item {
                 $html.='<div id="page-'.$page->ID.'" class="page pmm-item" data-type="page">';
                     $html.=$page->post_title;
                     $html.=$this->edit_link();
-                    $html.=$this->display_options();
+                    $html.=$this->display_options(array(
+                        'post_title' => $page->post_title,
+                    ));
                     $html.='<input type="hidden" name="page_id" value="'.$page->ID.'" />';
                 $html.='</div>';
             endforeach; 
