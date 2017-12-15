@@ -14,7 +14,8 @@ class PMM_Admin {
     
     public function scripts_styles() {
         wp_enqueue_script('jquery-ui-draggable');
-        wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery-ui-draggable'), '0.1.0', true);
+        wp_enqueue_script('jquery-ui-accordion');
+        wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);
     
         wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-page.css', '', PMM_VERSION);
         wp_enqueue_style('pmm-font-awesome', PMM_URL.'admin/css/font-awesome.min.css', '', '4.7.0');          

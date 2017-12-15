@@ -10,8 +10,8 @@ jQuery(document).ready(function($) {
    // toggles the edit details for an item.
    $(document).on('click', '.pmm-block .pmm-item .edit-item', function(e) {
        e.preventDefault();
-       
-       $(this).parent().find('.options').toggle();
+
+       $(this).parent().find('.options').slideToggle();
    });
 
 });
@@ -69,7 +69,8 @@ jQuery( function($) {
             start: function(event, ui) {},
             drag: function(event, ui) {},
             stop: function(event, ui) {
-                setItemWidth($(ui.helper)); // on drop, set item width                   
+                setItemWidth($(ui.helper)); // on drop, set item width.
+                $(ui.helper).height('auto'); // sets height to auto to allow for options to toggle properly.                   
             }        
         });        
     };
@@ -97,7 +98,7 @@ jQuery( function($) {
         var itemPadding = parseInt($el.css('padding-right')) + parseInt($el.css('padding-left'));
 
         $el.width(fullWidth - itemPadding);        
-    }
+    };
 
     // our mega menu function.
     var pmmMegaMenu = {
@@ -109,7 +110,7 @@ jQuery( function($) {
             
             updateColumnWidth();
             refreshSortables(); 
-            refreshDraggable();           
+            refreshDraggable();         
         },
         
         addColumn: function(e) {
