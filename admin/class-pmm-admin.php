@@ -222,7 +222,9 @@ class PMM_Admin {
                     wp_update_post(array(
                         'ID' => $menu_item_db_id,
                         'post_status' => 'publish',
-                    ));                    
+                    ));
+                    
+                    $this->update_menu_item_meta($menu_item_db_id, $k);                    
                     
                 endif;
             endforeach;       
@@ -248,6 +250,12 @@ class PMM_Admin {
         unset( $menu_items, $unsorted_menu_items );
    
         return $messages;
+    }
+    
+    protected function update_menu_item_meta($post_id=0, $item='') {
+        update_post_meta($post_id, '_pmm_menu_item_column', $item['column']);
+        update_post_meta($post_id, '_pmm_menu_item_block', $item['block']);
+        update_post_meta($post_id, '_pmm_menu_item_order', $item['order']);                
     }
     
     private function pmm_item_args_to_wp() {
