@@ -184,7 +184,7 @@ jQuery( function($) {
     
     // adds hidden fields to item.
     var addItemHiddenFields = function($el) {
-        var fields = ['column', 'block', 'order'];
+        var fields = ['column', 'block', 'order', 'db_id'];
         
         $.each(fields, function(key, value) {
             $('<input>').attr({

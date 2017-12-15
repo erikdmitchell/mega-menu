@@ -100,10 +100,8 @@ class PMM_Admin {
     public function save_menu() {
         if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm_save_menu'))
             return;
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
-        //$this->update_menu($_POST['menu_name'], $_POST['menu_id']);
+
+        $this->update_menu(esc_html($_POST['menu_name']), $_POST['menu_id']);
     }
     
     private function update_menu($menu_name='', $menu_id=0) {
@@ -124,8 +122,9 @@ echo '</pre>';
 					$nav_menu_selected_title = $_menu_object->name;
 					
 					// Save menu items.
-					//if ( isset( $_REQUEST['menu-item'] ) )
-						//wp_save_nav_menu_items( $nav_menu_selected_id, absint( $_REQUEST['menu-item'] ) );
+					if ( isset( $_REQUEST['pmm_menu_items'] ) )
+                        print_r(absint( $_REQUEST['pmm_menu_items'] ));    					
+                        //wp_save_nav_menu_items( $nav_menu_selected_id, absint( $_REQUEST['pmm_menu_items'] ) );
 						
 /*
 					if ( isset( $_REQUEST['zero-menu-state'] ) ) {
@@ -166,19 +165,19 @@ echo '</pre>';
        else :
             $_menu_object = wp_get_nav_menu_object( $menu_id );
 
-			$menu_title = trim( esc_html( $_POST['menu-name'] ) );
+			$menu_title = trim( $menu_name );
 			
 			if ( ! $menu_title ) {
-				$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
-				$menu_title = $_menu_object->name;
+				//$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
+				//$menu_title = $_menu_object->name;
 			}
 
             // Update menut object.
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$_nav_menu_selected_id = wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $menu_title ) );
+				$_nav_menu_selected_id = wp_update_nav_menu_object( $menu_id, array( 'menu-name' => $menu_title ) );
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
-					$_menu_object = $_nav_menu_selected_id;
-					$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+					//$_menu_object = $_nav_menu_selected_id;
+					//$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
 				} else {
 					$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
 					$nav_menu_selected_title = $_menu_object->name;
@@ -186,19 +185,139 @@ echo '</pre>';
 			}
 
 			// Update menu items.
-/*
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$messages = array_merge( $messages, wp_nav_menu_update_menu_items( $_nav_menu_selected_id, $nav_menu_selected_title ) );
-
+    			$this->nav_menu_update_menu_items( $_nav_menu_selected_id, $nav_menu_selected_title );
+				//$messages = array_merge( $messages, wp_nav_menu_update_menu_items( $_nav_menu_selected_id, $nav_menu_selected_title ) );
+/*
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
 					wp_redirect( admin_url( 'nav-menus.php?menu=' . intval( $_nav_menu_selected_id ) ) );
 					exit();
 				}
+*/
 			} 
-*/      
+     
        endif;
         
+    }
+    
+    private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title) {
+echo "nav_menu_update_menu_items<br>";
+
+        $unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
+        $messages = array();
+        $menu_items = array();
+        
+        // Index menu items by db ID
+        foreach ( $unsorted_menu_items as $_item )
+            $menu_items[$_item->db_id] = $_item;
+     
+        $post_fields = array(
+            'menu-item-db-id', 'menu-item-object-id', 'menu-item-object',
+            'menu-item-parent-id', 'menu-item-position', 'menu-item-type',
+            'menu-item-title', 'menu-item-url', 'menu-item-description',
+            'menu-item-attr-title', 'menu-item-target', 'menu-item-classes', 'menu-item-xfn'
+        );
+
+echo '<pre>';
+print_r($unsorted_menu_items);     
+
+print_r($_POST);
+echo '</pre>';
+        wp_defer_term_counting( true );
+        
+        // Loop through all the menu items' POST variables
+        if (!empty($_POST['pmm_menu_items'])) :
+            foreach ( (array) $_POST['pmm_menu_items'] as $_key => $k ) :
+print_r($k);     
+                // Menu item title can't be blank
+                //if ( ! isset( $_POST['menu-item-title'][ $_key ] ) || '' == $_POST['menu-item-title'][ $_key ] )
+                    //continue;
+     
+/*
+                $args = array();
+                foreach ( $post_fields as $field )
+                    $args[$field] = isset( $_POST[$field][$_key] ) ? $_POST[$field][$_key] : '';
+     
+                $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( $_POST['menu-item-db-id'][$_key] != $_key ? 0 : $_key ), $args );
+     
+                if ( is_wp_error( $menu_item_db_id ) ) {
+                    $messages[] = '<div id="message" class="error"><p>' . $menu_item_db_id->get_error_message() . '</p></div>';
+                } else {
+                    unset( $menu_items[ $menu_item_db_id ] );
+                }
+*/
+            endforeach;       
+        endif;
+/*
+        if ( ! empty( $_POST['menu-item-db-id'] ) ) {
+            foreach ( (array) $_POST['menu-item-db-id'] as $_key => $k ) {
+     
+                // Menu item title can't be blank
+                if ( ! isset( $_POST['menu-item-title'][ $_key ] ) || '' == $_POST['menu-item-title'][ $_key ] )
+                    continue;
+     
+                $args = array();
+                foreach ( $post_fields as $field )
+                    $args[$field] = isset( $_POST[$field][$_key] ) ? $_POST[$field][$_key] : '';
+     
+                $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( $_POST['menu-item-db-id'][$_key] != $_key ? 0 : $_key ), $args );
+     
+                if ( is_wp_error( $menu_item_db_id ) ) {
+                    $messages[] = '<div id="message" class="error"><p>' . $menu_item_db_id->get_error_message() . '</p></div>';
+                } else {
+                    unset( $menu_items[ $menu_item_db_id ] );
+                }
+            }
+        }
+*/
+     
+        // Remove menu items from the menu that weren't in $_POST
+/*
+        if ( ! empty( $menu_items ) ) {
+            foreach ( array_keys( $menu_items ) as $menu_item_id ) {
+                if ( is_nav_menu_item( $menu_item_id ) ) {
+                    wp_delete_post( $menu_item_id );
+                }
+            }
+        }
+*/
+     
+        // Store 'auto-add' pages.
+/*
+        $auto_add = ! empty( $_POST['auto-add-pages'] );
+        $nav_menu_option = (array) get_option( 'nav_menu_options' );
+        if ( ! isset( $nav_menu_option['auto_add'] ) )
+            $nav_menu_option['auto_add'] = array();
+        if ( $auto_add ) {
+            if ( ! in_array( $nav_menu_selected_id, $nav_menu_option['auto_add'] ) )
+                $nav_menu_option['auto_add'][] = $nav_menu_selected_id;
+        } else {
+            if ( false !== ( $key = array_search( $nav_menu_selected_id, $nav_menu_option['auto_add'] ) ) )
+                unset( $nav_menu_option['auto_add'][$key] );
+        }
+*/
+        // Remove nonexistent/deleted menus
+        //$nav_menu_option['auto_add'] = array_intersect( $nav_menu_option['auto_add'], wp_get_nav_menus( array( 'fields' => 'ids' ) ) );
+        //update_option( 'nav_menu_options', $nav_menu_option );
+     
+        wp_defer_term_counting( false );
+     
+        /** This action is documented in wp-includes/nav-menu.php */
+        //do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
+     
+/*
+        $messages[] = '<div id="message" class="updated notice is-dismissible"><p>' .
+            // translators: %s: nav menu title.
+            sprintf( __( '%s has been updated.' ),
+                '<strong>' . $nav_menu_selected_title . '</strong>'
+            ) . '</p></div>';
+     
+        unset( $menu_items, $unsorted_menu_items );
+*/
+     
+        return $messages;
+            
     }
  
     public function select_menu() {

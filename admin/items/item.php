@@ -12,7 +12,26 @@ class PMM_Item {
 		$default_args=array(
 			'slug' => '',
 			'label' => '',
-			'options' => array(),
+			'options' => array(
+                'label' => array(
+                    'slug' => 'label',
+    			    'label' => 'Navigation Label',
+    			    'deafult' => '',
+    			    'input' => 'text',
+			    ), 
+			    'title' => array(
+    			    'slug' => 'title',
+			        'label' => 'Title',
+			        'deafult' => '',
+			        'input' => 'text',
+			    ), 
+			    'classes' => array(
+    			    'slug' => 'classes',
+    			    'label' => 'CSS Classes',
+    			    'deafult' => '',
+    			    'input' => 'text',
+			    ),
+			),
 		);
 		$args=pmm_wp_parse_args($args, $default_args);
 
@@ -37,8 +56,8 @@ class PMM_Item {
         
         $html.='<div class="options">';
         
-            foreach ($this->options as $option) :
-                $html.='<div class="option-field">';
+            foreach ($this->options as $type => $option) :
+                $html.='<div class="option-field">';               
                     $html.=$this->option_field($option);
                 $html.='</div>';
             endforeach;
@@ -48,14 +67,14 @@ class PMM_Item {
         return $html;
     }
     
-    protected function option_field($type='') {
+    protected function option_field($args='') {
         $field='';
-        
-        switch ($type):
+
+        switch ($args['input']):
             default:
-                $field.='<label for="'.$type.'">';
-				    $field.=$type.'<br>';
-                    $field.='<input type="text" id="'.$type.'" class="'.$type.'" name="'.$type.'" value="">';
+                $field.='<label for="'.$args['slug'].'">';
+				    $field.=$args['label'].'<br>';
+                    $field.='<input type="text" id="'.$args['slug'].'" class="'.$args['slug'].'" name="'.$args['slug'].'" value="">';
 				$field.='</label>';
         endswitch;
         

@@ -6,7 +6,7 @@ class PMM_Item_Pages extends PMM_Item {
 		parent::__construct(array(
 			'slug' => 'pages',
 			'label' => 'Pages',
-			'options' => array('label', 'title', 'classes'),
+			'options' => array('label' => array(), 'title' => array(), 'classes' => array()),
 		));
 	}
 	
