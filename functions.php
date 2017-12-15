@@ -29,7 +29,7 @@ function pmm_wp_parse_args( &$a, $b ) {
 	$result = $b;
 	foreach ( $a as $k => &$v ) {
 		if ( is_array( $v ) && isset( $result[ $k ] ) ) {
-			$result[ $k ] = meks_wp_parse_args( $v, $result[ $k ] );
+			$result[ $k ] = pmm_wp_parse_args( $v, $result[ $k ] );
 		} else {
 			$result[ $k ] = $v;
 		}
