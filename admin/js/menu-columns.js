@@ -72,7 +72,8 @@ jQuery( function($) {
             },            
             stop: function(event, ui) {
                 // setup our id here.
-//console.log('stop');                                
+//console.log('stop');
+console.log('update item options');                                
                 setItemId(ui);                     
             }
         }).disableSelection();               
@@ -127,6 +128,10 @@ jQuery( function($) {
         
         $el.attr('id', itemId);
         
+        // set unique id.
+        $el.attr('uID', ID());
+        
+        // update all item ids.
         updateItemIds();
     };
     
@@ -143,7 +148,11 @@ jQuery( function($) {
                 $(this).attr('id', baseId + itemIndex);           
             });           
         });
-    }
+    };
+    
+    var ID = function() {
+        return '_' + Math.random().toString(36).substr(2, 9);
+    };
 
     // our mega menu function.
     var pmmMegaMenu = {
