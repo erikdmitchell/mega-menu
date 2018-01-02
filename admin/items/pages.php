@@ -22,10 +22,10 @@ class PMM_Item_Pages extends PMM_Item {
         return $html;  	
 	}
 	
-	protected function single_item($id=0) {
+	protected function single_item($id=0, $classes='') {
         $html='';
         
-        $html.='<div id="page-'.$id.'" class="page pmm-item" data-type="page">';
+        $html.='<div id="page-'.$id.'" class="page pmm-item '.$classes.'" data-type="page">';
             $html.=get_the_title($id);
             $html.=$this->edit_link();
             $html.=$this->display_options(array(
@@ -37,8 +37,8 @@ class PMM_Item_Pages extends PMM_Item {
         return $html;
 	}
 	
-    public function load_item($id=0) {
-        return $this->single_item($id);
+    public function load_item($id=0, $classes='editable') {
+        return $this->single_item($id, $classes);
     }	
 
 }
