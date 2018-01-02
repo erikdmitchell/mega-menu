@@ -44,6 +44,10 @@ class PMM_Item {
         return "<p>This should be overridden by your class.</p>";
     }
     
+    public function load_item($id=0) {
+        return "<p>This should be overridden by your class.</p>";
+    }
+    
     public function edit_link() {
         if (!empty($this->options))
             return '<a href="" class="edit-item">Edit</a>';

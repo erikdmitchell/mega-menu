@@ -284,4 +284,8 @@ class PMM_Admin {
         endif;    
     }
     
+    public function load_mega_menu($menu_id=0) {
+        return new PMM_Admin_Build_Menu($menu_id);
+    }
+    
 }
