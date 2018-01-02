@@ -164,7 +164,7 @@ class PMM_Admin {
 
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
-					wp_redirect( admin_url( 'nav-menus.php?menu=' . intval( $_nav_menu_selected_id ) ) );
+					wp_redirect( admin_url( 'themes.php??page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
 					exit();
 				}
 			} 
