@@ -164,7 +164,7 @@ class PMM_Admin {
 
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
-					wp_redirect( admin_url( 'themes.php??page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
+					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
 					exit();
 				}
 			} 
@@ -255,7 +255,8 @@ class PMM_Admin {
     protected function update_menu_item_meta($post_id=0, $item='') {
         update_post_meta($post_id, '_pmm_menu_item_column', $item['column']);
         update_post_meta($post_id, '_pmm_menu_item_block', $item['block']);
-        update_post_meta($post_id, '_pmm_menu_item_order', $item['order']);                
+        update_post_meta($post_id, '_pmm_menu_item_order', $item['order']); 
+        update_post_meta($post_id, '_pmm_menu_item_type', $item['item_type']);                        
     }
     
     private function pmm_item_args_to_wp() {

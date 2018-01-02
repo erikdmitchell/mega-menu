@@ -116,7 +116,6 @@ echo $html;
     protected function add_items($column_id, $block_id) {
         $html='';
         $items=array();
-        $item_type = 'pages'; // THIS WILL BE LOADED WITH ITEM IN FUTURE
         
         // get items in column and block.
         foreach ($this->menu_items as $menu_item) :
@@ -134,7 +133,7 @@ echo $html;
         });
 
         foreach ($items as $item) :
-            $html.=PickleMegaMenu()->admin->items[$item_type]->load_item($item->ID);
+            $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID);
         endforeach;
         
         return $html;
