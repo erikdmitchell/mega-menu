@@ -127,7 +127,7 @@ class PMM_Admin {
                         $this->nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
 
 					$messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ) . '</p></div>';
-					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . $_nav_menu_selected_id ) );
+					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
 					exit();
 				} 
             
