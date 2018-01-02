@@ -21,6 +21,16 @@ function pmm_menu_list_dropdown($selected='', $name='pmm_menu_id', $echo=true) {
     endif;
 }
 
+function pmm_get_nav_menu_items($items, $menu, $args) {
+    foreach ($items as $item) :
+        $item->pmm_column = get_post_meta($item->ID, '_pmm_menu_item_column', true);
+        $item->pmm_block = get_post_meta($item->ID, '_pmm_menu_item_block', true);
+        $item->pmm_order = get_post_meta($item->ID, '_pmm_menu_item_order', true);
+    endforeach;
+    
+    return $items;
+}
+add_filter('wp_get_nav_menu_items', 'pmm_get_nav_menu_items', 10, 3);
  
 /* Similar to wp_parse_args() just a bit extended to work with multidimensional arrays :) */
 function pmm_wp_parse_args( &$a, $b ) {
