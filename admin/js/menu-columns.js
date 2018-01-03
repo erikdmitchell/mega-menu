@@ -131,6 +131,8 @@ jQuery( function($) {
                 updateItemOptions($el); // update fields/options. 
                 addItemActions($el); // add action icons. 
             });
+            
+            addBlockActions($(this).attr('id'));
         }); 
         
         // update all item ids and subsequent hidden fields.
@@ -231,7 +233,11 @@ jQuery( function($) {
             href: '',
             class: 'remove-item dashicons dashicons-trash' 
         }).appendTo($el);         
-    }
+    };
+    
+    var addBlockActions = function(blockId) {
+        $('<div class="pmm-block-actions"><a class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));       
+    };
 
     // our mega menu function.
     var pmmMegaMenu = {
@@ -274,7 +280,7 @@ jQuery( function($) {
                class: 'pmm-block' 
             }).appendTo($col);
             
-            pmmMegaMenu.addBlockActions('pmm-block-' + colIdNum + '-' + order);
+            addBlockActions('pmm-block-' + colIdNum + '-' + order);
             
             refreshSortables();
             refreshDraggable();    
@@ -296,10 +302,6 @@ jQuery( function($) {
             e.preventDefault();
             
             $(this).parent('.pmm-item').remove();          
-        },
-        
-        addBlockActions: function(blockId) {
-            $('<div class="pmm-block-actions"><a class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));
         }
         
     };

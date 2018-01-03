@@ -102,6 +102,9 @@
 .pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     border-style: dashed;    
 }
+.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions a {
+    color: #000;
+}
 
 /** ITEMS **/
 .pmm-item-list {
