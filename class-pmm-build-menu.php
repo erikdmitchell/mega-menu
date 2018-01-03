@@ -28,7 +28,7 @@ class PMM_Build_Menu {
         $this->menu_items = wp_get_nav_menu_items($this->menu_object_id);
         $layout = $this->get_layout();
         
-        $html.='<div id="pmm-menu-'.$this->menu_id.'" class="pmm-menu">';
+        $html.='<div id="pmm-menu-'.$this->menu_id.'" class="pmm-menu columns-'.count($layout).'">';
         
             foreach ($layout as $column => $blocks) :
                 $html.=$this->add_column($column, $blocks);
@@ -99,7 +99,7 @@ class PMM_Build_Menu {
 
         foreach ($items as $item) :
             if (isset($item->pmm_item_type) && '' !== $item->pmm_item_type)
-                $html.='output';
+                $html.='<div class="pmm-item"><a href="'.get_permalink($item->ID).'">'.$item->title.'</a></div>';
         endforeach;
         
         return $html;
