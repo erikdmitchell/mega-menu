@@ -50,6 +50,7 @@ jQuery( function($) {
     var refreshSortables = function() {
         // make column (blocks) sortable.
         $( '.pmm-column' ).sortable({
+            items: '.pmm-block',
             connectWith: '.pmm-column',
             placeholder: 'pmm-block-placeholder',
             stop: function(event, ui) {
