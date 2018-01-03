@@ -5,11 +5,7 @@ class PMM_Admin_Build_Menu {
     public $menu_id = 0;
     
     public $menu_object_id = 0;
-    
-    //public $menu_items = '';
-    
-    //public $output = '';
-    
+        
     public function __construct($menu_id=0) {
         $this->menu_id = $menu_id;
         
@@ -19,8 +15,6 @@ class PMM_Admin_Build_Menu {
             return;
             
         $this->menu_object_id = $menu_object->term_id;
-            
-        //return $this->build_menu();
     }
     
     public function display() {
@@ -110,4 +104,5 @@ class PMM_Admin_Build_Menu {
         
         return $html;
     }    
+
 }

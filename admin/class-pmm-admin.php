@@ -179,7 +179,7 @@ class PMM_Admin {
 			// Update menu items.
 			if ( ! is_wp_error( $_menu_object ) ) {
 				$this->nav_menu_update_menu_items( $_menu_object->term_id, $nav_menu_selected_title );
-				
+//exit();				
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
 					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
@@ -208,7 +208,14 @@ class PMM_Admin {
         );
 
         wp_defer_term_counting( true );
-        
+
+/*
+echo '<pre>';        
+print_r($_POST);        
+echo '</pre>';
+exit;
+*/
+
         // Loop through all the menu items' POST variables
         if (!empty($_POST['pmm_menu_items'])) :
             foreach ( (array) $_POST['pmm_menu_items'] as $_key => $k ) :

@@ -96,12 +96,36 @@ jQuery( function($) {
         });
     };
     
-    // adds a default column and block on empty menu setup.
+    // adds a default column and block on empty menu setup, else we tweak what has been loaded.
     var setupDefaults = function() {
         
         if (!$('#pmm-menu-grid .pmm-column').length) {
             pmmMegaMenu.addColumn();
             pmmMegaMenu.manualAddBlock(0, 0);          
+        } else {
+            // get all items and loop through to add uid and update options
+            $('#pmm-menu-grid .pmm-block').each(function() {
+                
+                // we need this sub loop to get proper index.
+                $(this).find('.pmm-item').each(function(i) {
+                    $el = $(this);
+                               
+                    // update item id.
+                    var blockId = getID($el.parent().attr('id')).join('-');
+                    var itemId = 'pmm-item-' + blockId + '-' + i;
+
+                    $el.attr('id', itemId);                
+                
+                    $el.attr('uid', uniqueID()); // add unique id.
+
+                    addItemHiddenFields($el); // adds hidden fields.
+                    updateItemOptions($el); // update fields/options.
+                    
+                });
+            }); 
+            
+            // update all item ids. (no need?)
+            updateItemIds();
         }
         
     };
@@ -169,7 +193,7 @@ jQuery( function($) {
                 $(this).attr('id', 'pmm-block-' + colIdNum + '-' + blockIndex);
             });
         });
-    };    
+    }; 
     
     // updates item options with the proper name.
     var updateItemOptions = function($el) {
