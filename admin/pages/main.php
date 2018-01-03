@@ -71,17 +71,20 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                             <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_name; ?>" />
                         </div>
                         
-                        <div class="menu-columns">
-                            <a href="#" id="pmm-add-column"><i class="fa fa-columns" aria-hidden="true"></i></a>
-                        </div> 
-                        
                         <span class="save-menu-button">
                             <input type="submit" class="button button-primary" value="Save Menu">
                         </span> 
                     </div>  
-                                    
-                    <div id="pmm-menu-grid" class="pmm-menu-grid">
-                        <?php PickleMegaMenu()->admin->load_mega_menu($nav_menu_selected_id); ?>
+                    
+                    <div class="pmm-menu-grid-wrap">  
+                        
+                        <div class="menu-columns">
+                            <a href="#" id="pmm-add-column" class="button">Add Column</a>
+                        </div> 
+                                      
+                        <div id="pmm-menu-grid" class="pmm-menu-grid">
+                            <?php PickleMegaMenu()->admin->load_mega_menu($nav_menu_selected_id); ?>
+                        </div>
                     </div>
     
                 </div>

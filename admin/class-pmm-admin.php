@@ -209,13 +209,6 @@ class PMM_Admin {
 
         wp_defer_term_counting( true );
 
-/*
-echo '<pre>';        
-print_r($_POST);        
-echo '</pre>';
-exit;
-*/
-
         // Loop through all the menu items' POST variables
         if (!empty($_POST['pmm_menu_items'])) :
             foreach ( (array) $_POST['pmm_menu_items'] as $_key => $k ) :
@@ -234,8 +227,10 @@ exit;
                 $args = array();
                 foreach ( $post_fields as $field )
                     $args[$field] = isset( $k[$field] ) ? $k[$field] : '';
-   
-                $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( !empty($k['db_id']) ? $k['db_id'] : 0 ), $args );
+
+                $db_id = $this->get_menu_item_db_id($k['id']);
+
+                $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
      
                 if ( is_wp_error( $menu_item_db_id ) ) :                    
                     pmm_add_admin_notice(array(
@@ -251,8 +246,7 @@ exit;
                         'post_status' => 'publish',
                     ));
                     
-                    $this->update_menu_item_meta($menu_item_db_id, $k);                    
-                    
+                    $this->update_menu_item_meta($menu_item_db_id, $k);
                 endif;
             endforeach;       
         endif;
@@ -277,6 +271,17 @@ exit;
         unset( $menu_items, $unsorted_menu_items );
    
         return true;
+    }
+    
+    private function get_menu_item_db_id($id = 0) {
+        global $wpdb;
+        
+        $db_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE ID = $id AND post_type = 'nav_menu_item'");
+        
+        if (null === $db_id)
+            return 0;
+        
+        return $db_id;
     }
     
     protected function update_menu_item_meta($post_id=0, $item='') {

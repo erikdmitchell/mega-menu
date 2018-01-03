@@ -21,7 +21,7 @@
 #pickle-mega-menu-admin .menu-management-column .menu-management {
     
 } 
-#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid {
+#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid-wrap {
     margin-top: 30px;
     margin-bottom: 30px;
     background: #fff;
@@ -33,11 +33,15 @@
 #pickle-mega-menu-admin .menu-options .menu-name {
     float: left;
 }
-#pickle-mega-menu-admin .menu-options .menu-columns {
-    float: left;
-    margin-left: 10px;
-}
 #pickle-mega-menu-admin .menu-options .save-menu-button {
+    float: right;
+}
+
+#pickle-mega-menu-admin .menu-management-column .menu-columns {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#pickle-mega-menu-admin .menu-management-column .menu-columns .button {
     float: right;
 }
 
