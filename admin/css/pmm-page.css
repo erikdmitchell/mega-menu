@@ -4,6 +4,10 @@
 #pickle-mega-menu-admin .pmm-manage-menus {
     
 }
+#pickle-mega-menu-admin .menu-items-wrap {
+    margin-top: 15px;
+    overflow: hidden;
+}
 #pickle-mega-menu-admin .menu-items-column {
     float: left;
     width: 15%;

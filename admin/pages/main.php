@@ -34,60 +34,64 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
         
     </div>
     
-    <div class="menu-items-column">
-        
-        <form>
-            
-            <div class="menu-items-container">
-                <h3>Items</h3>
-                
-                <div class="pmm-menu-items-list">
-                    
-                    <?php PickleMegaMenu()->admin->items_accordian(); ?>
+    <div class="menu-items-wrap">
 
-                </div>
-                
-            </div>
+        <div class="menu-items-column">
             
-        </form>
-        
-    </div>
-    
-    <div class="menu-management-column">
-        
-        <form name="save_menu" id="save-menu" action="" method="post">       
-            
-            <div class="menu-management">
+            <form>
                 
-                <h3>Menu</h3>
-                
-                <div class="menu-options">
-                    <?php wp_nonce_field('pmm_save_menu', 'pmm_admin'); ?>
+                <div class="menu-items-container">
+                    <h3>Items</h3>
                     
-                    <div class="menu-name">
-                        <label for="menu-name">Menu Name</label>
-                        <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_name; ?>" />
+                    <div class="pmm-menu-items-list">
+                        
+                        <?php PickleMegaMenu()->admin->items_accordian(); ?>
+    
                     </div>
                     
-                    <div class="menu-columns">
-                        <a href="#" id="pmm-add-column"><i class="fa fa-columns" aria-hidden="true"></i></a>
-                    </div> 
-                    
-                    <span class="save-menu-button">
-                        <input type="submit" class="button button-primary" value="Save Menu">
-                    </span> 
-                </div>  
-                                
-                <div id="pmm-menu-grid" class="pmm-menu-grid">
-                    <?php PickleMegaMenu()->admin->load_mega_menu($nav_menu_selected_id); ?>
                 </div>
-
-            </div>
+                
+            </form>
             
-            <input type="hidden" name="menu_id" id="menu-id" value="<?php echo $nav_menu_selected_id; ?>" />
-            
-        </form>
+        </div>
         
+        <div class="menu-management-column">
+            
+            <form name="save_menu" id="save-menu" action="" method="post">       
+                
+                <div class="menu-management">
+                    
+                    <h3>Menu</h3>
+                    
+                    <div class="menu-options">
+                        <?php wp_nonce_field('pmm_save_menu', 'pmm_admin'); ?>
+                        
+                        <div class="menu-name">
+                            <label for="menu-name">Menu Name</label>
+                            <input type="text" name="menu_name" id="menu-name" placeholder="Menu Name" value="<?php echo $nav_menu_name; ?>" />
+                        </div>
+                        
+                        <div class="menu-columns">
+                            <a href="#" id="pmm-add-column"><i class="fa fa-columns" aria-hidden="true"></i></a>
+                        </div> 
+                        
+                        <span class="save-menu-button">
+                            <input type="submit" class="button button-primary" value="Save Menu">
+                        </span> 
+                    </div>  
+                                    
+                    <div id="pmm-menu-grid" class="pmm-menu-grid">
+                        <?php PickleMegaMenu()->admin->load_mega_menu($nav_menu_selected_id); ?>
+                    </div>
+    
+                </div>
+                
+                <input type="hidden" name="menu_id" id="menu-id" value="<?php echo $nav_menu_selected_id; ?>" />
+                
+            </form>
+            
+        </div>
+    
     </div>
     
 </div>
