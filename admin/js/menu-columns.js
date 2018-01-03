@@ -255,7 +255,8 @@ jQuery( function($) {
             $(document).on('click', '#pmm-add-column', this.addColumn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
-            $(document).on('click', '.pmm-block .remove-block', this.removeBlock);                        
+            $(document).on('click', '.pmm-block .remove-block', this.removeBlock);
+            $(document).on('click', '.pmm-column .remove-column', this.removeColumn);                                    
             
             setupDefaults();
             
@@ -322,7 +323,15 @@ jQuery( function($) {
             e.preventDefault();
            
             $(this).parents('.pmm-block').remove();          
-        }        
+        },        
+
+        removeColumn: function(e) {
+            e.preventDefault();
+           
+            $(this).parents('.pmm-column').remove(); 
+            
+            updateColumnWidth();         
+        }
         
     };
 
