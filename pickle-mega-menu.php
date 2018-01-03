@@ -85,7 +85,8 @@ final class PickleMegaMenu {
      */
     public function includes() {
         include_once(PMM_PATH.'functions.php');
-        
+        include_once(PMM_PATH.'class-pmm-nav-walker.php');
+         
         include_once(PMM_PATH.'admin/class-pmm-admin.php');
         include_once(PMM_PATH.'admin/class-pmm-admin-build-menu.php');        
         include_once(PMM_PATH.'admin/class-pmm-admin-notices.php');
