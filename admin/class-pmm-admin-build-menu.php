@@ -6,7 +6,9 @@ class PMM_Admin_Build_Menu {
     
     public $menu_object_id = 0;
     
-    public $menu_items = 0;
+    //public $menu_items = '';
+    
+    //public $output = '';
     
     public function __construct($menu_id=0) {
         $this->menu_id = $menu_id;
@@ -18,7 +20,11 @@ class PMM_Admin_Build_Menu {
             
         $this->menu_object_id = $menu_object->term_id;
             
-        return $this->build_menu();
+        //return $this->build_menu();
+    }
+    
+    public function display() {
+        echo $this->build_menu();
     }
 
     protected function build_menu() {
@@ -29,43 +35,8 @@ class PMM_Admin_Build_Menu {
         foreach ($layout as $column => $blocks) :
             $html.=$this->add_column($column, $blocks);
         endforeach;
-        
-        
-        
-echo '<pre>';
-//print_r($layout);
-//print_r($this->menu_items);
-echo '</pre>';
 
-echo $html;
-
-/*
-  <div id="pmm-column-0" class="pmm-column ui-sortable" style="width: 480px;">
-    <div class="block-actions ui-sortable-handle">
-        <div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div>
-    </div>
-    
-    <div id="pmm-block-0-0" class="pmm-block ui-sortable-handle ui-sortable">
--- ITEM --
-        <div class="page pmm-item ui-draggable ui-draggable-handle editable" data-type="page" id="pmm-item-0-0-0" uid="_ah0pt7qt4" style="width: 430px; right: auto; height: auto; bottom: auto;">
-            About
-            <a href="" class="edit-item">Edit</a>
-            <div class="options">
-                <div class="option-field"><label for="label">Navigation Label<br><input type="text" id="label" class="label" name="pmm_menu_items[_ah0pt7qt4][label]" value="About"></label></div>
-                <div class="option-field"><label for="title">Title Attribute<br><input type="text" id="title" class="title" name="pmm_menu_items[_ah0pt7qt4][title]" value=""></label></div>
-                <div class="option-field"><label for="classes">CSS Classes<br><input type="text" id="classes" class="classes" name="pmm_menu_items[_ah0pt7qt4][classes]" value=""></label></div>
-            </div>
-            
-            <input type="hidden" name="pmm_menu_items[_ah0pt7qt4][page_id]" value="1086"><input type="hidden" id="column" name="pmm_menu_items[_ah0pt7qt4][column]" value="0">
-            <input type="hidden" id="block" name="pmm_menu_items[_ah0pt7qt4][block]" value="0"><input type="hidden" id="order" name="pmm_menu_items[_ah0pt7qt4][order]" value="0">
-            <input type="hidden" id="db_id" name="pmm_menu_items[_ah0pt7qt4][db_id]">
--- ITEM --            
-        </div>
-    </div>
-    
-    <div id="pmm-block-0-1" class="pmm-block ui-sortable"></div>
-</div>  
-*/
+        return $html;
     }
     
     protected function get_layout() {
@@ -133,7 +104,8 @@ echo $html;
         });
 
         foreach ($items as $item) :
-            $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID);
+            if (isset($item->pmm_item_type) && '' !== $item->pmm_item_type)
+                $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID);
         endforeach;
         
         return $html;
