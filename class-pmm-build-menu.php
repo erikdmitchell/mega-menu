@@ -28,9 +28,13 @@ class PMM_Build_Menu {
         $this->menu_items = wp_get_nav_menu_items($this->menu_object_id);
         $layout = $this->get_layout();
         
-        foreach ($layout as $column => $blocks) :
-            $html.=$this->add_column($column, $blocks);
-        endforeach;
+        $html.='<div id="pmm-menu-'.$this->menu_id.'" class="pmm-menu">';
+        
+            foreach ($layout as $column => $blocks) :
+                $html.=$this->add_column($column, $blocks);
+            endforeach;
+        
+        $html.='</div>';
 
         return $html;
     }
@@ -54,13 +58,7 @@ class PMM_Build_Menu {
     protected function add_column($id, $blocks) {
         $html='';
         
-        $html.='<div id="pmm-column-'.$id.'" class="pmm-column">';
-            $html.='<div class="block-actions">';
-                $html.='<div class="add-block-wrap">';
-                    $html.='<a href="#" class="add-block">Add Block</a>';
-                $html.='</div>';
-            $html.='</div>';
-            
+        $html.='<div id="pmm-column-'.$id.'" class="pmm-column">';            
             foreach ($blocks as $block) :
                 $html.=$this->add_block($id, $block);
             endforeach;
@@ -101,7 +99,7 @@ class PMM_Build_Menu {
 
         foreach ($items as $item) :
             if (isset($item->pmm_item_type) && '' !== $item->pmm_item_type)
-                $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID); // TECHNICALLY SHOULD NOT BE AN ADMIN!!!! WILL FAIL :(
+                $html.='output';
         endforeach;
         
         return $html;

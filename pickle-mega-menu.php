@@ -60,7 +60,6 @@ final class PickleMegaMenu {
         $this->define( 'PMM_VERSION', $this->version );
         $this->define( 'PMM_PATH', plugin_dir_path( __FILE__ ) );
         $this->define( 'PMM_URL', plugin_dir_url( __FILE__ ) );
-
     }
 
     /**
@@ -111,8 +110,8 @@ final class PickleMegaMenu {
         add_action( 'admin_init', array( $this, 'plugin_updater' ) );
         add_action( 'init', array( $this, 'get_settings' ), 99 );
         add_action( 'init', array( $this, 'init' ), 0 );
+*/        
         add_action( 'wp_enqueue_scripts', array( $this, 'scripts_styles' ) );
-*/
     }
 
     /**
@@ -142,7 +141,7 @@ final class PickleMegaMenu {
      * @return void
      */
     public function scripts_styles() {
-        //wp_enqueue_style( 'font-awesome', DM_URL . 'css/font-awesome.min.css', '', '4.7.0' );
+        wp_enqueue_style('pmm-frontend-styles', PMM_URL.'css/pmm-frontend.css', '', $this->version);
     }
 
     /**
