@@ -115,6 +115,11 @@ jQuery( function($) {
     };
     
     var setupExisting = function() {
+        // add column actions
+        $('#pmm-menu-grid .pmm-column').each(function() {
+            addColumnActions($(this).attr('id'));
+        });
+        
         // get all items and loop through to add uid and update options
         $('#pmm-menu-grid .pmm-block').each(function() {
             
@@ -240,6 +245,10 @@ jQuery( function($) {
         $('<div class="pmm-block-actions"><a href="#" class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));       
     };
 
+    var addColumnActions = function(columnId) {       
+        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .block-actions'));       
+    };
+
     // our mega menu function.
     var pmmMegaMenu = {
         init: function() {
@@ -263,6 +272,9 @@ jQuery( function($) {
             var colId=$('.pmm-column').length;
             
             $('<div id="pmm-column-' + colId + '" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
+            
+            // add actions.
+            addColumnActions('pmm-column-' + colId);
             
             // update column width
             updateColumnWidth();                     

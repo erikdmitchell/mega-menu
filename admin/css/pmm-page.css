@@ -54,7 +54,7 @@
     background-color: #F93;
     padding: 10px 15px;
     min-height: 20px;
-} 
+}
 .pmm-menu-grid .pmm-column:last-child {
     margin-right: 0;
 } 
@@ -62,6 +62,9 @@
     overflow: hidden;
     margin-top: 5px;
     margin-bottom: 10px;
+}
+.pmm-menu-grid .pmm-column .block-actions a {
+    color: #fff;
 }
 .pmm-menu-grid .pmm-column .block-actions .add-block-wrap {
     float: right;
