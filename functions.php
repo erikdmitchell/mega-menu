@@ -32,6 +32,16 @@ function pmm_get_nav_menu_items($items, $menu, $args) {
     return $items;
 }
 add_filter('wp_get_nav_menu_items', 'pmm_get_nav_menu_items', 10, 3);
+
+function pmm_override_nav_menu($nav_menu, $args) {
+    if ($args->theme_location != 'primary') // setting?!
+        return $nav_menu;
+
+    $pmm = new PMM_Build_Menu(1183); // setting?!
+    
+    return $pmm->display();
+}
+add_filter('wp_nav_menu', 'pmm_override_nav_menu', 10, 2);
  
 /* Similar to wp_parse_args() just a bit extended to work with multidimensional arrays :) */
 function pmm_wp_parse_args( &$a, $b ) {

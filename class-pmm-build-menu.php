@@ -1,6 +1,6 @@
 <?php
-    
-class PMM_Admin_Build_Menu {
+
+class PMM_Build_Menu {
     
     public $menu_id = 0;
     
@@ -20,7 +20,7 @@ class PMM_Admin_Build_Menu {
     }
     
     public function display() {
-        echo $this->build_menu();
+        return $this->build_menu();
     }
 
     protected function build_menu() {
@@ -39,9 +39,6 @@ class PMM_Admin_Build_Menu {
         $layout = array();
         
         // get column (as key) and array of blocks (as value).
-        if (!isset($this->menu_items) || empty($this->menu_items))
-            return $layout;
-        
         foreach ($this->menu_items as $item) :
             $layout[$item->pmm_column][] = $item->pmm_block;
         endforeach;
@@ -104,7 +101,7 @@ class PMM_Admin_Build_Menu {
 
         foreach ($items as $item) :
             if (isset($item->pmm_item_type) && '' !== $item->pmm_item_type)
-                $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID);
+                $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID); // TECHNICALLY SHOULD NOT BE AN ADMIN!!!! WILL FAIL :(
         endforeach;
         
         return $html;
