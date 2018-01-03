@@ -64,7 +64,7 @@ jQuery( function($) {
             receive: function(event, ui) {
                 // append edit if need be.
                 if (!$(ui.helper).hasClass('editable')) {
-                    $(ui.helper).addClass('editable');            
+                    $(ui.helper).addClass('editable removeable');            
                 }
                 
                 addItemHiddenFields($(ui.helper));              
@@ -106,28 +106,32 @@ jQuery( function($) {
             pmmMegaMenu.addColumn();
             pmmMegaMenu.manualAddBlock(0, 0);          
         } else {
-            // get all items and loop through to add uid and update options
-            $('#pmm-menu-grid .pmm-block').each(function() {
-                
-                // we need this sub loop to get proper index.
-                $(this).find('.pmm-item').each(function(i) {
-                    $el = $(this);
-                               
-                    // update item id.
-                    var blockId = getID($el.parent().attr('id')).join('-');
-                    var itemId = 'pmm-item-' + blockId + '-' + i;
-
-                    $el.attr('id', itemId); // update id.
-                    $el.attr('uid', uniqueID()); // add unique id.
-                    addItemHiddenFields($el); // adds hidden fields.
-                    updateItemOptions($el); // update fields/options. 
-                });
-            }); 
-            
-            // update all item ids and subsequent hidden fields.
-            updateItemIds();
+            setupExisting();
         }
         
+    };
+    
+    var setupExisting = function() {
+        // get all items and loop through to add uid and update options
+        $('#pmm-menu-grid .pmm-block').each(function() {
+            
+            // we need this sub loop to get proper index.
+            $(this).find('.pmm-item').each(function(i) {
+                $el = $(this);
+
+                var blockId = getID($el.parent().attr('id')).join('-');
+                var itemId = 'pmm-item-' + blockId + '-' + i;
+                
+                $el.addClass('editable removable');
+                $el.attr('id', itemId); // update id.
+                $el.attr('uid', uniqueID()); // add unique id.
+                addItemHiddenFields($el); // adds hidden fields.
+                updateItemOptions($el); // update fields/options. 
+            });
+        }); 
+        
+        // update all item ids and subsequent hidden fields.
+        updateItemIds();        
     };
     
     // sets the actual item width.
