@@ -114,17 +114,14 @@ jQuery( function($) {
                     var blockId = getID($el.parent().attr('id')).join('-');
                     var itemId = 'pmm-item-' + blockId + '-' + i;
 
-                    $el.attr('id', itemId);                
-                
+                    $el.attr('id', itemId); // update id.
                     $el.attr('uid', uniqueID()); // add unique id.
-
                     addItemHiddenFields($el); // adds hidden fields.
-                    updateItemOptions($el); // update fields/options.
-                    
+                    updateItemOptions($el); // update fields/options. 
                 });
             }); 
             
-            // update all item ids. (no need?)
+            // update all item ids and subsequent hidden fields.
             updateItemIds();
         }
         
@@ -208,7 +205,7 @@ jQuery( function($) {
     
     // adds hidden fields to item.
     var addItemHiddenFields = function($el) {
-        var fields = ['column', 'block', 'order', 'db_id'];
+        var fields = ['column', 'block', 'order'];
         
         $.each(fields, function(key, value) {
             $('<input>').attr({
