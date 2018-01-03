@@ -222,3 +222,15 @@ class PMM_Admin_Notices {
 }
 	
 PMM_Admin_Notices::instance();
+
+function pmm_add_admin_notice( $notice ) {
+	$cl = PMM_Admin_Notices::instance();
+	
+	return $cl->add_notice( $notice );
+}
+
+function pmm_display_admin_notices( $location = 'default' ) {
+	$cl = PMM_Admin_Notices::instance();
+	
+	return $cl->render_notices( $location );
+}
