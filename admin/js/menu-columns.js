@@ -59,6 +59,7 @@ jQuery( function($) {
         
         // make block (items) sortable.
         $( '.pmm-block' ).sortable({
+            items: '.pmm-item',
             connectWith: '.pmm-block',
             placeholder: 'item-placeholder',
             receive: function(event, ui) {
@@ -273,6 +274,8 @@ jQuery( function($) {
                class: 'pmm-block' 
             }).appendTo($col);
             
+            pmmMegaMenu.addBlockActions('pmm-block-' + colIdNum + '-' + order);
+            
             refreshSortables();
             refreshDraggable();    
         },
@@ -293,6 +296,10 @@ jQuery( function($) {
             e.preventDefault();
             
             $(this).parent('.pmm-item').remove();          
+        },
+        
+        addBlockActions: function(blockId) {
+            $('<div class="pmm-block-actions"><a class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));
         }
         
     };
