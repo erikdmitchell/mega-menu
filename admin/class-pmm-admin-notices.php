@@ -32,7 +32,7 @@ class PMM_Admin_Notices {
 			'message'      => '',
 			'dismissible'  => false,
 			'html'         => '',
-			'location'     => 'default' // not used ?
+			'location'     => 'default'
 		);
 		
 		add_action( 'admin_init' , array( $this, 'admin_init' ) );
@@ -63,6 +63,10 @@ class PMM_Admin_Notices {
 	}
 
 	public function render_notices( $location = 'default' ) {
+		echo $this->get_notices_output( $location );
+	}
+	
+	public function get_notices_output( $location = 'default' ) {
 		if( !$location ) {
 			$location = 'default';
 		}
@@ -72,14 +76,15 @@ class PMM_Admin_Notices {
 		$output_array = array();
 		
 		foreach ( $notices as $notice ) {
-			if( !is_array( $notice ) ) {
+			if ( !is_array( $notice ) ) {
 				$notice = array(
 					'message' => $notice
 				);
 			}
-			if( $notice['html'] ) {
+			
+			if ( $notice['html'] ) {
 				$output_array[] = wp_kses_post( $notice['html'] );
-			} elseif( $notice['message'] ) {
+			} elseif ( $notice['message'] ) {
 				$notice = array_merge( $this->default_notice, $notice );
 				$id = '';
 				if( $notice['id'] ) {
@@ -103,7 +108,7 @@ class PMM_Admin_Notices {
 			}
 		}
 		
-		echo implode( "\n", $output_array );
+		return implode( "\n", $output_array );    	
 	}
 
 	public function save_notices() {
@@ -233,4 +238,10 @@ function pmm_display_admin_notices( $location = 'default' ) {
 	$cl = PMM_Admin_Notices::instance();
 	
 	return $cl->render_notices( $location );
+}
+
+function pmm_get_admin_notices( $location = 'default' ) {
+	$cl = PMM_Admin_Notices::instance();
+	
+	return $cl->get_notices_output( $location );
 }
