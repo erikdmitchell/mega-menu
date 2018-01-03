@@ -144,7 +144,9 @@ class PMM_Admin_Notices {
 			$raw_notices = apply_filters( 'pmm_admin_notices', $raw_notices );
 			
 			// clear all places notices are stored
-			unset( $_SESSION[ $this->session_var ] );
+			if (isset($_SESSION[ $this->session_var ]))
+			    unset( $_SESSION[ $this->session_var ] );
+			    
 			$this->notices = array();
 			remove_all_filters( 'pmm_admin_notices' );
 			$notices = array();
