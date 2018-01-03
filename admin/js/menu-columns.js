@@ -22,7 +22,10 @@ jQuery( function($) {
     var updateColumnWidth = function() {
         var totalCols = $('.pmm-column').length;
         var colWidthPerc = (100 / totalCols) + '%';
+        var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
         var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
+        
+        colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
 
         $('.pmm-column').each(function() {
            $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
