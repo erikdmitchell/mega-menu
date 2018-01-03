@@ -236,7 +236,7 @@ jQuery( function($) {
     };
     
     var addBlockActions = function(blockId) {
-        $('<div class="pmm-block-actions"><a class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));       
+        $('<div class="pmm-block-actions"><a href="#" class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));       
     };
 
     // our mega menu function.
@@ -244,7 +244,8 @@ jQuery( function($) {
         init: function() {
             $(document).on('click', '#pmm-add-column', this.addColumn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
-            $(document).on('click', '.pmm-item .remove-item', this.removeItem);            
+            $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
+            $(document).on('click', '.pmm-block .remove-block', this.removeBlock);                        
             
             setupDefaults();
             
@@ -301,8 +302,14 @@ jQuery( function($) {
         removeItem: function(e) {
             e.preventDefault();
             
-            $(this).parent('.pmm-item').remove();          
-        }
+            $(this).parents('.pmm-item').remove();          
+        },
+        
+        removeBlock: function(e) {
+            e.preventDefault();
+           
+            $(this).parents('.pmm-block').remove();          
+        }        
         
     };
 
