@@ -31,6 +31,8 @@ class PMM_Admin {
         $html.='<div class="wrap">';
         
             $html.='<h1>Pickle Mega Menu</h1>';
+            
+            $html.=pmm_get_admin_notices();
         
             $html.=$this->get_admin_page( 'main' );
         
@@ -105,8 +107,6 @@ class PMM_Admin {
     }
     
     private function update_menu($menu_name='', $menu_id=0) {
-        $messages = array();
-        
         // Add new menu.
         if (0 == $menu_id) :
             $new_menu_title = trim(esc_html($menu_name));
@@ -116,7 +116,11 @@ class PMM_Admin {
 				$_nav_menu_selected_id = wp_update_nav_menu_object( 0, array('menu-name' => $new_menu_title) );
 
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
-					$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+                    pmm_add_admin_notice(array(
+                       'type' => 'error',
+                       'message' => $_nav_menu_selected_id->get_error_message(),
+                       'dismissible' => true, 
+                    ));					
 				} else {
 					$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
 					$nav_menu_selected_id = $_nav_menu_selected_id;
@@ -125,8 +129,12 @@ class PMM_Admin {
 					// Save menu items.
 		  			if ( isset( $_REQUEST['pmm_menu_items'] ) )
                         $this->nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
-
-					$messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ) . '</p></div>';
+					
+                    pmm_add_admin_notice(array(
+                       'type' => 'success',
+                       'message' => sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ),
+                    ));					
+					
 					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
 					exit();
 				} 
@@ -142,7 +150,12 @@ class PMM_Admin {
 			$menu_title = trim( $menu_name );
 			
 			if ( ! $menu_title ) {
-				$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
+                pmm_add_admin_notice(array(
+                   'type' => 'error',
+                   'message' => __( 'Please enter a valid menu name.' ),
+                   'dismissible' => true,
+                ));	
+                    				
 				$menu_title = $_menu_object->name;
 			}
 
@@ -151,7 +164,12 @@ class PMM_Admin {
 				$_nav_menu_selected_id = wp_update_nav_menu_object( $menu_id, array( 'menu-name' => $menu_title ) );
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
 					$_menu_object = $_nav_menu_selected_id;
-					$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+
+                    pmm_add_admin_notice(array(
+                       'type' => 'error',
+                       'message' => $_nav_menu_selected_id->get_error_message(),
+                       'dismissible' => true,
+                    ));						
 				} else {
 					$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
 					$nav_menu_selected_title = $_menu_object->name;
@@ -160,8 +178,8 @@ class PMM_Admin {
 
 			// Update menu items.
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$messages = array_merge( $messages, $this->nav_menu_update_menu_items( $_menu_object->term_id, $nav_menu_selected_title ) );
-
+				$this->nav_menu_update_menu_items( $_menu_object->term_id, $nav_menu_selected_title );
+				
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
 					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
@@ -176,7 +194,6 @@ class PMM_Admin {
     // https://developer.wordpress.org/reference/functions/wp_nav_menu_update_menu_items/
     private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title) {
         $unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
-        $messages = array();
         $menu_items = array();
         
         // Index menu items by db ID
@@ -213,8 +230,11 @@ class PMM_Admin {
    
                 $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( !empty($k['db_id']) ? $k['db_id'] : 0 ), $args );
      
-                if ( is_wp_error( $menu_item_db_id ) ) :
-                    $messages[] = '<div id="message" class="error"><p>' . $menu_item_db_id->get_error_message() . '</p></div>';
+                if ( is_wp_error( $menu_item_db_id ) ) :                    
+                    pmm_add_admin_notice(array(
+                       'type' => 'error',
+                       'message' => $menu_item_db_id->get_error_message(), 
+                    ));                    
                 else :
                     unset( $menu_items[ $menu_item_db_id ] );
                     
@@ -240,16 +260,16 @@ class PMM_Admin {
         }
      
         wp_defer_term_counting( false );
-
-        $messages[] = '<div id="message" class="updated notice is-dismissible"><p>' .
-            // translators: %s: nav menu title.
-            sprintf( __( '%s has been updated.' ),
-                '<strong>' . $nav_menu_selected_title . '</strong>'
-            ) . '</p></div>';
+            
+        pmm_add_admin_notice(array(
+           'type' => 'success',
+           'message' => sprintf( __( '%s has been updated.' ), '<strong>' . $nav_menu_selected_title . '</strong>' ),
+           'dismissible' => true, 
+        ));
      
         unset( $menu_items, $unsorted_menu_items );
    
-        return $messages;
+        return true;
     }
     
     protected function update_menu_item_meta($post_id=0, $item='') {
@@ -290,5 +310,5 @@ class PMM_Admin {
 
         echo $menu->display();
     }
-    
+	   
 }
