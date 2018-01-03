@@ -25,6 +25,8 @@ final class PickleMegaMenu {
     public $version = '1.0.0-alpha';
 
     public $settings = '';
+    
+    public $admin = '';
 
     protected static $_instance = null;
 
@@ -85,9 +87,13 @@ final class PickleMegaMenu {
         include_once(PMM_PATH.'functions.php');
         
         include_once(PMM_PATH.'admin/class-pmm-admin.php');
-        
+        include_once(PMM_PATH.'admin/class-pmm-admin-build-menu.php');        
+        include_once(PMM_PATH.'admin/class-pmm-admin-notices.php');
+        include_once(PMM_PATH.'admin/items/item.php');
+        include_once(PMM_PATH.'admin/items/pages.php');
+                
         if (is_admin()) :
-            new PMM_Admin();
+            $this->admin=new PMM_Admin();
         endif;
     }
 

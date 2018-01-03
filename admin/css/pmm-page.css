@@ -4,23 +4,16 @@
 #pickle-mega-menu-admin .pmm-manage-menus {
     
 }
+#pickle-mega-menu-admin .menu-items-wrap {
+    margin-top: 15px;
+    overflow: hidden;
+}
 #pickle-mega-menu-admin .menu-items-column {
     float: left;
     width: 15%;
     margin-right: 2%;
 }    
-#pickle-mega-menu-admin .menu-items-column .menu-items-container {
-    
-} 
-#pickle-mega-menu-admin .menu-items-column .menu-items-container .menu-items-list {
-    
-} 
-#pickle-mega-menu-admin .menu-items-column .menu-items-container .menu-items-list .pages-list {
-    
-} 
-#pickle-mega-menu-admin .menu-items-column .menu-items-container .menu-items-list .pages-list li {
-    
-}                     
+                   
 #pickle-mega-menu-admin .menu-management-column {
     float: left;
     width: 83%;
@@ -28,7 +21,7 @@
 #pickle-mega-menu-admin .menu-management-column .menu-management {
     
 } 
-#pickle-mega-menu-admin .menu-management-column #pmm-menu-grid {
+#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid-wrap {
     margin-top: 30px;
     margin-bottom: 30px;
     background: #fff;
@@ -40,66 +33,112 @@
 #pickle-mega-menu-admin .menu-options .menu-name {
     float: left;
 }
-#pickle-mega-menu-admin .menu-options .menu-columns {
-    float: left;
-    margin-left: 10px;
-}
-#pickle-mega-menu-admin .menu-options .menu-columns .columns-dropdown {
-    display: none;
-    background-color: #fff;
-    z-index: 9999;
-    width: 50px;
-    padding: 5px 10px;
-}
-#pickle-mega-menu-admin .menu-options .menu-columns:hover .columns-dropdown {
-    display: block;
-}
-#pickle-mega-menu-admin .menu-options .menu-columns .columns-dropdown ul {
-    margin: 0;
-}
-#pickle-mega-menu-admin .menu-options .menu-columns .columns-dropdown ul li {
-    margin-bottom: 0;
-}
-#pickle-mega-menu-admin .menu-options .menu-columns #pmm-menu-columns-selector {
-    font-size: 18px;
-} 
 #pickle-mega-menu-admin .menu-options .save-menu-button {
     float: right;
 }
 
-#pmm-menu-grid {
+#pickle-mega-menu-admin .menu-management-column .menu-columns {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#pickle-mega-menu-admin .menu-management-column .menu-columns .button {
+    float: right;
+}
+
+.pmm-menu-grid {
     overflow: hidden;
 }
-#pmm-menu-grid .column {
-    width: 32%;
+.pmm-menu-grid .pmm-column {
     float: left;
-    margin-right: 2%;
-}  
-#pmm-menu-grid .column .sortable-list {
+    margin-right: 15px;
     background-color: #F93;
-    list-style: none;
-    margin: 0;
-    min-height: 60px;
-    padding: 10px;    
+    padding: 10px 15px;
+    min-height: 20px;
 }
-#pmm-menu-grid .column .sortable-list li {
+.pmm-menu-grid .pmm-column:last-child {
+    margin-right: 0;
+} 
+.pmm-menu-grid .pmm-column .block-actions {
+    overflow: hidden;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.pmm-menu-grid .pmm-column .block-actions a {
+    color: #fff;
+}
+.pmm-menu-grid .pmm-column .block-actions .add-block-wrap {
+    float: right;
+}
+.pmm-menu-grid .pmm-column .block-actions .add-block-wrap a {
+    text-decoration: none;
+    color: #fff;
+}
+.pmm-menu-grid .pmm-block {
+    background: #eee;
+}
+.pmm-menu-grid .pmm-block {
+    background: #eee;
+}
+.pmm-menu-grid .pmm-column .pmm-block,
+.pmm-menu-grid .pmm-column .pmm-block-placeholder {
+    min-height: 40px;
+    padding: 10px; 
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+.pmm-menu-grid .pmm-column .pmm-block-placeholder {
+    border: 1px dashed #000;  
+}
+.pmm-menu-grid .pmm-column .pmm-block .pmm-item,
+.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     background-color: #FFF;
     border: 1px solid #000;
     cursor: move;
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    padding: 20px 0;
-    text-align: center;    
+    padding: 10px 15px;
+    text-align: center;
 }
-#pmm-menu-grid .column .sortable-list li.placeholder {
+.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     border-style: dashed;    
 }
-#pmm-menu-grid .column .sortable-list li.placeholder.level-1,
-#pmm-menu-grid .column .sortable-list li.level-1 {
-    margin-left: 20px;  
+.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions {
+    float: right;
+    margin-top: 10px;
 }
-#pmm-menu-grid .column .sortable-list li.placeholder.level-2,
-#pmm-menu-grid .column .sortable-list li.level-2 {
-    margin-left: 40px;
+.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions a {
+    color: #000;
+}
+
+/** ITEMS **/
+.pmm-item-list {
+    
+}
+.pmm-item-list .pmm-item {
+    overflow: hidden;
+}
+.pmm-item a.edit-item,
+.pmm-item .options {
+    display: none;
+}
+.pmm-item.editable a.edit-item {
+    display: block;
+}
+.pmm-item a.edit-item {
+    float: right;
+    text-decoration: none;
+}
+.pmm-item .remove-item {
+    float: left;
+}
+
+/* pages */
+.pages-list {
+    
+}
+.pages-list .page {
+    background-color: #eee;
+    padding: 5px 10px;
+    margin-bottom: 5px;
 }

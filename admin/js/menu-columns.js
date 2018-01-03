@@ -1,99 +1,340 @@
 jQuery(document).ready(function($) {
  
-   $('#pickle-mega-menu-admin .columns-list li a').on('click', function(e) {
+    // add a column.
+    $('#pickle-mega-menu-admin .columns-list li a').on('click', function(e) {
       e.preventDefault();
       
-      var cols = $(this).data('cols');
-      
-console.log(cols);       
+      // add column       
    });
-    
+   
+   // toggles the edit details for an item.
+   $(document).on('click', '.pmm-block .pmm-item .edit-item', function(e) {
+       e.preventDefault();
+
+       $(this).parent().find('.options').slideToggle();
+   });
+
 });
 
-$( function() {
-    
-    var prevBottom, nextThreshold;
-    
-    $( '.sortable-list' ).sortable({
-        connectWith: '.sortable-list',
-        placeholder: 'placeholder',
-        update: function(event, ui) {
-            // update
-        },
-        start: function(event, ui) {           
-            if(ui.helper.hasClass('level-1')){
-                ui.placeholder.addClass('level-1');
-            }
-            else{ 
-                ui.placeholder.removeClass('level-1');
-            }
-            
-            // Now that the element is complete, we can update...
-            updateSharedVars(ui);
-        },
-        change: function(event, ui) {
-            updateSharedVars(ui);
-        },
-        sort: function(event, ui) {
-            var basePos = $(this).parent().position().left;
-            var pos = ui.position.left - basePos;
-            var offset = ui.helper.offset();
-            
-//console.log(nextThreshold + ' ' + offset.top);                        
-        					// If we overlap the next element, manually shift downwards
+jQuery( function($) {
 
-if( nextThreshold && offset.top > nextThreshold ) {
-    console.log('overlap?');
-						//next.after( ui.placeholder );
-						updateSharedVars( ui );
-						$( this ).sortable( 'refreshPositions' );
-						ui.placeholder.addClass('level-1'); // we need to determine prev item level, then add 1
-					}
-/*
-					if( nextThreshold && offset.top + helperHeight > nextThreshold ) {
-						next.after( ui.placeholder );
-						updateSharedVars( ui );
-						$( this ).sortable( 'refreshPositions' );
-					}
-*/
-					
-//console.log(ui.item.index());        
-            if (ui.helper.hasClass('level-1')) {
-                pos+=20; 
-            }
+    // sets all columns to equal width.
+    var updateColumnWidth = function() {
+        var totalCols = $('.pmm-column').length;
+        var colWidthPerc = (100 / totalCols) + '%';
+        var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
+        var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
+        
+        colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
+
+        $('.pmm-column').each(function() {
+           $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
+        });
+        
+        adjustItemsWidth();
+    }
     
-            if (pos >= 32 && !ui.helper.hasClass('level-1')) {
-                ui.placeholder.addClass('level-1');
-                ui.helper.addClass('level-1');
-            } else if (pos < 25 && ui.helper.hasClass('level-1')) {
-                ui.placeholder.removeClass('level-1');
-                ui.helper.removeClass('level-1');
-            } 
+    // gets id from an id string.
+    var getID = function(string) {
+        var pattern = /[0-9]/g;
+        var matches = string.match(pattern);
         
-        
-        },
-        stop: function(event, ui) {
-            // first item has to be top level //
-            if (ui.item.index() == 0) {
-                ui.item.removeClass('level-1');
-            }
+        if (matches.length == 1) {
+            return matches[0];
         }
-    }).disableSelection();
 
-	function updateSharedVars(ui) {
-		var depth;
+        return matches;
+    };
+    
+    // allows us to rerun our sortables.
+    var refreshSortables = function() {
+        // make column (blocks) sortable.
+        $( '.pmm-column' ).sortable({
+            items: '.pmm-block',
+            connectWith: '.pmm-column',
+            placeholder: 'pmm-block-placeholder',
+            stop: function(event, ui) {
+                updateBlockIds();                
+            }            
+        }).disableSelection();  
+        
+        // make block (items) sortable.
+        $( '.pmm-block' ).sortable({
+            items: '.pmm-item',
+            connectWith: '.pmm-block',
+            placeholder: 'item-placeholder',
+            receive: function(event, ui) {
+                // append edit if need be.
+                if (!$(ui.helper).hasClass('editable')) {
+                    $(ui.helper).addClass('editable');            
+                }
+                
+                addItemHiddenFields($(ui.helper));
+                addItemActions($(ui.helper)); // add action icons.              
+            },           
+            stop: function(event, ui) {
+                // setup our id here.                               
+                setItemId(ui);                     
+            }
+        }).disableSelection();               
+    };
+    
+    // allows us to rerun our draggables.
+    var refreshDraggable = function() {
+        // list items are draggable to blocks.
+        $( '.pmm-menu-items-list .pmm-item-list .pmm-item' ).draggable({
+            connectToSortable: '.pmm-block',
+            'helper': 'clone',
+            revert: 'invalid',
+            start: function(event, ui) {},
+            drag: function(event, ui) {},
+            stop: function(event, ui) {
+                setItemWidth($(ui.helper)); // on drop, set item width.
+                $(ui.helper).height('auto'); // sets height to auto to allow for options to toggle properly.                   
+            }        
+        });        
+    };
+    
+    // sets item width to block width.
+    var adjustItemsWidth = function() {
+        $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
+           setItemWidth($(this));
+        });
+    };
+    
+    // adds a default column and block on empty menu setup, else we tweak what has been loaded.
+    var setupDefaults = function() {
+        
+        if (!$('#pmm-menu-grid .pmm-column').length) {
+            pmmMegaMenu.addColumn();
+            pmmMegaMenu.manualAddBlock(0, 0);          
+        } else {
+            setupExisting();
+        }
+        
+    };
+    
+    var setupExisting = function() {
+        // add column actions
+        $('#pmm-menu-grid .pmm-column').each(function() {
+            addColumnActions($(this).attr('id'));
+        });
+        
+        // get all items and loop through to add uid and update options
+        $('#pmm-menu-grid .pmm-block').each(function() {
+            
+            // we need this sub loop to get proper index.
+            $(this).find('.pmm-item').each(function(i) {
+                $el = $(this);
 
-		prev = ui.placeholder.prev( '.item' );
-		next = ui.placeholder.next( '.item' );
-//console.log(prev);
-//console.log(next);
-		// Make sure we don't select the moving item.
-		if( prev[0] == ui.item[0] ) prev = prev.prev( '.item' );
-		if( next[0] == ui.item[0] ) next = next.next( '.item' );
+                var blockId = getID($el.parent().attr('id')).join('-');
+                var itemId = 'pmm-item-' + blockId + '-' + i;
+                
+                $el.addClass('editable');
+                $el.attr('id', itemId); // update id.
+                $el.attr('uid', uniqueID()); // add unique id.
+                addItemHiddenFields($el); // adds hidden fields.
+                updateItemOptions($el); // update fields/options. 
+                addItemActions($el); // add action icons. 
+            });
+            
+            addBlockActions($(this).attr('id'));
+        }); 
+        
+        // update all item ids and subsequent hidden fields.
+        updateItemIds();        
+    };
+    
+    // sets the actual item width.
+    var setItemWidth = function($el) {
+        var fullWidth = $el.parent().width();
+        var itemPadding = parseInt($el.css('padding-right')) + parseInt($el.css('padding-left'));
 
-		prevBottom = (prev.length) ? prev.offset().top + prev.height() : 0;
-		nextThreshold = (next.length) ? next.offset().top + next.height() / 3 : 0;
-		//minDepth = (next.length) ? next.menuItemDepth() : 0;
-	}
+        $el.width(fullWidth - itemPadding);        
+    };
+    
+    // sets the id of our item within a block.
+    var setItemId = function(ui) {
+        var $el = $(ui.item);       
+        var blockId = getID($el.parent().attr('id')).join('-');
+        var itemId = 'pmm-item-' + blockId + '-' + ui.item.index();
+        
+        $el.attr('id', itemId);
+        
+        // set unique id.
+        $el.attr('uID', uniqueID());
+        
+        // update fields/options.
+        updateItemOptions($el);
+        
+        // update all item ids.
+        updateItemIds();
+    };
+    
+    // update all item ids.
+    var updateItemIds = function() {
+        var pattern = /.*-/g;
+        
+        $('.pmm-block').each(function(blockIndex) {
+            var $block = $(this);
+            
+            $block.find('.pmm-item').each(function(itemIndex) {
+                var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
+                var uId = $(this).attr('uId');
+                var baseId = $(this).attr('id').match(pattern)[0];
 
-} );
+                $(this).attr('id', baseId + itemIndex);
+                
+                // update column, block and order (pos).
+                $(this).find('input[name="pmm_menu_items[' + uId + '][column]"]').val(itemLocation[0]);
+                $(this).find('input[name="pmm_menu_items[' + uId + '][block]"]').val(itemLocation[1]);
+                $(this).find('input[name="pmm_menu_items[' + uId + '][order]"]').val(itemLocation[2]);                
+            });           
+        });
+    };
+    
+    // generates a unique id.
+    var uniqueID = function() {
+        return '_' + Math.random().toString(36).substr(2, 9);
+    };
+    
+    // update block ids.
+    var updateBlockIds = function() {      
+        $('.pmm-column').each(function(colIndex) {
+            var $col = $(this); 
+            var colIdNum = getID($col.attr('id'));
+           
+            $col.find('.pmm-block').each(function(blockIndex) {
+                $(this).attr('id', 'pmm-block-' + colIdNum + '-' + blockIndex);
+            });
+        });
+    }; 
+    
+    // updates item options with the proper name.
+    var updateItemOptions = function($el) {
+        var uId = $el.attr('uid');
+
+        $el.find(':input').each(function() {
+            var name = $(this).attr('name');
+            
+            $(this).attr('name', 'pmm_menu_items' + '[' + uId + ']' + '[' + name + ']');
+        });        
+    };
+    
+    // adds hidden fields to item.
+    var addItemHiddenFields = function($el) {
+        var fields = ['column', 'block', 'order'];
+        
+        $.each(fields, function(key, value) {
+            $('<input>').attr({
+                type: 'hidden',
+                id: value,
+                name: value
+            }).appendTo($el);
+        });
+    };
+    
+    var addItemActions = function($el) {
+        $('<a/>', {
+            href: '',
+            class: 'remove-item dashicons dashicons-trash' 
+        }).appendTo($el);         
+    };
+    
+    var addBlockActions = function(blockId) {
+        $('<div class="pmm-block-actions"><a href="#" class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));       
+    };
+
+    var addColumnActions = function(columnId) {       
+        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .block-actions'));       
+    };
+
+    // our mega menu function.
+    var pmmMegaMenu = {
+        init: function() {
+            $(document).on('click', '#pmm-add-column', this.addColumn);
+            $(document).on('click', '.pmm-column .add-block', this.addBlock);
+            $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
+            $(document).on('click', '.pmm-block .remove-block', this.removeBlock);
+            $(document).on('click', '.pmm-column .remove-column', this.removeColumn);                                    
+            
+            setupDefaults();
+            
+            updateColumnWidth();
+            refreshSortables(); 
+            refreshDraggable();         
+        },
+        
+        addColumn: function(e) {
+            if (typeof e !== 'undefined') {
+                e.preventDefault();
+            }           
+            
+            var colId=$('.pmm-column').length;
+            
+            $('<div id="pmm-column-' + colId + '" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
+            
+            // add actions.
+            addColumnActions('pmm-column-' + colId);
+            
+            // update column width
+            updateColumnWidth();                     
+        },
+        
+        addBlock: function(e) {
+            if (typeof e !== 'undefined') {
+                e.preventDefault();
+            }
+          
+            var $col = $(this).parents('.pmm-column');
+            var colIdNum = getID($col.attr('id'));
+            var order = $col.find('.pmm-block').length;
+
+            $('<div/>', {
+               id: 'pmm-block-' + colIdNum + '-' + order,
+               class: 'pmm-block' 
+            }).appendTo($col);
+            
+            addBlockActions('pmm-block-' + colIdNum + '-' + order);
+            
+            refreshSortables();
+            refreshDraggable();    
+        },
+        
+        manualAddBlock: function(colIdNum, order) {
+            $col=$('#pmm-column-' + colIdNum);
+
+            $('<div/>', {
+               id: 'pmm-block-' + colIdNum + '-' + order,
+               class: 'pmm-block' 
+            }).appendTo($col);
+            
+            refreshSortables();
+            refreshDraggable();            
+        },
+        
+        removeItem: function(e) {
+            e.preventDefault();
+            
+            $(this).parents('.pmm-item').remove();          
+        },
+        
+        removeBlock: function(e) {
+            e.preventDefault();
+           
+            $(this).parents('.pmm-block').remove();          
+        },        
+
+        removeColumn: function(e) {
+            e.preventDefault();
+           
+            $(this).parents('.pmm-column').remove(); 
+            
+            updateColumnWidth();         
+        }
+        
+    };
+
+    pmmMegaMenu.init();
+    
+});
