@@ -31,8 +31,8 @@ class PMM_Item_Pages extends PMM_Item {
             $html.=$this->display_options(array(
                 'post_title' => get_the_title($id),
             ));
-            $html.='<input type="hidden" name="page_id" value="'.$id.'" />';
-            $html.='<input type="hidden" name="item_type" value="'.$this->slug.'" />';
+            $html.='<input type="hidden" name="id" value="'.$id.'" />';
+            $html.='<input type="hidden" name="item_type" value="'.$this->slug.'" />';           
         $html.='</div>';    	
         
         return $html;
