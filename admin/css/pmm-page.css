@@ -80,7 +80,8 @@
 .pmm-menu-grid .pmm-column .pmm-block-placeholder {
     min-height: 40px;
     padding: 10px; 
-    margin-bottom: 15px;   
+    margin-bottom: 15px;
+    overflow: hidden;
 }
 .pmm-menu-grid .pmm-column .pmm-block-placeholder {
     border: 1px dashed #000;  
@@ -96,11 +97,12 @@
     padding: 10px 15px;
     text-align: center;
 }
-.pmm-menu-grid .pmm-column .pmm-block .pmm-item:last-child {
-    margin-bottom: 0;
-}
 .pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
     border-style: dashed;    
+}
+.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions {
+    float: right;
+    margin-top: 10px;
 }
 .pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions a {
     color: #000;
