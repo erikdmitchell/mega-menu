@@ -82,9 +82,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 
                         // If item has_children add atts to a.
                         if ( $args->has_children && $depth === 0 ) {
-                                //$atts['href']                   = '#';
                                 $atts['href'] = ! empty( $item->url ) ? $item->url : '';
-                                //$atts['data-toggle']        = 'dropdown'; // "disables" click on menu item
                                 $atts['class']                        = 'dropdown-toggle';
                         } else {
                                 $atts['href'] = ! empty( $item->url ) ? $item->url : '';
@@ -152,17 +150,17 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
          * @return null Null on failure with no changes to parameters.
          */
         public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
-        if ( ! $element )
-            return;
-
-        $id_field = $this->db_fields['id'];
-
-        // Display this element.
-        if ( is_object( $args[0] ) )
-           $args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] );
-
-        parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
-    }
+            if ( ! $element )
+                return;
+    
+            $id_field = $this->db_fields['id'];
+    
+            // Display this element.
+            if ( is_object( $args[0] ) )
+               $args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] );
+    
+            parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+        }
 
         /**
          * Menu Fallback
