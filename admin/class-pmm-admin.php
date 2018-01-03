@@ -31,6 +31,8 @@ class PMM_Admin {
         $html.='<div class="wrap">';
         
             $html.='<h1>Pickle Mega Menu</h1>';
+            
+            $html.=$this->get_notices();
         
             $html.=$this->get_admin_page( 'main' );
         
@@ -289,6 +291,12 @@ class PMM_Admin {
         $menu = new PMM_Admin_Build_Menu($menu_id);
 
         echo $menu->display();
+    }
+    
+    public function get_notices() {
+        $html='';
+        
+        return "admin notices<br>";        
     }
     
 }
