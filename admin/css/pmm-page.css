@@ -118,6 +118,9 @@
     float: right;
     text-decoration: none;
 }
+.pmm-item .remove-item {
+    float: left;
+}
 
 /* pages */
 .pages-list {

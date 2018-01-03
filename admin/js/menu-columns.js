@@ -64,10 +64,11 @@ jQuery( function($) {
             receive: function(event, ui) {
                 // append edit if need be.
                 if (!$(ui.helper).hasClass('editable')) {
-                    $(ui.helper).addClass('editable removeable');            
+                    $(ui.helper).addClass('editable');            
                 }
                 
-                addItemHiddenFields($(ui.helper));              
+                addItemHiddenFields($(ui.helper));
+                addItemActions($(ui.helper)); // add action icons.              
             },           
             stop: function(event, ui) {
                 // setup our id here.                               
@@ -122,11 +123,12 @@ jQuery( function($) {
                 var blockId = getID($el.parent().attr('id')).join('-');
                 var itemId = 'pmm-item-' + blockId + '-' + i;
                 
-                $el.addClass('editable removable');
+                $el.addClass('editable');
                 $el.attr('id', itemId); // update id.
                 $el.attr('uid', uniqueID()); // add unique id.
                 addItemHiddenFields($el); // adds hidden fields.
                 updateItemOptions($el); // update fields/options. 
+                addItemActions($el); // add action icons. 
             });
         }); 
         
@@ -222,12 +224,20 @@ jQuery( function($) {
             }).appendTo($el);
         });
     };
+    
+    var addItemActions = function($el) {
+        $('<a/>', {
+            href: '',
+            class: 'remove-item dashicons dashicons-trash' 
+        }).appendTo($el);         
+    }
 
     // our mega menu function.
     var pmmMegaMenu = {
         init: function() {
             $(document).on('click', '#pmm-add-column', this.addColumn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
+            $(document).on('click', '.pmm-item .remove-item', this.removeItem);            
             
             setupDefaults();
             
@@ -277,6 +287,12 @@ jQuery( function($) {
             
             refreshSortables();
             refreshDraggable();            
+        },
+        
+        removeItem: function(e) {
+            e.preventDefault();
+            
+            $(this).parent('.pmm-item').remove();          
         }
         
     };
