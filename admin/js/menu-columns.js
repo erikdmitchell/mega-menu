@@ -85,18 +85,15 @@ jQuery( function($) {
                 if (!$(ui.helper).hasClass('editable')) {
                     $(ui.helper).addClass('editable');            
                 }
-console.log('recieve item');                
+         
                 addItemHiddenFields($(ui.helper));
                 addItemActions($(ui.helper)); // add action icons. 
                 
                 setItemId(ui);             
             },           
             stop: function(event, ui) {
-                // setup our id here.                               
-                //setItemId(ui);                     
-                
-                        // update all item ids.
-        //updateItemIds();
+                // update all item ids.
+                updateItemIds();
             }
         }).disableSelection();               
     };
@@ -208,13 +205,14 @@ console.log('recieve item');
             var $block = $(this);
             
             $block.find('.pmm-item').each(function(itemIndex) {
-                var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
                 var uId = $(this).attr('uId');
                 var baseId = $(this).attr('id').match(pattern)[0];
 
                 $(this).attr('id', baseId + itemIndex);
-                
+
                 // update column, block and order (pos).
+                var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
+           
                 $(this).find('input[name="pmm_menu_items[' + uId + '][column]"]').val(itemLocation[0]);
                 $(this).find('input[name="pmm_menu_items[' + uId + '][block]"]').val(itemLocation[1]);
                 $(this).find('input[name="pmm_menu_items[' + uId + '][order]"]').val(itemLocation[2]);                
