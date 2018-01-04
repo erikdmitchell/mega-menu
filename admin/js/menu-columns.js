@@ -240,9 +240,9 @@ jQuery( function($) {
     var updateColumnIDs = function() {      
         $('.pmm-column').each(function(colIndex) {
             var $col = $(this); 
-            var ids = getID($col.attr('id'));
+            var colID = getID($col.attr('id'));
             
-            $(this).attr('id', 'pmm-column-' + ids[0] + '-' + ids[1]);           
+            $(this).attr('id', 'pmm-column-' + colID);
         });
     }; 
     
@@ -325,19 +325,19 @@ console.log('close');
         },
         
         loadSubmenu: function(submenuID) {
-            $('.pmm-menu-grid #pmm-add-column').attr('data-submenu', submenuID);
+            //$('.pmm-menu-grid #pmm-add-column').attr('data-submenu', submenuID);
 
             //if (!$('#pmm-menu-grid .pmm-column').length) {
-                pmmMegaMenu.addColumn(submenuID);
+                pmmMegaMenu.addColumn();
                 pmmMegaMenu.manualAddBlock(0, 0);          
             //} else {
                 //setupExisting();
             //}            
         },
         
-        addColumn: function(submenuID) {            
+        addColumn: function() {            
             var colNum=$('.pmm-column').length;
-            var colID = 'pmm-column-' + submenuID + '-' + colNum;
+            var colID = 'pmm-column-' + colNum;
             
             $('<div id="' + colID +'" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
             
@@ -385,7 +385,7 @@ console.log('close');
                 e.preventDefault();
             } 
             
-            pmmMegaMenu.addColumn($(this).data('submenu'));                    
+            pmmMegaMenu.addColumn();                    
         },
         
         removeItem: function(e) {
