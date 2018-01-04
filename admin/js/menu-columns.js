@@ -235,6 +235,16 @@ jQuery( function($) {
             });
         });
     }; 
+
+    // update column ids.
+    var updateColumnIDs = function() {      
+        $('.pmm-column').each(function(colIndex) {
+            var $col = $(this); 
+            var ids = getID($col.attr('id'));
+            
+            $(this).attr('id', 'pmm-column-' + ids[0] + '-' + ids[1]);           
+        });
+    }; 
     
     // updates item options with the proper name.
     var updateItemOptions = function($el) {
@@ -395,6 +405,7 @@ console.log('close');
            
             $(this).parents('.pmm-column').remove(); 
             
+            updateColumnIDs();
             updateColumnWidth();         
         }
         
