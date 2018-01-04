@@ -85,13 +85,18 @@ jQuery( function($) {
                 if (!$(ui.helper).hasClass('editable')) {
                     $(ui.helper).addClass('editable');            
                 }
-                
+console.log('recieve item');                
                 addItemHiddenFields($(ui.helper));
-                addItemActions($(ui.helper)); // add action icons.              
+                addItemActions($(ui.helper)); // add action icons. 
+                
+                setItemId(ui);             
             },           
             stop: function(event, ui) {
                 // setup our id here.                               
-                setItemId(ui);                     
+                //setItemId(ui);                     
+                
+                        // update all item ids.
+        //updateItemIds();
             }
         }).disableSelection();               
     };
@@ -172,10 +177,11 @@ jQuery( function($) {
     
     // sets the id of our item within a block.
     var setItemId = function(ui) {
-        var $el = $(ui.item);       
+        var $el = $(ui.helper);
         var blockId = getID($el.parent().attr('id')).join('-');
         var itemId = 'pmm-item-' + blockId + '-' + ui.item.index();
-        
+
+        // set id.
         $el.attr('id', itemId);
         
         // set unique id.
@@ -183,9 +189,6 @@ jQuery( function($) {
         
         // update fields/options.
         updateItemOptions($el);
-        
-        // update all item ids.
-        updateItemIds();
     };
     
     // set primary navigation item id.
