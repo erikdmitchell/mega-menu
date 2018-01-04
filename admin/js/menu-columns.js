@@ -57,11 +57,12 @@ jQuery( function($) {
                 // append edit if need be.
                 if (!$(ui.helper).hasClass('add-submenu')) {
                     $(ui.helper).addClass('add-submenu');            
-                }
-                
-                //addItemHiddenFields($(ui.helper));
-                //addItemActions($(ui.helper)); // add action icons.              
-            },            
+                }             
+            },
+            stop: function(event, ui) {
+                // setup our id here.                               
+                setNavigationItemId(ui);                     
+            }        
         }).disableSelection(); 
         
         // make column (blocks) sortable.
@@ -119,7 +120,7 @@ jQuery( function($) {
     };
     
     // adds a default column and block on empty menu setup, else we tweak what has been loaded.
-    var setupDefaults = function() {
+    var setupDefaults = function() { // MY BE ABLE TO REMOVE
         
         if (!$('#pmm-menu-grid .pmm-column').length) {
             pmmMegaMenu.addColumn();
@@ -185,6 +186,15 @@ jQuery( function($) {
         
         // update all item ids.
         updateItemIds();
+    };
+    
+    // set primary navigation item id.
+    var setNavigationItemId = function(ui) {
+        var $el = $(ui.item);       
+        var itemId = 'pmm-navigation-item-' + ui.item.index();
+        
+        $el.attr('id', itemId);
+        $el.addClass('pmm-navigation-item'); // also add a class
     };
     
     // update all item ids.
@@ -269,15 +279,15 @@ jQuery( function($) {
     var pmmMegaMenu = {
         init: function() {
             $(document).on('click', '#pmm-menu-main-navigation .pmm-item', this.toggleSubmenu);
-            $(document).on('click', '#pmm-add-column', this.addColumn);
+            $(document).on('click', '#pmm-add-column', this.addColumnBtn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
             $(document).on('click', '.pmm-block .remove-block', this.removeBlock);
             $(document).on('click', '.pmm-column .remove-column', this.removeColumn);                                    
             
-            setupDefaults();
+            //setupDefaults();
             
-            updateColumnWidth();
+            //updateColumnWidth();
             refreshSortables(); 
             refreshDraggable();         
         },
@@ -290,13 +300,13 @@ jQuery( function($) {
                 pmmMegaMenu.closeSubmenu();
             } else {
                 $(this).addClass('show-submenu');                
-                pmmMegaMenu.openSubmenu();
+                pmmMegaMenu.openSubmenu($(this));
             }
         },
         
-        openSubmenu: function() {
-console.log('open');
-            $('.pmm-menu-grid').show(); // show grid            
+        openSubmenu: function($el) {
+            $('.pmm-menu-grid').show(); // show grid.
+            pmmMegaMenu.loadSubmenu(getID($el.attr('id'))); // get the submenu.
         },
         
         closeSubmenu: function() {
@@ -304,17 +314,25 @@ console.log('close');
             $('.pmm-menu-grid').hide(); // hide grid        
         },
         
-        addColumn: function(e) {
-            if (typeof e !== 'undefined') {
-                e.preventDefault();
-            }           
+        loadSubmenu: function(submenuID) {
+            $('.pmm-menu-grid #pmm-add-column').attr('data-submenu', submenuID);
+
+            //if (!$('#pmm-menu-grid .pmm-column').length) {
+                pmmMegaMenu.addColumn(submenuID);
+                pmmMegaMenu.manualAddBlock(0, 0);          
+            //} else {
+                //setupExisting();
+            //}            
+        },
+        
+        addColumn: function(submenuID) {            
+            var colNum=$('.pmm-column').length;
+            var colID = 'pmm-column-' + submenuID + '-' + colNum;
             
-            var colId=$('.pmm-column').length;
-            
-            $('<div id="pmm-column-' + colId + '" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
+            $('<div id="' + colID +'" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
             
             // add actions.
-            addColumnActions('pmm-column-' + colId);
+            addColumnActions(colID);
             
             // update column width
             updateColumnWidth();                     
@@ -350,6 +368,14 @@ console.log('close');
             
             refreshSortables();
             refreshDraggable();            
+        },
+
+        addColumnBtn: function(e) {
+            if (typeof e !== 'undefined') {
+                e.preventDefault();
+            } 
+            
+            pmmMegaMenu.addColumn($(this).data('submenu'));                    
         },
         
         removeItem: function(e) {
