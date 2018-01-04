@@ -76,13 +76,18 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                         </span> 
                     </div>  
                     
-                    <div class="pmm-menu-grid-wrap">  
+                    <div class="pmm-menu-grid-wrap">
                         
-                        <div class="menu-columns">
-                            <a href="#" id="pmm-add-column" class="button">Add Column</a>
-                        </div> 
-                                      
+                        <div class="description">Drag the primary navigation items. Click the arrow to open and close the submenu.</div> 
+                        
+                        <div id="pmm-menu-main-navigation" class="pmm-menu-main-navigation"></div> 
+                                  
                         <div id="pmm-menu-grid" class="pmm-menu-grid">
+                            
+                            <div class="menu-columns">
+                                <a href="#" id="pmm-add-column" class="button">Add Column</a>
+                            </div> 
+                            
                             <?php PickleMegaMenu()->admin->load_mega_menu($nav_menu_selected_id); ?>
                         </div>
                     </div>

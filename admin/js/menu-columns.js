@@ -48,6 +48,22 @@ jQuery( function($) {
     
     // allows us to rerun our sortables.
     var refreshSortables = function() {
+        
+        // make primary navigation items sortable.
+        $( '#pmm-menu-main-navigation' ).sortable({
+            items: '.pmm-item',
+            placeholder: 'pmm-main-navigation-item-placeholder',           
+            receive: function(event, ui) {
+                // append edit if need be.
+                if (!$(ui.helper).hasClass('add-submenu')) {
+                    $(ui.helper).addClass('add-submenu');            
+                }
+                
+                //addItemHiddenFields($(ui.helper));
+                //addItemActions($(ui.helper)); // add action icons.              
+            },            
+        }).disableSelection(); 
+        
         // make column (blocks) sortable.
         $( '.pmm-column' ).sortable({
             items: '.pmm-block',
@@ -83,7 +99,7 @@ jQuery( function($) {
     var refreshDraggable = function() {
         // list items are draggable to blocks.
         $( '.pmm-menu-items-list .pmm-item-list .pmm-item' ).draggable({
-            connectToSortable: '.pmm-block',
+            connectToSortable: '.pmm-block, #pmm-menu-main-navigation',
             'helper': 'clone',
             revert: 'invalid',
             start: function(event, ui) {},
@@ -233,7 +249,7 @@ jQuery( function($) {
             }).appendTo($el);
         });
     };
-    
+        
     var addItemActions = function($el) {
         $('<a/>', {
             href: '',
@@ -252,6 +268,7 @@ jQuery( function($) {
     // our mega menu function.
     var pmmMegaMenu = {
         init: function() {
+            $(document).on('click', '#pmm-menu-main-navigation .pmm-item', this.toggleSubmenu);
             $(document).on('click', '#pmm-add-column', this.addColumn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
@@ -263,6 +280,28 @@ jQuery( function($) {
             updateColumnWidth();
             refreshSortables(); 
             refreshDraggable();         
+        },
+        
+        toggleSubmenu: function(e) {
+            e.preventDefault();
+            
+            if ($(this).hasClass('show-submenu')) {
+                $(this).removeClass('show-submenu');
+                pmmMegaMenu.closeSubmenu();
+            } else {
+                $(this).addClass('show-submenu');                
+                pmmMegaMenu.openSubmenu();
+            }
+        },
+        
+        openSubmenu: function() {
+console.log('open');
+            $('.pmm-menu-grid').show(); // show grid            
+        },
+        
+        closeSubmenu: function() {
+console.log('close');    
+            $('.pmm-menu-grid').hide(); // hide grid        
         },
         
         addColumn: function(e) {

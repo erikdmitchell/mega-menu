@@ -21,12 +21,6 @@
 #pickle-mega-menu-admin .menu-management-column .menu-management {
     
 } 
-#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid-wrap {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    background: #fff;
-    padding: 15px;
-}
 #pickle-mega-menu-admin .menu-options {
     overflow: hidden;
 }
@@ -45,8 +39,52 @@
     float: right;
 }
 
+#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid-wrap {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 15px;
+}
+#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid-wrap .description {
+    margin-bottom: 10px;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation {
+    //border: 1px dashed #000;
+    min-height: 30px;
+    margin-bottom: 15px;
+    //padding: 5px;
+    overflow: hidden;
+}
+#pickle-mega-menu-admin .pmm-main-navigation-item-placeholder {
+    border-style: dashed;
+    padding: 5px 10px;
+    float: left;
+    margin-right: 2%;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-item {
+    border: 1px solid #000;
+    padding: 5px 10px;
+    float: left;
+    max-width: 13%;
+    margin-right: 2%;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-item.add-submenu:after {
+    content: "\f140";
+    float: right;
+    font-family: 'dashicons';
+    cursor: pointer;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-item.show-submenu:after {
+    content: "\f142";
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-item.show-submenu {
+    border-color: green;
+    background-color: green;
+    color: #fff;
+}
 .pmm-menu-grid {
     overflow: hidden;
+    display: none;
 }
 .pmm-menu-grid .pmm-column {
     float: left;
