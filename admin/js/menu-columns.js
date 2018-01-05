@@ -193,9 +193,24 @@ jQuery( function($) {
     var setNavigationItemId = function(ui) {
         var $el = $(ui.item);       
         var itemId = 'pmm-navigation-item-' + ui.item.index();
+        var uID = uniqueID();
         
-        $el.attr('id', itemId);
-        $el.addClass('pmm-navigation-item'); // also add a class
+        $el.attr('id', itemId); // set id.
+        $el.addClass('pmm-navigation-item'); // also add a class.
+        
+        // set unique id.
+        $el.attr('uID', uID);
+        
+        // update fields/options.
+        updateItemOptions($el);
+        
+        // add type so we know it's primary nav.
+        $('<input>').attr({
+            type: 'hidden',
+            //id: 'type',
+            name: 'pmm_menu_items[' + uID + '][type]',
+            value: 'primary'
+        }).appendTo($el);        
     };
     
     // update all item ids.
