@@ -9,13 +9,15 @@ class PMM_Admin {
         add_action('admin_menu', array($this, 'menu'));
         add_action('admin_init', array($this, 'select_menu'));
         add_action('admin_init', array($this, 'register_items'));
+        add_action('wp_ajax_pmm_load_menu', array($this, 'ajax_load_menu'));
     }
     
     public function scripts_styles() {
         wp_enqueue_script('jquery-ui-draggable');
         wp_enqueue_script('jquery-ui-accordion');
         wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);
-    
+        wp_enqueue_script('pmm-menu-ajax', PMM_URL.'admin/js/ajax.js', array('pmm-menu-columns'), '0.1.0', true);
+            
         wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-page.css', '', PMM_VERSION);         
     }
     
@@ -106,11 +108,15 @@ class PMM_Admin {
             exit();        
         endif;    
     }
-    
-    public function load_mega_menu($menu_id=0) {
-        $menu = new PMM_Admin_Build_Menu($menu_id);
 
-        echo $menu->display();
-    }
+    public function ajax_load_menu() {
+        $menu = new PMM_Admin_Build_Menu($_POST['id']);
+        
+        $primary_nav_html = $menu->build_primary_nav();
+print_r($primary_nav_html);        
+echo 'ajax load menu return output';        
+
+        wp_die();        
+    }   
 	   
 }

@@ -122,9 +122,16 @@ jQuery( function($) {
         });
     };
     
-    // adds a default column and block on empty menu setup, else we tweak what has been loaded.
-    var setupDefaults = function() { // MY BE ABLE TO REMOVE
-        
+    // if there is an existing menu, tweak what has been loaded.
+    var loadMenu = function() {
+console.log('load menu in menu-columns.js');
+        pmmMegaMenuAJAX.loadMenu(function(response) {
+console.log('the following is the return');    
+console.log(cbvar);
+        });
+
+// this needs to run after load menu to determine what to do with passed html info for primary nav        
+console.log('post menu load');        
         if (!$('#pmm-menu-grid .pmm-column').length) {
             pmmMegaMenu.addColumn();
             pmmMegaMenu.manualAddBlock(0, 0);          
@@ -356,9 +363,9 @@ jQuery( function($) {
             $(document).on('click', '.pmm-block .remove-block', this.removeBlock);
             $(document).on('click', '.pmm-column .remove-column', this.removeColumn);                                    
             
-            //setupDefaults();
+            loadMenu();
             
-            //updateColumnWidth();
+            updateColumnWidth();
             refreshSortables(); 
             refreshDraggable();         
         },

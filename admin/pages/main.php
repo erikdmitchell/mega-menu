@@ -6,6 +6,9 @@ $nav_menu_selected_id = isset( $_REQUEST['menu'] ) ? (int) $_REQUEST['menu'] : 0
 $nav_menu_object = wp_get_nav_menu_object($nav_menu_selected_id);
 $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
     
+// load menu
+//PickleMegaMenu()->admin->load_menu($nav_menu_selected_id);
+                            
 // Get existing menu locations assignments
 //$locations = get_registered_nav_menus();
 //$menu_locations = get_nav_menu_locations();
@@ -88,7 +91,6 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                                 <a href="#" id="pmm-add-column" class="button">Add Column</a>
                             </div> 
                             
-                            <?php PickleMegaMenu()->admin->load_mega_menu($nav_menu_selected_id); ?>
                         </div>
                     </div>
     

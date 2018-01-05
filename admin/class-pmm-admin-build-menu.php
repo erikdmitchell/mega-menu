@@ -7,8 +7,10 @@ class PMM_Admin_Build_Menu {
     public $menu_object_id = 0;
     
     public $menu_items = '';
+    
+    public $primary_nav = '';
         
-    public function __construct($menu_id=0) {
+    public function __construct($menu_id=0) {        
         $this->menu_id = $menu_id;
         
         $menu_object = wp_get_nav_menu_object($menu_id);
@@ -19,6 +21,12 @@ class PMM_Admin_Build_Menu {
         $this->menu_object_id = $menu_object->term_id;
     }
     
+/*
+    public function display_primary_nav() {
+        echo $this->build_primary_nav();
+    }
+*/
+    
     public function display() {
         echo $this->build_menu();
     }
@@ -26,7 +34,7 @@ class PMM_Admin_Build_Menu {
     protected function build_menu() {
         $html='';
         $this->menu_items = wp_get_nav_menu_items($this->menu_object_id);
-        $layout = $this->get_layout();
+        $layout = $this->get_columns_and_rows();
         
         foreach ($layout as $column => $blocks) :
             $html.=$this->add_column($column, $blocks);
@@ -35,7 +43,7 @@ class PMM_Admin_Build_Menu {
         return $html;
     }
     
-    protected function get_layout() {
+    protected function get_columns_and_rows() {
         $layout = array();
         
         // get column (as key) and array of blocks (as value).
@@ -108,6 +116,34 @@ class PMM_Admin_Build_Menu {
         endforeach;
         
         return $html;
-    }    
+    }
+    
+    public function build_primary_nav() {
+        $html='';        
+        $menu_items = wp_get_nav_menu_items($this->menu_object_id);        
+        $primary_nav_items = array();
+        
+        if (empty($menu_items))
+            return $primary_nav_items;
+        
+        // pul out primary nav items.
+        foreach ($menu_items as $menu_item) :
+            if ('primary' === $menu_item->pmm_nav_type)
+                $primary_nav_items[] = $menu_item;
+        endforeach;
+        
+        // sort by order.
+        usort($primary_nav_items, function($a, $b) {
+           return $a->pmm_order - $b->pmm_order; 
+        });
+            
+        // get our items.
+        foreach ($primary_nav_items as $primary_nav_item) :
+            if (isset($primary_nav_item->pmm_item_type) && '' !== $primary_nav_item->pmm_item_type)
+                $html.=PickleMegaMenu()->admin->items[$primary_nav_item->pmm_item_type]->load_item($primary_nav_item->ID);
+        endforeach;
+        
+        return $html;
+    }
 
 }
