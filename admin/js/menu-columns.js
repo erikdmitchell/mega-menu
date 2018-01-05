@@ -338,7 +338,7 @@ jQuery( function($) {
         },
         
         closeSubmenu: function() {
-console.log('close');    
+console.log('close run AJAX save');    
             $('.pmm-menu-grid').hide(); // hide grid        
         },
         
