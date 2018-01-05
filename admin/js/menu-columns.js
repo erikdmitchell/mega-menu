@@ -233,7 +233,7 @@ jQuery( function($) {
             var baseID = $(this).attr('id').match(pattern)[0];
             
             $(this).attr('id', baseID + index); // update id
-            //$(this).
+            $(this).find('input[name="pmm_menu_items[' + uID + '][order]"]').val(index);
         });        
     };
     
