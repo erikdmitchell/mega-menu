@@ -200,25 +200,40 @@ jQuery( function($) {
         $el.addClass('pmm-navigation-item'); // also add a class.
         $el.attr('uID', uID); // set unique id.
         
-        // update fields/options.
-        updateItemOptions($el);
+        // add hidden fields.
+        addPrimaryNavHiddenFields($el, ui.item.index());
         
-        // add type so we know it's primary nav.
-        $('<input>').attr({
-            type: 'hidden',
-            name: 'pmm_menu_items[' + uID + '][type]',
-            value: 'primary'
-        }).appendTo($el);        
+        // update fields/options.
+        updateItemOptions($el);       
     };
+    
+    // adds hidden fields to primary nav.
+    var addPrimaryNavHiddenFields = function($el, order) {
+        var fields = {
+            'type': 'primary',
+            'order': order
+        };
+
+        $.each(fields, function(name, value) {         
+            $('<input>').attr({
+                type: 'hidden',
+                id: name,
+                name: name,
+                value: value
+            }).appendTo($el);
+        });        
+    }
     
     // update primary nav ids.
     var updateNavigationItemIDs = function() {
         var pattern = /.*-/g;
         
         $('.pmm-navigation-item').each(function(index) {
+            var uID = $(this).attr('uid');
             var baseID = $(this).attr('id').match(pattern)[0];
             
-            $(this).attr('id', baseID + index);
+            $(this).attr('id', baseID + index); // update id
+            //$(this).
         });        
     };
     
