@@ -1,9 +1,7 @@
 <?php
     
 class PMM_Admin_Save_Menu {
-    
-    public $items='';
-    
+        
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'scripts_styles'));
         add_action('admin_init', array($this, 'save_menu'));
@@ -13,14 +11,14 @@ class PMM_Admin_Save_Menu {
         //wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);      
     }
     
-    public function save_menu() {
+    public function save_menu() {       
         if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm_save_menu'))
             return;
 
         $this->update_menu(esc_html($_POST['menu_name']), $_POST['menu_id']);
     }
     
-    private function update_menu($menu_name='', $menu_id=0) {
+    private function update_menu($menu_name='', $menu_id=0) {               
         // Add new menu.
         if (0 == $menu_id) :
             $new_menu_title = trim(esc_html($menu_name));
@@ -122,7 +120,12 @@ class PMM_Admin_Save_Menu {
         );
 
         wp_defer_term_counting( true );
-
+/*
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+exit;
+*/
         // Loop through all the menu items' POST variables
         if (!empty($_POST['pmm_menu_items'])) :
             foreach ( (array) $_POST['pmm_menu_items'] as $_key => $k ) :
@@ -144,6 +147,8 @@ class PMM_Admin_Save_Menu {
 
                 $db_id = $this->get_menu_item_db_id($k['id']);
 
+//exit();
+
                 $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
      
                 if ( is_wp_error( $menu_item_db_id ) ) :                    
@@ -162,6 +167,7 @@ class PMM_Admin_Save_Menu {
                     
                     $this->update_menu_item_meta($menu_item_db_id, $k);
                 endif;
+
             endforeach;       
         endif;
      
@@ -202,7 +208,9 @@ class PMM_Admin_Save_Menu {
         update_post_meta($post_id, '_pmm_menu_item_column', $item['column']);
         update_post_meta($post_id, '_pmm_menu_item_block', $item['block']);
         update_post_meta($post_id, '_pmm_menu_item_order', $item['order']); 
-        update_post_meta($post_id, '_pmm_menu_item_type', $item['item_type']);                        
+        update_post_meta($post_id, '_pmm_menu_item_type', $item['item_type']);
+        update_post_meta($post_id, '_pmm_menu_nav_type', $item['nav_type']);
+        update_post_meta($post_id, '_pmm_menu_parimary_nav', $item['primary_nav']);
     }
     
     private function pmm_item_args_to_wp() {

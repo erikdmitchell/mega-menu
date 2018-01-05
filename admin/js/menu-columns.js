@@ -210,8 +210,10 @@ jQuery( function($) {
     // adds hidden fields to primary nav.
     var addPrimaryNavHiddenFields = function($el, order) {
         var fields = {
-            'type': 'primary',
+            'nav_type': 'primary',
             'order': order,
+            'block': '',
+            'column': '',
             'primary_nav': '',
         };
 
@@ -306,7 +308,7 @@ jQuery( function($) {
     
     // adds hidden fields to item.
     var addItemHiddenFields = function($el) {
-        var fields = ['column', 'block', 'order', 'primary_nav', 'type'];
+        var fields = ['column', 'block', 'order', 'primary_nav', 'nav_type'];
         
         $.each(fields, function(key, value) {
             $('<input>').attr({
@@ -323,7 +325,7 @@ jQuery( function($) {
         var primaryNavID = $('.pmm-navigation-item.show-submenu').attr('id');
          
         $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(getID(primaryNavID)); // set primary nav value.
-        $el.find('input[name="pmm_menu_items[' + uID + '][type]"]').val('subnav'); // set type as something other than primary (subnav).        
+        $el.find('input[name="pmm_menu_items[' + uID + '][nav_type]"]').val('subnav'); // set type as something other than primary (subnav).        
     };
     
     // adds actions to the item.    
