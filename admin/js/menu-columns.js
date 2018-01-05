@@ -86,10 +86,10 @@ jQuery( function($) {
                     $(ui.helper).addClass('editable');            
                 }
          
-                addItemHiddenFields($(ui.helper));
+                addItemHiddenFields($(ui.helper)); // adds hidden fields to the item
                 addItemActions($(ui.helper)); // add action icons. 
-                
-                setItemId(ui);             
+                setItemId(ui); // set item id.
+                addItemPrimaryNavID($(ui.helper)); // adds the submenu id.         
             },           
             stop: function(event, ui) {
                 updateItemIds(); // update all item ids.
@@ -155,7 +155,6 @@ jQuery( function($) {
                 addItemHiddenFields($el); // adds hidden fields.
                 updateItemOptions($el); // update fields/options. 
                 addItemActions($el); // add action icons.
-                addItemPrimaryNavID($el); // adds the submenu id. 
             });
             
             addBlockActions($(this).attr('id'));
@@ -280,9 +279,10 @@ jQuery( function($) {
     
     // adds the proper primay nav item id.
     var addItemPrimaryNavID = function($el) {
-        var uId = $(this).attr('uId');
-           
-        $el.find('input[name="pmm_menu_items[' + uId + '][primary_nav]"]').val(77);        
+        var uID = $el.attr('uId');
+        var primaryNavID = $('.pmm-navigation-item.show-submenu').attr('id');
+         
+        $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(getID(primaryNavID));        
     };
     
     // adds actions to the item.    
