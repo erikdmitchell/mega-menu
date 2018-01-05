@@ -211,7 +211,8 @@ jQuery( function($) {
     var addPrimaryNavHiddenFields = function($el, order) {
         var fields = {
             'type': 'primary',
-            'order': order
+            'order': order,
+            'primary_nav': '',
         };
 
         $.each(fields, function(name, value) {         
@@ -232,8 +233,8 @@ jQuery( function($) {
             var uID = $(this).attr('uid');
             var baseID = $(this).attr('id').match(pattern)[0];
             
-            $(this).attr('id', baseID + index); // update id
-            $(this).find('input[name="pmm_menu_items[' + uID + '][order]"]').val(index);
+            $(this).attr('id', baseID + index); // update id.
+            $(this).find('input[name="pmm_menu_items[' + uID + '][order]"]').val(index); // update order value.
         });        
     };
     
@@ -305,7 +306,7 @@ jQuery( function($) {
     
     // adds hidden fields to item.
     var addItemHiddenFields = function($el) {
-        var fields = ['column', 'block', 'order', 'primary_nav'];
+        var fields = ['column', 'block', 'order', 'primary_nav', 'type'];
         
         $.each(fields, function(key, value) {
             $('<input>').attr({
@@ -321,7 +322,8 @@ jQuery( function($) {
         var uID = $el.attr('uId');
         var primaryNavID = $('.pmm-navigation-item.show-submenu').attr('id');
          
-        $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(getID(primaryNavID));        
+        $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(getID(primaryNavID)); // set primary nav value.
+        $el.find('input[name="pmm_menu_items[' + uID + '][type]"]').val('subnav'); // set type as something other than primary (subnav).        
     };
     
     // adds actions to the item.    
