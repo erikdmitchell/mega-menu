@@ -161,7 +161,8 @@ jQuery( function($) {
         }); 
         
         // update all item ids and subsequent hidden fields.
-        updateItemIds();        
+        updateItemIds();       
+        updateItemsHiddenFields(); 
     };
     
     // sets the actual item width.
@@ -208,16 +209,20 @@ jQuery( function($) {
                 var uId = $(this).attr('uId');
                 var baseId = $(this).attr('id').match(pattern)[0];
 
-                $(this).attr('id', baseId + itemIndex);
-
-                // update column, block and order (pos).
-                var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
-           
-                $(this).find('input[name="pmm_menu_items[' + uId + '][column]"]').val(itemLocation[0]);
-                $(this).find('input[name="pmm_menu_items[' + uId + '][block]"]').val(itemLocation[1]);
-                $(this).find('input[name="pmm_menu_items[' + uId + '][order]"]').val(itemLocation[2]);                
+                $(this).attr('id', baseId + itemIndex);                
             });           
         });
+    };
+    
+    // update column, block and order (pos).
+    var updateItemsHiddenFields = function() {
+        $('.pmm-item').each(function() {
+            var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
+           
+            $(this).find('input[name="pmm_menu_items[' + uId + '][column]"]').val(itemLocation[0]);
+            $(this).find('input[name="pmm_menu_items[' + uId + '][block]"]').val(itemLocation[1]);
+            $(this).find('input[name="pmm_menu_items[' + uId + '][order]"]').val(itemLocation[2]);           
+        });        
     };
     
     // generates a unique id.
@@ -260,7 +265,7 @@ jQuery( function($) {
     
     // adds hidden fields to item.
     var addItemHiddenFields = function($el) {
-        var fields = ['column', 'block', 'order'];
+        var fields = ['column', 'block', 'order', 'primary_nav'];
         
         $.each(fields, function(key, value) {
             $('<input>').attr({
