@@ -92,8 +92,8 @@ jQuery( function($) {
                 setItemId(ui);             
             },           
             stop: function(event, ui) {
-                // update all item ids.
-                updateItemIds();
+                updateItemIds(); // update all item ids.
+                updateItemsHiddenFields(); // update all items hidden.
             }
         }).disableSelection();               
     };
@@ -154,7 +154,8 @@ jQuery( function($) {
                 $el.attr('uid', uniqueID()); // add unique id.
                 addItemHiddenFields($el); // adds hidden fields.
                 updateItemOptions($el); // update fields/options. 
-                addItemActions($el); // add action icons. 
+                addItemActions($el); // add action icons.
+                addItemPrimaryNavID($el); // adds the submenu id. 
             });
             
             addBlockActions($(this).attr('id'));
@@ -216,12 +217,13 @@ jQuery( function($) {
     
     // update column, block and order (pos).
     var updateItemsHiddenFields = function() {
-        $('.pmm-item').each(function() {
+        $('.pmm-block .pmm-item').each(function() {
+            var uID = $(this).attr('uId');
             var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
-           
-            $(this).find('input[name="pmm_menu_items[' + uId + '][column]"]').val(itemLocation[0]);
-            $(this).find('input[name="pmm_menu_items[' + uId + '][block]"]').val(itemLocation[1]);
-            $(this).find('input[name="pmm_menu_items[' + uId + '][order]"]').val(itemLocation[2]);           
+    
+            $(this).find('input[name="pmm_menu_items[' + uID + '][column]"]').val(itemLocation[0]);
+            $(this).find('input[name="pmm_menu_items[' + uID + '][block]"]').val(itemLocation[1]);
+            $(this).find('input[name="pmm_menu_items[' + uID + '][order]"]').val(itemLocation[2]);          
         });        
     };
     
@@ -275,7 +277,15 @@ jQuery( function($) {
             }).appendTo($el);
         });
     };
-        
+    
+    // adds the proper primay nav item id.
+    var addItemPrimaryNavID = function($el) {
+        var uId = $(this).attr('uId');
+           
+        $el.find('input[name="pmm_menu_items[' + uId + '][primary_nav]"]').val(77);        
+    };
+    
+    // adds actions to the item.    
     var addItemActions = function($el) {
         $('<a/>', {
             href: '',
