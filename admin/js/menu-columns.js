@@ -57,11 +57,12 @@ jQuery( function($) {
                 // append edit if need be.
                 if (!$(ui.helper).hasClass('add-submenu')) {
                     $(ui.helper).addClass('add-submenu');            
-                }             
+                }
+                setNavigationItemID(ui);             
             },
             stop: function(event, ui) {
                 // setup our id here.                               
-                setNavigationItemId(ui);                     
+                updateNavigationItemIDs();                     
             }        
         }).disableSelection(); 
         
@@ -190,16 +191,14 @@ jQuery( function($) {
     };
     
     // set primary navigation item id.
-    var setNavigationItemId = function(ui) {
-        var $el = $(ui.item);       
+    var setNavigationItemID = function(ui) {      
+        var $el = $(ui.helper);       
         var itemId = 'pmm-navigation-item-' + ui.item.index();
         var uID = uniqueID();
-        
+    
         $el.attr('id', itemId); // set id.
         $el.addClass('pmm-navigation-item'); // also add a class.
-        
-        // set unique id.
-        $el.attr('uID', uID);
+        $el.attr('uID', uID); // set unique id.
         
         // update fields/options.
         updateItemOptions($el);
@@ -207,10 +206,20 @@ jQuery( function($) {
         // add type so we know it's primary nav.
         $('<input>').attr({
             type: 'hidden',
-            //id: 'type',
             name: 'pmm_menu_items[' + uID + '][type]',
             value: 'primary'
         }).appendTo($el);        
+    };
+    
+    // update primary nav ids.
+    var updateNavigationItemIDs = function() {
+        var pattern = /.*-/g;
+        
+        $('.pmm-navigation-item').each(function(index) {
+            var baseID = $(this).attr('id').match(pattern)[0];
+            
+            $(this).attr('id', baseID + index);
+        });        
     };
     
     // update all item ids.
