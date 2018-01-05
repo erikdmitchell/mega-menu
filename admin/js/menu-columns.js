@@ -293,10 +293,12 @@ jQuery( function($) {
         }).appendTo($el);         
     };
     
+    // adds actions to the block. 
     var addBlockActions = function(blockId) {
         $('<div class="pmm-block-actions"><a href="#" class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));       
     };
 
+    // adds actions to the column. 
     var addColumnActions = function(columnId) {       
         $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .block-actions'));       
     };
