@@ -400,8 +400,11 @@ console.log('load new menu');
     	jQuery('.pmm-admin-ajax-loader-image-container').remove();
     }
 
+    var pmmSavingSubmenu = false;
+
     // our mega menu function.
     var pmmMegaMenu = {
+        
         init: function() {
             $(document).on('click', '#pmm-menu-main-navigation .pmm-item', this.toggleSubmenu);
             $(document).on('click', '#pmm-add-column', this.addColumnBtn);
@@ -450,6 +453,7 @@ console.log('load new menu');
         },
         
         closeSubmenu: function(id) {
+            pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
               
             // ajax to save submenu.
@@ -457,16 +461,25 @@ console.log('load new menu');
 console.log('save submenu');
 console.log(response);
 
-            
                 clearGrid(); // empty grid.
                 $('.pmm-menu-grid').hide(); // hide grid.
 
+                pmmSavingSubmenu = false;
             });       
         },
         
         loadSubmenu: function(submenuID) {
+            // make sure we are not currently saving another submenu.
+            if (pmmSavingSubmenu) {
+                setTimeout(function() {
+                    pmmMegaMenu.loadSubmenu(submenuID);
+                }, 1000);
+                
+                return;
+            }
+            
             showAJAXLoader('#wpcontent');
-              
+             
             // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
                 if (response.success == true) {
