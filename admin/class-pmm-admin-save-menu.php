@@ -115,7 +115,7 @@ class PMM_Admin_Save_Menu {
     }
     
     // https://developer.wordpress.org/reference/functions/wp_nav_menu_update_menu_items/
-    private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items) {
+    private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items = '') {
         $unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
         $menu_items = array();
         
@@ -132,16 +132,17 @@ class PMM_Admin_Save_Menu {
 
         wp_defer_term_counting( true );
 
+/*
 echo '<pre>';
 print_r($post_menu_items);
-echo "break";
 print_r($menu_items);
 echo '</pre>';
 exit;
+*/
 
         // Loop through all the menu items' POST variables
-        if (!empty($_POST['pmm_menu_items'])) : // ADJUST FOR AJAX
-            foreach ( (array) $_POST['pmm_menu_items'] as $_key => $k ) :
+        if (!empty($post_menu_items)) : 
+            foreach ( (array) $post_menu_items as $_key => $k ) :
      
                 // Menu item title can't be blank
                 if ( ! isset( $k['label'] ) || '' == $k['label'] )
@@ -184,7 +185,8 @@ exit;
             endforeach;       
         endif;
      
-        // Remove menu items from the menu that weren't in $_POST
+        // Remove menu items from the menu that weren't in $_POST - this needs to be modified to handle the specific submenu
+/*
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
@@ -192,6 +194,7 @@ exit;
                 }
             }
         }
+*/
      
         wp_defer_term_counting( false );
             
