@@ -15,10 +15,11 @@ var pmmMegaMenuAJAX = {
     loadSubMenu: function(id, callback) {           
         var data = {
             'action': 'pmm_load_submenu',
-            'id': id
+            'menu_id': $('#pickle-mega-menu-admin #menu-id').val(),
+            'sub_nav_id': id
         };
      
-        $.post(ajaxurl, data, function(response) {
+        $.post(ajaxurl, data, function(response) {            
             callback(response);
         });
     },

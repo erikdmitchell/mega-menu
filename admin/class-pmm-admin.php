@@ -125,18 +125,15 @@ class PMM_Admin {
     }   
 
     public function ajax_load_submenu() {
-print_r($_POST);        
-        //$menu = new PMM_Admin_Build_Menu($_POST['id']);
-        //$primary_nav_html = $menu->build_primary_nav();
+        $menu = new PMM_Admin_Build_Menu($_POST['menu_id']);
+        $subnav = $menu->get_subnav($_POST['sub_nav_id']);
 
         // if empty, no menu, else return menu.
-/*
-        if (empty($primary_nav_html)) :
+        if (empty($subnav)) :
             wp_send_json_error();
         else :
-            wp_send_json_success($primary_nav_html);  
+            wp_send_json_success($subnav);  
         endif;
-*/
 
         wp_die();        
     } 

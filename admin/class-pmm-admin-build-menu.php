@@ -5,12 +5,8 @@ class PMM_Admin_Build_Menu {
     public $menu_id = 0;
     
     public $menu_object_id = 0;
-    
-    public $menu_items = '';
-    
-    public $primary_nav = '';
         
-    public function __construct($menu_id=0) {        
+    public function __construct($menu_id=0) {      
         $this->menu_id = $menu_id;
         
         $menu_object = wp_get_nav_menu_object($menu_id);
@@ -20,37 +16,41 @@ class PMM_Admin_Build_Menu {
             
         $this->menu_object_id = $menu_object->term_id;
     }
-    
-/*
-    public function display_primary_nav() {
-        echo $this->build_primary_nav();
-    }
-*/
-    
-    public function display() {
-        echo $this->build_menu();
-    }
 
-    protected function build_menu() {
+    public function get_subnav($sub_nav_id = 0) {       
         $html='';
-        $this->menu_items = wp_get_nav_menu_items($this->menu_object_id);
-        $layout = $this->get_columns_and_rows();
-        
+        $sub_menu_items = $this->get_sub_nav_items($sub_nav_id);
+        $layout = $this->get_columns_and_rows($sub_menu_items);
+
         foreach ($layout as $column => $blocks) :
-            $html.=$this->add_column($column, $blocks);
+            $html.=$this->add_column($column, $blocks, $sub_menu_items);
         endforeach;
 
         return $html;
+
     }
     
-    protected function get_columns_and_rows() {
+    protected function get_sub_nav_items($sub_nav_id = 0) {
+        $sub_menu_items = array();
+        $menu_items = wp_get_nav_menu_items($this->menu_object_id);
+           
+        foreach ($menu_items as $menu_item) :       
+            if ($menu_item->pmm_nav_type != 'primary' && $menu_item->pmm_menu_primary_nav === $sub_nav_id) :
+                $sub_menu_items[] = $menu_item;
+            endif;
+        endforeach;
+        
+        return $sub_menu_items;
+    }
+    
+    protected function get_columns_and_rows($menu_items = '') {
         $layout = array();
         
         // get column (as key) and array of blocks (as value).
-        if (!isset($this->menu_items) || empty($this->menu_items))
+        if (!isset($menu_items) || empty($menu_items))
             return $layout;
         
-        foreach ($this->menu_items as $item) :
+        foreach ($menu_items as $item) :
             $layout[$item->pmm_column][] = $item->pmm_block;
         endforeach;
         
@@ -62,7 +62,7 @@ class PMM_Admin_Build_Menu {
         return $layout;            
     }
     
-    protected function add_column($id, $blocks) {
+    protected function add_column($id, $blocks, $menu_items) { //USED
         $html='';
         
         $html.='<div id="pmm-column-'.$id.'" class="pmm-column">';
@@ -73,7 +73,7 @@ class PMM_Admin_Build_Menu {
             $html.='</div>';
             
             foreach ($blocks as $block) :
-                $html.=$this->add_block($id, $block);
+                $html.=$this->add_block($id, $block, $menu_items);
             endforeach;
         $html.='</div>';
         
@@ -81,22 +81,22 @@ class PMM_Admin_Build_Menu {
     }
 
 
-    protected function add_block($column_id, $block_id) {
+    protected function add_block($column_id, $block_id, $menu_items) { //USED
         $html='';
         
         $html.='<div id="pmm-block-'.$column_id.'-'.$block_id.'" class="pmm-block">';
-            $html.=$this->add_items($column_id, $block_id);
+            $html.=$this->add_items($column_id, $block_id, $menu_items);
         $html.='</div>';
         
         return $html;
     }
     
-    protected function add_items($column_id, $block_id) {
+    protected function add_items($column_id, $block_id, $menu_items) {
         $html='';
         $items=array();
         
         // get items in column and block.
-        foreach ($this->menu_items as $menu_item) :
+        foreach ($menu_items as $menu_item) :
             if ($menu_item->pmm_column == $column_id && $menu_item->pmm_block == $block_id) :
                 $items[] = $menu_item;
             endif;

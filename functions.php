@@ -28,7 +28,7 @@ function pmm_get_nav_menu_items($items, $menu, $args) {
         $item->pmm_order = get_post_meta($item->ID, '_pmm_menu_item_order', true);
         $item->pmm_item_type = get_post_meta($item->ID, '_pmm_menu_item_type', true);
         $item->pmm_nav_type = get_post_meta($item->ID, '_pmm_menu_nav_type', true);
-        $item->pmm_primary_nav = get_post_meta($item->ID, '_pmm_menu_primary_nav', true);                        
+        $item->pmm_menu_primary_nav = get_post_meta($item->ID, '_pmm_menu_primary_nav', true);                        
     endforeach;
     
     return $items;

@@ -138,15 +138,21 @@ jQuery( function($) {
     
     var setupExistingMenu = function(primaryNavHTMl) {
         setupPrimaryNavHTML(primaryNavHTMl);
-     
-        // COLUMNS / ITEMS //
-        /*        
-        // add column actions
+    };
+    
+    var setupExistingSubMenu = function(submenuHTML) {
+        // append the submenu.
+        $('#pmm-menu-grid').append(submenuHTML); 
+        
+        // updated col width.
+        updateColumnWidth();      
+             
+        // add column actions.
         $('#pmm-menu-grid .pmm-column').each(function() {
             addColumnActions($(this).attr('id'));
         });
         
-        // get all items and loop through to add uid and update options
+        // get all items and loop through to add uid and update options.
         $('#pmm-menu-grid .pmm-block').each(function() {
             
             // we need this sub loop to get proper index.
@@ -170,7 +176,6 @@ jQuery( function($) {
         // update all item ids and subsequent hidden fields.
         updateItemIds();       
         updateItemsHiddenFields();
-        */
     };
     
     // take our basic html and add our classes and actions to it.
@@ -178,7 +183,7 @@ jQuery( function($) {
         var $primaryNav = $('#pmm-menu-main-navigation');
         
         // we need to append the html, then update it. we will keep it hidden unti it's gtg?!
-        //$primaryNav.hide();
+        $primaryNav.hide();
         $primaryNav.append(html);
         
         $primaryNav.find('.pmm-item').each(function(i) {
@@ -187,7 +192,9 @@ jQuery( function($) {
             setNavigationItemID($(this), i);
         });
         
-        refreshSortables();      
+        refreshSortables(); 
+        
+        $primaryNav.show();     
     };
     
     // sets the actual item width.
@@ -409,33 +416,18 @@ console.log('close run AJAX save');
             $('.pmm-menu-grid').hide(); // hide grid        
         },
         
-        loadSubmenu: function(submenuID) {
-console.log(submenuID);            
-
+        loadSubmenu: function(submenuID) {  
+            // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
-console.log(response);                           
-/*
                 if (response.success == true) {
-                    setupExistingMenu(response.data); // we have a menu.
+                    setupExistingSubMenu(response.data); // we have a sub menu.
                 } else {
                     // setup default menu
-                    console.log('load new menu');
+                    console.log('load new sub menu');
                     //pmmMegaMenu.addColumn();
                     //pmmMegaMenu.manualAddBlock(0, 0);
                 }
-*/
-            }); 
-
-            //$('.pmm-menu-grid #pmm-add-column').attr('data-submenu', submenuID); -- not needed?!
-            
-            // we need to check for a submenu and load it if it exists
-
-            //if (!$('#pmm-menu-grid .pmm-column').length) {
-                //pmmMegaMenu.addColumn();
-                //pmmMegaMenu.manualAddBlock(0, 0);          
-            //} else {
-                //setupExisting();
-            //}            
+            });           
         },
         
         addColumn: function() {            

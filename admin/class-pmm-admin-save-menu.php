@@ -210,7 +210,7 @@ exit;
         update_post_meta($post_id, '_pmm_menu_item_order', $item['order']); 
         update_post_meta($post_id, '_pmm_menu_item_type', $item['item_type']);
         update_post_meta($post_id, '_pmm_menu_nav_type', $item['nav_type']);
-        update_post_meta($post_id, '_pmm_menu_parimary_nav', $item['primary_nav']);
+        update_post_meta($post_id, '_pmm_menu_primary_nav', $item['primary_nav']);
     }
     
     private function pmm_item_args_to_wp() {
