@@ -349,6 +349,11 @@ console.log('load new menu');
         });
     };
     
+    // clears the grid of any existing cols, blocks, etc.
+    var clearGrid = function() {
+        $('.pmm-menu-grid .pmm-column').remove();  
+    };
+    
     // adds the proper primay nav item id.
     var addItemPrimaryNavID = function($el) {
         var uID = $el.attr('uId');
@@ -413,13 +418,27 @@ console.log('load new menu');
         toggleSubmenu: function(e) {
             e.preventDefault();
             
+            var closeOnly = false;
+            
+            // mark if currently open, we are only closing it.
             if ($(this).hasClass('show-submenu')) {
-                $(this).removeClass('show-submenu');
-                pmmMegaMenu.closeSubmenu();
-            } else {
-                $(this).addClass('show-submenu');                
-                pmmMegaMenu.openSubmenu($(this));
+                closeOnly = true;
             }
+            
+            // close any open submenus.
+            $('.pmm-menu-main-navigation .pmm-navigation-item').each(function() {
+                if ($(this).hasClass('show-submenu')) {
+                    $(this).removeClass('show-submenu');
+                    pmmMegaMenu.closeSubmenu();
+                }    
+            });
+            
+            // open new submenu. check that it's not already open.
+            if (closeOnly === true)
+                return;
+                
+            $(this).addClass('show-submenu');                
+            pmmMegaMenu.openSubmenu($(this));
         },
         
         openSubmenu: function($el) {
@@ -430,7 +449,9 @@ console.log('load new menu');
         
         closeSubmenu: function() {
 console.log('close run AJAX save');    
-            $('.pmm-menu-grid').hide(); // hide grid        
+console.log('save here');
+            clearGrid(); // empty grid.
+            $('.pmm-menu-grid').hide(); // hide grid.      
         },
         
         loadSubmenu: function(submenuID) {
