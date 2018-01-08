@@ -10,6 +10,7 @@ class PMM_Admin {
         add_action('admin_init', array($this, 'select_menu'));
         add_action('admin_init', array($this, 'register_items'));
         add_action('wp_ajax_pmm_load_menu', array($this, 'ajax_load_menu'));
+        add_action('wp_ajax_pmm_load_submenu', array($this, 'ajax_load_submenu'));
     }
     
     public function scripts_styles() {
@@ -122,5 +123,22 @@ class PMM_Admin {
 
         wp_die();        
     }   
+
+    public function ajax_load_submenu() {
+print_r($_POST);        
+        //$menu = new PMM_Admin_Build_Menu($_POST['id']);
+        //$primary_nav_html = $menu->build_primary_nav();
+
+        // if empty, no menu, else return menu.
+/*
+        if (empty($primary_nav_html)) :
+            wp_send_json_error();
+        else :
+            wp_send_json_success($primary_nav_html);  
+        endif;
+*/
+
+        wp_die();        
+    } 
 	   
 }

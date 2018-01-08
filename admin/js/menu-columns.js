@@ -185,8 +185,6 @@ jQuery( function($) {
             $(this).addClass('add-submenu');
             
             setNavigationItemID($(this), i);
-            
-            //updateNavigationItemIDs(); - most likely not needed
         });
         
         refreshSortables();      
@@ -402,6 +400,7 @@ jQuery( function($) {
         
         openSubmenu: function($el) {
             $('.pmm-menu-grid').show(); // show grid.
+            
             pmmMegaMenu.loadSubmenu(getID($el.attr('id'))); // get the submenu.
         },
         
@@ -411,11 +410,29 @@ console.log('close run AJAX save');
         },
         
         loadSubmenu: function(submenuID) {
-            //$('.pmm-menu-grid #pmm-add-column').attr('data-submenu', submenuID);
+console.log(submenuID);            
+
+            pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
+console.log(response);                           
+/*
+                if (response.success == true) {
+                    setupExistingMenu(response.data); // we have a menu.
+                } else {
+                    // setup default menu
+                    console.log('load new menu');
+                    //pmmMegaMenu.addColumn();
+                    //pmmMegaMenu.manualAddBlock(0, 0);
+                }
+*/
+            }); 
+
+            //$('.pmm-menu-grid #pmm-add-column').attr('data-submenu', submenuID); -- not needed?!
+            
+            // we need to check for a submenu and load it if it exists
 
             //if (!$('#pmm-menu-grid .pmm-column').length) {
-                pmmMegaMenu.addColumn();
-                pmmMegaMenu.manualAddBlock(0, 0);          
+                //pmmMegaMenu.addColumn();
+                //pmmMegaMenu.manualAddBlock(0, 0);          
             //} else {
                 //setupExisting();
             //}            

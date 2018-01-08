@@ -1,5 +1,6 @@
 // our mega menu function ajax.
-var pmmMegaMenuAJAX = {        
+var pmmMegaMenuAJAX = {
+            
     loadMenu: function(callback) {           
         var data = {
             'action': 'pmm_load_menu',
@@ -7,7 +8,17 @@ var pmmMegaMenuAJAX = {
         };
        
         $.post(ajaxurl, data, function(response) {
-            // return something as part of callback - returns html string
+            callback(response);
+        });
+    },
+
+    loadSubMenu: function(id, callback) {           
+        var data = {
+            'action': 'pmm_load_submenu',
+            'id': id
+        };
+     
+        $.post(ajaxurl, data, function(response) {
             callback(response);
         });
     },
