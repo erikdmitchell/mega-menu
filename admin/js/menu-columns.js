@@ -58,7 +58,7 @@ jQuery( function($) {
                 if (!$(ui.helper).hasClass('add-submenu')) {
                     $(ui.helper).addClass('add-submenu');            
                 }
-                setNavigationItemID(ui);             
+                setNavigationItemID($(ui.helper), ui.item.index());             
             },
             stop: function(event, ui) {
                 // setup our id here.                               
@@ -126,7 +126,7 @@ jQuery( function($) {
     var loadMenu = function() {
         pmmMegaMenuAJAX.loadMenu(function(response) {            
             if (response.success == true) {
-                setupExistingMenu(response);
+                setupExistingMenu(response.data); // we have a menu.
             } else {
                 // setup default menu
                 console.log('load new menu');
@@ -137,7 +137,10 @@ jQuery( function($) {
     };
     
     var setupExistingMenu = function(primaryNavHTMl) {
-console.log(primaryNavHTMl);       
+        setupPrimaryNavHTML(primaryNavHTMl);
+     
+        // COLUMNS / ITEMS //
+        /*        
         // add column actions
         $('#pmm-menu-grid .pmm-column').each(function() {
             addColumnActions($(this).attr('id'));
@@ -166,7 +169,27 @@ console.log(primaryNavHTMl);
         
         // update all item ids and subsequent hidden fields.
         updateItemIds();       
-        updateItemsHiddenFields(); 
+        updateItemsHiddenFields();
+        */
+    };
+    
+    // take our basic html and add our classes and actions to it.
+    var setupPrimaryNavHTML = function(html) {
+        var $primaryNav = $('#pmm-menu-main-navigation');
+        
+        // we need to append the html, then update it. we will keep it hidden unti it's gtg?!
+        //$primaryNav.hide();
+        $primaryNav.append(html);
+        
+        $primaryNav.find('.pmm-item').each(function(i) {
+            $(this).addClass('add-submenu');
+            
+            setNavigationItemID($(this), i);
+            
+            //updateNavigationItemIDs(); - most likely not needed
+        });
+        
+        refreshSortables();      
     };
     
     // sets the actual item width.
@@ -194,9 +217,8 @@ console.log(primaryNavHTMl);
     };
     
     // set primary navigation item id.
-    var setNavigationItemID = function(ui) {      
-        var $el = $(ui.helper);       
-        var itemId = 'pmm-navigation-item-' + ui.item.index();
+    var setNavigationItemID = function($el, index) {      
+        var itemId = 'pmm-navigation-item-' + index;
         var uID = uniqueID();
     
         $el.attr('id', itemId); // set id.
@@ -204,7 +226,7 @@ console.log(primaryNavHTMl);
         $el.attr('uID', uID); // set unique id.
         
         // add hidden fields.
-        addPrimaryNavHiddenFields($el, ui.item.index());
+        addPrimaryNavHiddenFields($el, index);
         
         // update fields/options.
         updateItemOptions($el);       

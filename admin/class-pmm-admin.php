@@ -113,6 +113,7 @@ class PMM_Admin {
         $menu = new PMM_Admin_Build_Menu($_POST['id']);
         $primary_nav_html = $menu->build_primary_nav();
 
+        // if empty, no menu, else return menu.
         if (empty($primary_nav_html)) :
             wp_send_json_error();
         else :
