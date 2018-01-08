@@ -28,7 +28,8 @@ var pmmMegaMenuAJAX = {
         var data = {
             'action': 'pmm_save_submenu',
             'menu_id': $('#pickle-mega-menu-admin #menu-id').val(),
-            'sub_nav_id': id
+            'sub_nav_id': id,
+            'form': $('form#save-menu').serialize()
         };
      
         $.post(ajaxurl, data, function(response) {            
