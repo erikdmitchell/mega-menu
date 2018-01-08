@@ -176,6 +176,8 @@ console.log('load new menu');
         // update all item ids and subsequent hidden fields.
         updateItemIds();       
         updateItemsHiddenFields();
+        
+        hideAJAXLoader(); // hide ajax loader.
     };
     
     // take our basic html and add our classes and actions to it.

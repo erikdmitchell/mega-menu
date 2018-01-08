@@ -16,8 +16,6 @@ class PMM_Admin_Save_Menu {
         else :
 // no items        
         endif;
-        
-        //$this->nav_menu_update_menu_items( $_POST['menu_id'], '');
 
         wp_die();        
     }
