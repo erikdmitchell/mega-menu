@@ -129,7 +129,7 @@ jQuery( function($) {
                 setupExistingMenu(response.data); // we have a menu.
             } else {
                 // setup default menu
-                console.log('load new menu');
+console.log('load new menu');
                 //pmmMegaMenu.addColumn();
                 //pmmMegaMenu.manualAddBlock(0, 0);
             }
@@ -376,6 +376,23 @@ jQuery( function($) {
         $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .block-actions'));       
     };
 
+    // create/display loader.
+    var showAJAXLoader = function(self) {
+    	var loaderContainer = jQuery( '<div/>', {
+    		'class': 'pmm-admin-ajax-loader-image-container'
+    	}).appendTo( self ).show();
+    
+    	var loader = jQuery( '<img/>', {
+    		src: '/wp-admin/images/wpspin_light-2x.gif',
+    		'class': 'pmm-admin-ajax-loader-image'
+    	}).appendTo( loaderContainer );
+    }
+
+    // remove loader.
+    var hideAJAXLoader = function() {
+    	jQuery('.pmm-admin-ajax-loader-image-container').remove();
+    }
+
     // our mega menu function.
     var pmmMegaMenu = {
         init: function() {
@@ -416,16 +433,20 @@ console.log('close run AJAX save');
             $('.pmm-menu-grid').hide(); // hide grid        
         },
         
-        loadSubmenu: function(submenuID) {  
+        loadSubmenu: function(submenuID) {
+            showAJAXLoader('#wpcontent');
+              
             // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
                 if (response.success == true) {
                     setupExistingSubMenu(response.data); // we have a sub menu.
                 } else {
                     // setup default menu
-                    console.log('load new sub menu');
-                    //pmmMegaMenu.addColumn();
-                    //pmmMegaMenu.manualAddBlock(0, 0);
+console.log('load new sub menu');
+                    pmmMegaMenu.addColumn();
+                    pmmMegaMenu.manualAddBlock(0, 0);
+                    
+                    hideAJAXLoader();
                 }
             });           
         },
