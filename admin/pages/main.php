@@ -5,9 +5,6 @@ $nav_menu_selected_id = isset( $_REQUEST['menu'] ) ? (int) $_REQUEST['menu'] : 0
 // Nav menu object
 $nav_menu_object = wp_get_nav_menu_object($nav_menu_selected_id);
 $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
-    
-// load menu
-//PickleMegaMenu()->admin->load_menu($nav_menu_selected_id);
                             
 // Get existing menu locations assignments
 //$locations = get_registered_nav_menus();

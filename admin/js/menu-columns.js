@@ -429,7 +429,7 @@ console.log('load new menu');
             $('.pmm-menu-main-navigation .pmm-navigation-item').each(function() {
                 if ($(this).hasClass('show-submenu')) {
                     $(this).removeClass('show-submenu');
-                    pmmMegaMenu.closeSubmenu();
+                    pmmMegaMenu.closeSubmenu(getID($(this).attr('id')));
                 }    
             });
             
@@ -447,11 +447,19 @@ console.log('load new menu');
             pmmMegaMenu.loadSubmenu(getID($el.attr('id'))); // get the submenu.
         },
         
-        closeSubmenu: function() {
-console.log('close run AJAX save');    
-console.log('save here');
-            clearGrid(); // empty grid.
-            $('.pmm-menu-grid').hide(); // hide grid.      
+        closeSubmenu: function(id) {
+            showAJAXLoader('#wpcontent');
+              
+            // ajax to save submenu.
+            pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
+console.log('save submenu');
+console.log(response);
+
+            
+                clearGrid(); // empty grid.
+                $('.pmm-menu-grid').hide(); // hide grid.
+
+            });       
         },
         
         loadSubmenu: function(submenuID) {

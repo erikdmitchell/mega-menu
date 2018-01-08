@@ -5,6 +5,14 @@ class PMM_Admin_Save_Menu {
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'scripts_styles'));
         add_action('admin_init', array($this, 'save_menu'));
+        
+        add_action('wp_ajax_pmm_save_submenu', array($this, 'ajax_save_submenu'));
+    }
+    
+    public function ajax_save_submenu() {
+print_r($_POST);
+
+        wp_die();        
     }
     
     public function scripts_styles() {
@@ -120,12 +128,12 @@ class PMM_Admin_Save_Menu {
         );
 
         wp_defer_term_counting( true );
-/*
+
 echo '<pre>';
 print_r($_POST);
 echo '</pre>';
 exit;
-*/
+
         // Loop through all the menu items' POST variables
         if (!empty($_POST['pmm_menu_items'])) :
             foreach ( (array) $_POST['pmm_menu_items'] as $_key => $k ) :

@@ -23,5 +23,17 @@ var pmmMegaMenuAJAX = {
             callback(response);
         });
     },
+
+    saveSubMenu: function(id, callback) {           
+        var data = {
+            'action': 'pmm_save_submenu',
+            'menu_id': $('#pickle-mega-menu-admin #menu-id').val(),
+            'sub_nav_id': id
+        };
+     
+        $.post(ajaxurl, data, function(response) {            
+            callback(response);
+        });
+    }
     
 };
