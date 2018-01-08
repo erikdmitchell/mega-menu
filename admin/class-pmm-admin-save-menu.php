@@ -3,20 +3,23 @@
 class PMM_Admin_Save_Menu {
         
     public function __construct() {
-        add_action('admin_enqueue_scripts', array($this, 'scripts_styles'));
         add_action('admin_init', array($this, 'save_menu'));
         
         add_action('wp_ajax_pmm_save_submenu', array($this, 'ajax_save_submenu'));
     }
     
     public function ajax_save_submenu() {
-print_r($_POST);
+        parse_str($_POST['form'], $form_data);
+        
+        if (!empty($form_data['pmm_menu_items'])) :
+            $this->nav_menu_update_menu_items($form_data['menu_id'], $form_data['menu_name'], $form_data['pmm_menu_items']);
+        else :
+// no items        
+        endif;
+        
+        //$this->nav_menu_update_menu_items( $_POST['menu_id'], '');
 
         wp_die();        
-    }
-    
-    public function scripts_styles() {
-        //wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);      
     }
     
     public function save_menu() {       
@@ -112,7 +115,7 @@ print_r($_POST);
     }
     
     // https://developer.wordpress.org/reference/functions/wp_nav_menu_update_menu_items/
-    private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title) {
+    private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items) {
         $unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
         $menu_items = array();
         
@@ -130,12 +133,14 @@ print_r($_POST);
         wp_defer_term_counting( true );
 
 echo '<pre>';
-print_r($_POST);
+print_r($post_menu_items);
+echo "break";
+print_r($menu_items);
 echo '</pre>';
 exit;
 
         // Loop through all the menu items' POST variables
-        if (!empty($_POST['pmm_menu_items'])) :
+        if (!empty($_POST['pmm_menu_items'])) : // ADJUST FOR AJAX
             foreach ( (array) $_POST['pmm_menu_items'] as $_key => $k ) :
      
                 // Menu item title can't be blank
