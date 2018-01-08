@@ -1,8 +1,6 @@
-
 // our mega menu function ajax.
 var pmmMegaMenuAJAX = {        
-    loadMenu: function(callback) {
-console.log('ajax load menu');            
+    loadMenu: function(callback) {           
         var data = {
             'action': 'pmm_load_menu',
             'id': $('#pickle-mega-menu-admin #menu-id').val()

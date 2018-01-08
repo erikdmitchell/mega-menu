@@ -124,24 +124,20 @@ jQuery( function($) {
     
     // if there is an existing menu, tweak what has been loaded.
     var loadMenu = function() {
-console.log('load menu in menu-columns.js');
-        pmmMegaMenuAJAX.loadMenu(function(response) {
-console.log('the following is the return');    
-console.log(cbvar);
-        });
-
-// this needs to run after load menu to determine what to do with passed html info for primary nav        
-console.log('post menu load');        
-        if (!$('#pmm-menu-grid .pmm-column').length) {
-            pmmMegaMenu.addColumn();
-            pmmMegaMenu.manualAddBlock(0, 0);          
-        } else {
-            setupExisting();
-        }
-        
+        pmmMegaMenuAJAX.loadMenu(function(response) {            
+            if (response.success == true) {
+                setupExistingMenu(response);
+            } else {
+                // setup default menu
+                console.log('load new menu');
+                //pmmMegaMenu.addColumn();
+                //pmmMegaMenu.manualAddBlock(0, 0);
+            }
+        });        
     };
     
-    var setupExisting = function() {
+    var setupExistingMenu = function(primaryNavHTMl) {
+console.log(primaryNavHTMl);       
         // add column actions
         $('#pmm-menu-grid .pmm-column').each(function() {
             addColumnActions($(this).attr('id'));

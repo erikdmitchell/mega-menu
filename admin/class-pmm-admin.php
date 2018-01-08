@@ -111,10 +111,13 @@ class PMM_Admin {
 
     public function ajax_load_menu() {
         $menu = new PMM_Admin_Build_Menu($_POST['id']);
-        
         $primary_nav_html = $menu->build_primary_nav();
-print_r($primary_nav_html);        
-echo 'ajax load menu return output';        
+
+        if (empty($primary_nav_html)) :
+            wp_send_json_error();
+        else :
+            wp_send_json_success($primary_nav_html);  
+        endif;
 
         wp_die();        
     }   
