@@ -28,9 +28,9 @@ class PMM_Admin_Save_Menu {
                     $form_submenu_items[] = $form_menu_item; 
             endforeach;
         
-            $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
+            $message = $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
             
-            wp_send_json_success();
+            wp_send_json_success($message);
         else :
 // no items        
         endif;
@@ -143,13 +143,6 @@ echo "update primary nav\n";
             $menu_items[$_item->db_id] = $_item;
 
         wp_defer_term_counting( true );
-        
-//echo '<pre>';
-//print_r($post_menu_items);
-//print_r($menu_items);
-//echo '</pre>';
-//exit;
-
 
         // Loop through all the menu items' POST variables
         if (!empty($post_menu_items)) : 
@@ -168,20 +161,18 @@ echo "update primary nav\n";
                 }
             }
         }
-
-//exit;
      
         wp_defer_term_counting( false );
-            
-        pmm_add_admin_notice(array(
+        
+        $message = $this->notices(array(
            'type' => 'success',
            'message' => sprintf( __( '%s has been updated.' ), '<strong>' . $nav_menu_selected_title . '</strong>' ),
-           'dismissible' => true, 
+           'dismissible' => true,            
         ));
      
         unset( $menu_items, $unsorted_menu_items );
    
-        return true;
+        return $message;
     }
     
     private function get_submenu_items($nav_menu_selected_id, $submenu_id) {
@@ -355,6 +346,28 @@ exit;
             return 0;
         
         return $db_id;
+    }
+    
+    private function notices($args='') {
+        $default_args=array(
+            'type' => '',
+            'message' => '',
+            'dismissible' => false,
+        );
+        $args=wp_parse_args($args, $default_args);
+        $type = '';
+        $dismissible = '';
+				
+        if ( $args['type'] )
+            $type = ' notice-' . sanitize_title( $args['type'] );
+				
+        if ( $args['dismissible'] )
+            $dismissible = ' is-dismissible';
+
+        $class = ' class="notice' . $type . $dismissible . '"';
+        $message = wp_kses_post( $args['message'] );
+        
+		return sprintf( '<div%1$s%2$s><p>%3$s</p></div>', $id, $class, $message );        
     }
     
     protected function update_menu_item_meta($post_id=0, $item='') {
