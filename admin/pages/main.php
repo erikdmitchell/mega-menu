@@ -72,7 +72,7 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                         </div>
                         
                         <span class="save-menu-button">
-                            <input type="submit" class="button button-primary" value="Save Menu">
+                            <a href="#" class="button button-primary" id="pmm-save-menu">Save Menu</a>
                         </span> 
                     </div>  
                     

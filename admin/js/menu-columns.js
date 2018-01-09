@@ -1,11 +1,4 @@
 jQuery(document).ready(function($) {
- 
-    // add a column.
-    $('#pickle-mega-menu-admin .columns-list li a').on('click', function(e) {
-      e.preventDefault();
-      
-      // add column       
-   });
    
    // toggles the edit details for an item.
    $(document).on('click', '.pmm-block .pmm-item .edit-item', function(e) {
@@ -176,6 +169,11 @@ console.log('load new menu');
         // update all item ids and subsequent hidden fields.
         updateItemIds();       
         updateItemsHiddenFields();
+        
+        // sets up our sortables, draggables, etc.
+        updateColumnWidth();
+        refreshSortables(); 
+        refreshDraggable(); 
         
         hideAJAXLoader(); // hide ajax loader.
     };
@@ -399,13 +397,15 @@ console.log('load new menu');
     var hideAJAXLoader = function() {
     	jQuery('.pmm-admin-ajax-loader-image-container').remove();
     }
-
+    
+    // variables.
     var pmmSavingSubmenu = false;
 
     // our mega menu function.
     var pmmMegaMenu = {
         
         init: function() {
+            $(document).on('click', '#pmm-save-menu', this.saveMenu);
             $(document).on('click', '#pmm-menu-main-navigation .pmm-item', this.toggleSubmenu);
             $(document).on('click', '#pmm-add-column', this.addColumnBtn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
@@ -418,6 +418,19 @@ console.log('load new menu');
             updateColumnWidth();
             refreshSortables(); 
             refreshDraggable();         
+        },
+        
+        saveMenu: function(e) {
+            e.preventDefault();
+            
+            showAJAXLoader('#wpcontent');
+            
+            // ajax to save submenu.
+            pmmMegaMenuAJAX.saveMenu(function(response) {
+                pmmMegaMenu.displayMessage(response);
+                
+                hideAJAXLoader();
+            });               
         },
         
         toggleSubmenu: function(e) {
@@ -446,25 +459,26 @@ console.log('load new menu');
             pmmMegaMenu.openSubmenu($(this));
         },
         
-        openSubmenu: function($el) {
+        openSubmenu: function($el) {           
             $('.pmm-menu-grid').show(); // show grid.
             
             pmmMegaMenu.loadSubmenu(getID($el.attr('id'))); // get the submenu.
         },
         
-        closeSubmenu: function(id) {
+        closeSubmenu: function(id) {           
             pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
               
             // ajax to save submenu.
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
-console.log('save submenu');
-console.log(response);
+                pmmMegaMenu.displayMessage(response);
 
                 clearGrid(); // empty grid.
                 $('.pmm-menu-grid').hide(); // hide grid.
 
                 pmmSavingSubmenu = false;
+                
+                hideAJAXLoader();
             });       
         },
         
@@ -482,13 +496,16 @@ console.log(response);
              
             // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
-                if (response.success == true) {
+                if (response.success == true) {                   
                     setupExistingSubMenu(response.data); // we have a sub menu.
                 } else {
                     // setup default menu
-console.log('load new sub menu');
                     pmmMegaMenu.addColumn();
                     pmmMegaMenu.manualAddBlock(0, 0);
+                    
+                    $('.pmm-menu-grid').show(); // show grid.
+                    
+                    updateColumnWidth();
                     
                     hideAJAXLoader();
                 }
@@ -567,8 +584,11 @@ console.log('load new sub menu');
             
             updateColumnIDs();
             updateColumnWidth();         
-        }
+        },
         
+        displayMessage: function(message) {
+            $(message).insertBefore($('#pickle-mega-menu-admin .menu-items-wrap'));
+        }
     };
 
     pmmMegaMenu.init();
