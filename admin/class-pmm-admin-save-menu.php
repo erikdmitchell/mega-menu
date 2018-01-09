@@ -42,9 +42,7 @@ class PMM_Admin_Save_Menu {
                     $form_submenu_items[] = $form_menu_item; 
             endforeach;
         
-            $message = $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
-            
-            wp_send_json_success($message);
+            echo $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
         else :
 // no items        
         endif;
@@ -52,7 +50,9 @@ class PMM_Admin_Save_Menu {
         wp_die();        
     }
         
-    private function update_menu($menu_name='', $menu_id=0, $menu_items = '') {               
+    private function update_menu($menu_name='', $menu_id=0, $menu_items = '') {
+        $message = '';
+                      
         // Add new menu.
         if (0 == $menu_id) :
             $new_menu_title = trim(esc_html($menu_name));
@@ -74,17 +74,15 @@ class PMM_Admin_Save_Menu {
 					
 					// Save menu items.
 		  			if ( !empty($menu_items) )
-		  			  $this->update_menu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $menu_items);
+                        $this->update_menu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $menu_items);
 					
                     $message = $this->notices(array(
                        'type' => 'success',
                        'message' => sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ),
                     ));					
-					
-					//wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
-					//exit();
 				} 
             
+                return $message;
             else :
                 // message about error
             endif;
@@ -115,7 +113,9 @@ class PMM_Admin_Save_Menu {
                        'type' => 'error',
                        'message' => $_nav_menu_selected_id->get_error_message(),
                        'dismissible' => true,
-                    ));						
+                    ));	
+                    
+                    return $message;					
 				} else {
 					$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
 					$nav_menu_selected_title = $_menu_object->name;
@@ -127,14 +127,21 @@ class PMM_Admin_Save_Menu {
     			$this->update_menu_nav_menu_items($_menu_object->term_id, $nav_menu_selected_title, $menu_items);
 
 				// If the menu ID changed, redirect to the new URL.
-				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
-					//wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
-					//exit();
+				if ( $menu_id != $_nav_menu_selected_id ) {
+					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
+					exit();
 				}
+				
+                $message = $this->notices(array(
+                   'type' => 'success',
+                   'message' => sprintf( __( '%s has been updated.' ), '<strong>' . $nav_menu_selected_title . '</strong>' ),
+                   'dismissible' => true,            
+                ));				
 			} 
      
         endif;
         
+        return $message;
     }
 
     private function update_submenu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $sub_nav_id = 0, $post_menu_items = '') {
@@ -267,16 +274,10 @@ class PMM_Admin_Save_Menu {
         }
      
         wp_defer_term_counting( false );
-        
-        $message = $this->notices(array(
-           'type' => 'success',
-           'message' => sprintf( __( '%s has been updated.' ), '<strong>' . $nav_menu_selected_title . '</strong>' ),
-           'dismissible' => true,            
-        ));
      
         unset( $menu_items, $unsorted_menu_items );
    
-        return $message;
+        return;
     }
  
     private function get_menu_items($nav_menu_selected_id) {

@@ -397,7 +397,8 @@ console.log('load new menu');
     var hideAJAXLoader = function() {
     	jQuery('.pmm-admin-ajax-loader-image-container').remove();
     }
-
+    
+    // variables.
     var pmmSavingSubmenu = false;
 
     // our mega menu function.
@@ -426,8 +427,7 @@ console.log('load new menu');
             
             // ajax to save submenu.
             pmmMegaMenuAJAX.saveMenu(function(response) {
-console.log('save menu');
-console.log(response); // - wp json success/error DISPLAY IT?!
+                pmmMegaMenu.displayMessage(response);
                 
                 hideAJAXLoader();
             });               
@@ -459,22 +459,19 @@ console.log(response); // - wp json success/error DISPLAY IT?!
             pmmMegaMenu.openSubmenu($(this));
         },
         
-        openSubmenu: function($el) {
-console.log('openSubmenu()');            
+        openSubmenu: function($el) {           
             $('.pmm-menu-grid').show(); // show grid.
             
             pmmMegaMenu.loadSubmenu(getID($el.attr('id'))); // get the submenu.
         },
         
-        closeSubmenu: function(id) {
-console.log('closeSubmenu()');            
+        closeSubmenu: function(id) {           
             pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
               
             // ajax to save submenu.
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
-console.log('save submenu');
-//console.log(response); - wp json success/error 
+                pmmMegaMenu.displayMessage(response);
 
                 clearGrid(); // empty grid.
                 $('.pmm-menu-grid').hide(); // hide grid.
@@ -499,12 +496,10 @@ console.log('save submenu');
              
             // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
-                if (response.success == true) {
-console.log('load existing submenu');                    
+                if (response.success == true) {                   
                     setupExistingSubMenu(response.data); // we have a sub menu.
                 } else {
                     // setup default menu
-console.log('load new sub menu');
                     pmmMegaMenu.addColumn();
                     pmmMegaMenu.manualAddBlock(0, 0);
                     
@@ -589,8 +584,11 @@ console.log('load new sub menu');
             
             updateColumnIDs();
             updateColumnWidth();         
-        }
+        },
         
+        displayMessage: function(message) {
+            $(message).insertBefore($('#pickle-mega-menu-admin .menu-items-wrap'));
+        }
     };
 
     pmmMegaMenu.init();
