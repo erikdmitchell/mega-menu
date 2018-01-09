@@ -1,0 +1,33 @@
+.pmm-menu {
+    clear: both;
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+}
+.pmm-menu .pmm-column {
+    width: 100%;
+    padding: 5px;
+}
+.pmm-menu.columns-2 .pmm-column {
+    float: left;
+    width: 49%;
+    margin-right: 2%;
+    border: 2px solid #2845e9;
+}
+.pmm-menu .pmm-column:last-child {
+    margin-right: 0;
+}
+.pmm-menu .pmm-column .pmm-block {
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+.pmm-menu .pmm-column .pmm-block:last-child {
+    border-bottom: none;
+}
+.pmm-menu .pmm-column .pmm-block .pmm-item {
+    
+}
+.pmm-menu .pmm-column .pmm-block .pmm-item a {
+    
+}

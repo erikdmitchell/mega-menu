@@ -5,7 +5,7 @@ $nav_menu_selected_id = isset( $_REQUEST['menu'] ) ? (int) $_REQUEST['menu'] : 0
 // Nav menu object
 $nav_menu_object = wp_get_nav_menu_object($nav_menu_selected_id);
 $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
-    
+                            
 // Get existing menu locations assignments
 //$locations = get_registered_nav_menus();
 //$menu_locations = get_nav_menu_locations();
@@ -72,18 +72,22 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                         </div>
                         
                         <span class="save-menu-button">
-                            <input type="submit" class="button button-primary" value="Save Menu">
+                            <a href="#" class="button button-primary" id="pmm-save-menu">Save Menu</a>
                         </span> 
                     </div>  
                     
-                    <div class="pmm-menu-grid-wrap">  
+                    <div class="pmm-menu-grid-wrap">
                         
-                        <div class="menu-columns">
-                            <a href="#" id="pmm-add-column" class="button">Add Column</a>
-                        </div> 
-                                      
+                        <div class="description">Drag the primary navigation items. Click the arrow to open and close the submenu.</div> 
+                        
+                        <div id="pmm-menu-main-navigation" class="pmm-menu-main-navigation"></div> 
+                                  
                         <div id="pmm-menu-grid" class="pmm-menu-grid">
-                            <?php PickleMegaMenu()->admin->load_mega_menu($nav_menu_selected_id); ?>
+                            
+                            <div class="menu-columns">
+                                <a href="#" id="pmm-add-column" class="button">Add Column</a>
+                            </div> 
+                            
                         </div>
                     </div>
     
