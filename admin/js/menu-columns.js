@@ -472,7 +472,7 @@ console.log('load new menu');
         closeSubmenu: function(id) {           
             pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
-console.log('closeSubmenu()');              
+              
             // ajax to save submenu.
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
                 pmmMegaMenu.displayMessage(response);
@@ -497,11 +497,10 @@ console.log('closeSubmenu()');
             }
             
             showAJAXLoader('#wpcontent');
-console.log('loadSubmenu()');             
+            
             // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
-                if (response.success == true) {  
-console.log('load existing sub menu');                                     
+                if (response.success == true) {                                     
                     setupExistingSubMenu(response.data); // we have a sub menu.
                 } else {
                     // setup default menu

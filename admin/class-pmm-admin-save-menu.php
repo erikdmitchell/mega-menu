@@ -33,9 +33,7 @@ class PMM_Admin_Save_Menu {
     
     public function ajax_save_submenu() {
         parse_str($_POST['form'], $form_data);
-echo "ajax_save_submenu()\n"; 
-print_r($_POST);
-print_r($form_data);       
+     
         if (!empty($form_data['pmm_menu_items'])) :
             $form_submenu_items = array();
             
@@ -43,9 +41,8 @@ print_r($form_data);
                 if ($form_menu_item['nav_type'] == 'subnav' && $form_menu_item['primary_nav'] == $_POST['sub_nav_id'])
                     $form_submenu_items[] = $form_menu_item; 
             endforeach;
-print_r($form_submenu_items);  
-            echo "abc";      
-            //echo $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
+     
+            echo $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
         else :
 // no items        
         endif;
