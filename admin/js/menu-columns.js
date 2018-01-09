@@ -177,6 +177,11 @@ console.log('load new menu');
         updateItemIds();       
         updateItemsHiddenFields();
         
+        // sets up our sortables, draggables, etc.
+        updateColumnWidth();
+        refreshSortables(); 
+        refreshDraggable(); 
+        
         hideAJAXLoader(); // hide ajax loader.
     };
     
