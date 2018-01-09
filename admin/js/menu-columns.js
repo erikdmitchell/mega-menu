@@ -478,7 +478,7 @@ console.log('load new menu');
                 pmmMegaMenu.displayMessage(response);
 
                 clearGrid(); // empty grid.
-                //$('.pmm-menu-grid').hide(); // hide grid.
+                $('.pmm-menu-grid').hide(); // hide grid.
 
                 pmmSavingSubmenu = false;
                 
