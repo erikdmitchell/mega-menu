@@ -157,8 +157,11 @@ class PMM_Admin_Save_Menu {
         // Loop through all the menu items' POST variables
         if (!empty($post_menu_items)) : 
             foreach ( (array) $post_menu_items as $_key => $k ) :
-     
-                $this->update_nav_menu_item($k, $nav_menu_selected_id);
+
+                $menu_item_db_id = $this->update_nav_menu_item($k, $nav_menu_selected_id);
+                
+                if (isset($menu_items[$menu_item_db_id]))
+                    unset( $menu_items[ $menu_item_db_id ] );                
 
             endforeach;       
         endif;
@@ -167,6 +170,7 @@ class PMM_Admin_Save_Menu {
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
+echo "delete post: $menu_item_id\n";                    
                     wp_delete_post( $menu_item_id );
                 }
             }
@@ -273,6 +277,7 @@ echo "$db_id\n";
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
+echo "delete post: $menu_item_id\n";                    
                     wp_delete_post( $menu_item_id );
                 }
             }
