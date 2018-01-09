@@ -452,24 +452,28 @@ console.log('load new menu');
         },
         
         openSubmenu: function($el) {
+console.log('openSubmenu()');            
             $('.pmm-menu-grid').show(); // show grid.
             
             pmmMegaMenu.loadSubmenu(getID($el.attr('id'))); // get the submenu.
         },
         
         closeSubmenu: function(id) {
+console.log('closeSubmenu()');            
             pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
               
             // ajax to save submenu.
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
 console.log('save submenu');
-console.log(response);
+//console.log(response); - wp json success/error 
 
                 clearGrid(); // empty grid.
                 $('.pmm-menu-grid').hide(); // hide grid.
 
                 pmmSavingSubmenu = false;
+                
+                hideAJAXLoader();
             });       
         },
         
@@ -488,6 +492,7 @@ console.log(response);
             // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
                 if (response.success == true) {
+console.log('load existing submenu');                    
                     setupExistingSubMenu(response.data); // we have a sub menu.
                 } else {
                     // setup default menu
