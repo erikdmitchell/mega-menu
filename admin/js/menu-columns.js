@@ -161,6 +161,7 @@ console.log('load new menu');
                 addItemHiddenFields($el); // adds hidden fields.
                 updateItemOptions($el); // update fields/options. 
                 addItemActions($el); // add action icons.
+                addItemPrimaryNavID($el); // adds the submenu id.
             });
             
             addBlockActions($(this).attr('id'));
@@ -471,13 +472,13 @@ console.log('load new menu');
         closeSubmenu: function(id) {           
             pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
-              
+console.log('closeSubmenu()');              
             // ajax to save submenu.
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
                 pmmMegaMenu.displayMessage(response);
 
                 clearGrid(); // empty grid.
-                $('.pmm-menu-grid').hide(); // hide grid.
+                //$('.pmm-menu-grid').hide(); // hide grid.
 
                 pmmSavingSubmenu = false;
                 
@@ -496,10 +497,11 @@ console.log('load new menu');
             }
             
             showAJAXLoader('#wpcontent');
-             
+console.log('loadSubmenu()');             
             // ajax to get submenu.
             pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
-                if (response.success == true) {                   
+                if (response.success == true) {  
+console.log('load existing sub menu');                                     
                     setupExistingSubMenu(response.data); // we have a sub menu.
                 } else {
                     // setup default menu
