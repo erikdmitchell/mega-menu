@@ -429,6 +429,9 @@ console.log('load new menu');
             pmmMegaMenuAJAX.saveMenu(function(response) {
                 pmmMegaMenu.displayMessage(response);
                 
+                $('.pmm-menu-main-navigation').html(''); // clear.
+                loadMenu(); // reload primary nav.                
+                
                 hideAJAXLoader();
             });               
         },

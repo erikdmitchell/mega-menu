@@ -216,12 +216,14 @@ class PMM_Admin_Save_Menu {
         foreach ( $this->post_fields as $field )
             $args[$field] = isset( $menu_item[$field] ) ? $menu_item[$field] : '';
 
-        //$db_id = $this->get_menu_item_db_id($menu_item['id']);
-        $db_id = 0;
+        $db_id = $this->get_menu_item_db_id($menu_item['id']);
+        //$db_id = 0;
 //echo "$nav_menu_selected_id | $db_id\n";
 //print_r($args);
 //print_r($menu_item);
 //exit;
+print_r($menu_item);
+echo "$db_id\n";
 
         $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
 
@@ -231,8 +233,6 @@ class PMM_Admin_Save_Menu {
                'message' => $menu_item_db_id->get_error_message(), 
             ));                    
         else :
-            unset( $menu_items[ $menu_item_db_id ] );
-            
             // this is a force publish for now - long term we may need to fix this
             wp_update_post(array(
                 'ID' => $menu_item_db_id,
@@ -240,6 +240,8 @@ class PMM_Admin_Save_Menu {
             ));
             
             $this->update_menu_item_meta($menu_item_db_id, $menu_item);
+            
+            return $menu_item_db_id;
         endif;
         
         return;       
@@ -259,12 +261,15 @@ class PMM_Admin_Save_Menu {
         if (!empty($post_menu_items)) : 
             foreach ( (array) $post_menu_items as $_key => $k ) :
      
-                $this->update_nav_menu_item($k, $nav_menu_selected_id);
+                $menu_item_db_id = $this->update_nav_menu_item($k, $nav_menu_selected_id);
+                
+                if (isset($menu_items[$menu_item_db_id]))
+                    unset( $menu_items[ $menu_item_db_id ] );
 
             endforeach;       
         endif;
      
-        // Remove menu items from the menu that weren't in $_POST - this needs to be modified to handle the specific submenu
+        // Remove menu items from the menu that weren't in $_POST - this needs to be modified to handle the specific submenu       
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
