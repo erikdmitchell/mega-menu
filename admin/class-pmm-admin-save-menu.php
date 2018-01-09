@@ -55,7 +55,7 @@ class PMM_Admin_Save_Menu {
 				$_nav_menu_selected_id = wp_update_nav_menu_object( 0, array('menu-name' => $new_menu_title) );
 
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
-                    pmm_add_admin_notice(array(
+                    $message = $this->notices(array(
                        'type' => 'error',
                        'message' => $_nav_menu_selected_id->get_error_message(),
                        'dismissible' => true, 
@@ -69,7 +69,7 @@ class PMM_Admin_Save_Menu {
 		  			if ( isset( $_REQUEST['pmm_menu_items'] ) )
                         $this->nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
 					
-                    pmm_add_admin_notice(array(
+                    $message = $this->notices(array(
                        'type' => 'success',
                        'message' => sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ),
                     ));					
@@ -89,7 +89,7 @@ class PMM_Admin_Save_Menu {
 			$menu_title = trim( $menu_name );
 			
 			if ( ! $menu_title ) {
-                pmm_add_admin_notice(array(
+                $message = $this->notices(array(
                    'type' => 'error',
                    'message' => __( 'Please enter a valid menu name.' ),
                    'dismissible' => true,
@@ -104,7 +104,7 @@ class PMM_Admin_Save_Menu {
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
 					$_menu_object = $_nav_menu_selected_id;
 
-                    pmm_add_admin_notice(array(
+                    $message = $this->notices(array(
                        'type' => 'error',
                        'message' => $_nav_menu_selected_id->get_error_message(),
                        'dismissible' => true,
@@ -216,7 +216,7 @@ echo "update primary nav\n";
         $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
 
         if ( is_wp_error( $menu_item_db_id ) ) :                    
-            pmm_add_admin_notice(array(
+            $message = $this->notices(array(
                'type' => 'error',
                'message' => $menu_item_db_id->get_error_message(), 
             ));                    
@@ -291,7 +291,7 @@ print_r($k);
                 $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
      
                 if ( is_wp_error( $menu_item_db_id ) ) :                    
-                    pmm_add_admin_notice(array(
+                    $message = $this->notices(array(
                        'type' => 'error',
                        'message' => $menu_item_db_id->get_error_message(), 
                     ));                    
@@ -326,7 +326,7 @@ exit;
      
         wp_defer_term_counting( false );
             
-        pmm_add_admin_notice(array(
+        $message = $this->notices(array(
            'type' => 'success',
            'message' => sprintf( __( '%s has been updated.' ), '<strong>' . $nav_menu_selected_title . '</strong>' ),
            'dismissible' => true, 
@@ -334,7 +334,7 @@ exit;
      
         //unset( $menu_items, $unsorted_menu_items );
    
-        return true;
+        return $message;
     }
     
     private function get_menu_item_db_id($id = 0) {
