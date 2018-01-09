@@ -25,7 +25,7 @@ jQuery( function($) {
         });
         
         adjustItemsWidth();
-    }
+    };
     
     // gets id from an id string.
     var getID = function(string) {
@@ -256,7 +256,7 @@ console.log('load new menu');
                 value: value
             }).appendTo($el);
         });        
-    }
+    };
     
     // update primary nav ids.
     var updateNavigationItemIDs = function() {
@@ -392,12 +392,12 @@ console.log('load new menu');
     		src: '/wp-admin/images/wpspin_light-2x.gif',
     		'class': 'pmm-admin-ajax-loader-image'
     	}).appendTo( loaderContainer );
-    }
+    };
 
     // remove loader.
     var hideAJAXLoader = function() {
     	jQuery('.pmm-admin-ajax-loader-image-container').remove();
-    }
+    };
     
     // variables.
     var pmmSavingSubmenu = false;
