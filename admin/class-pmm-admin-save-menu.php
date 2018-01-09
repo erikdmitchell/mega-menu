@@ -74,7 +74,7 @@ class PMM_Admin_Save_Menu {
 					
 					// Save menu items.
 		  			if ( !empty($menu_items) )
-                        $this->update_menu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $menu_items);
+                        $this->update_menu_nav_items($nav_menu_selected_id, $nav_menu_selected_title, $menu_items);
 					
                     $message = $this->notices(array(
                        'type' => 'success',
@@ -105,7 +105,9 @@ class PMM_Admin_Save_Menu {
 
             // Update menut object.
 			if ( ! is_wp_error( $_menu_object ) ) {
+    			
 				$_nav_menu_selected_id = wp_update_nav_menu_object( $menu_id, array( 'menu-name' => $menu_title ) );
+				
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
 					$_menu_object = $_nav_menu_selected_id;
 
@@ -124,7 +126,7 @@ class PMM_Admin_Save_Menu {
 
 			// Update menu items.
 			if ( ! is_wp_error( $_menu_object ) ) {
-    			$this->update_menu_nav_menu_items($_menu_object->term_id, $nav_menu_selected_title, $menu_items);
+    			$this->update_menu_nav_items($_menu_object->term_id, $nav_menu_selected_title, $menu_items);
 
 				// If the menu ID changed, redirect to the new URL.
 				if ( $menu_id != $_nav_menu_selected_id ) {
@@ -170,7 +172,7 @@ class PMM_Admin_Save_Menu {
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
-echo "delete post: $menu_item_id\n";                    
+//echo "update_submenu_nav_menu_items() | delete post: $menu_item_id\n";                    
                     wp_delete_post( $menu_item_id );
                 }
             }
@@ -192,10 +194,12 @@ echo "delete post: $menu_item_id\n";
     private function get_submenu_items($nav_menu_selected_id, $submenu_id) {
         $menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
         $submenu_items = array();
-        
+                
         if (empty($menu_items))
             return;
             
+        $menu_items = $this->append_nav_item_meta_via_db_id($menu_items);
+           
         foreach ($menu_items as $menu_item) :
             if ($menu_item->pmm_menu_primary_nav == $submenu_id)
                 $submenu_items[] = $menu_item; 
@@ -226,8 +230,8 @@ echo "delete post: $menu_item_id\n";
 //print_r($args);
 //print_r($menu_item);
 //exit;
-print_r($menu_item);
-echo "$db_id\n";
+//print_r($menu_item);
+//echo "$db_id\n";
 
         $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
 
@@ -251,7 +255,7 @@ echo "$db_id\n";
         return;       
     }
     
-    private function update_menu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items = '') {              
+    private function update_menu_nav_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items = '') {              
         $unsorted_menu_items = $this->get_menu_items($nav_menu_selected_id);
         $menu_items = array();
         
@@ -277,7 +281,7 @@ echo "$db_id\n";
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
-echo "delete post: $menu_item_id\n";                    
+//echo "update_menu_nav_items() | delete post: $menu_item_id\n";                    
                     wp_delete_post( $menu_item_id );
                 }
             }
@@ -296,9 +300,11 @@ echo "delete post: $menu_item_id\n";
      
         if (empty($menu_items))
             return $primary_menu_items;
-            
+
+        $menu_items = $this->append_nav_item_meta_via_db_id($menu_items);            
+
         foreach ($menu_items as $menu_item) :
-            if ($menu_item->pmm_menu_primary_nav == $submenu_id)
+            if ($menu_item->pmm_nav_type == 'primary')
                 $primary_menu_items[] = $menu_item; 
         endforeach;
         
@@ -314,6 +320,19 @@ echo "delete post: $menu_item_id\n";
             return 0;
         
         return $db_id;
+    }
+    
+    private function append_nav_item_meta_via_db_id($items) {   
+        foreach ($items as $item) :
+            $item->pmm_column = get_post_meta($item->db_id, '_pmm_menu_item_column', true);
+            $item->pmm_block = get_post_meta($item->db_id, '_pmm_menu_item_block', true);
+            $item->pmm_order = get_post_meta($item->db_id, '_pmm_menu_item_order', true);
+            $item->pmm_item_type = get_post_meta($item->db_id, '_pmm_menu_item_type', true);
+            $item->pmm_nav_type = get_post_meta($item->db_id, '_pmm_menu_nav_type', true);
+            $item->pmm_menu_primary_nav = get_post_meta($item->db_id, '_pmm_menu_primary_nav', true); 
+        endforeach;                       
+    
+        return $items;
     }
     
     private function notices($args='') {
