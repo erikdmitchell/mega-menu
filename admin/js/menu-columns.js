@@ -1,11 +1,4 @@
 jQuery(document).ready(function($) {
- 
-    // add a column.
-    $('#pickle-mega-menu-admin .columns-list li a').on('click', function(e) {
-      e.preventDefault();
-      
-      // add column       
-   });
    
    // toggles the edit details for an item.
    $(document).on('click', '.pmm-block .pmm-item .edit-item', function(e) {
@@ -411,6 +404,7 @@ console.log('load new menu');
     var pmmMegaMenu = {
         
         init: function() {
+            $(document).on('click', '#pmm-save-menu', this.saveMenu);
             $(document).on('click', '#pmm-menu-main-navigation .pmm-item', this.toggleSubmenu);
             $(document).on('click', '#pmm-add-column', this.addColumnBtn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
@@ -423,6 +417,20 @@ console.log('load new menu');
             updateColumnWidth();
             refreshSortables(); 
             refreshDraggable();         
+        },
+        
+        saveMenu: function(e) {
+            e.preventDefault();
+            
+            showAJAXLoader('#wpcontent');
+            
+            // ajax to save submenu.
+            pmmMegaMenuAJAX.saveMenu(function(response) {
+console.log('save menu');
+console.log(response); // - wp json success/error DISPLAY IT?!
+                
+                hideAJAXLoader();
+            });               
         },
         
         toggleSubmenu: function(e) {
@@ -500,9 +508,9 @@ console.log('load new sub menu');
                     pmmMegaMenu.addColumn();
                     pmmMegaMenu.manualAddBlock(0, 0);
                     
-                    updateColumnWidth();
-                    
                     $('.pmm-menu-grid').show(); // show grid.
+                    
+                    updateColumnWidth();
                     
                     hideAJAXLoader();
                 }

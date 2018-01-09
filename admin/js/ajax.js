@@ -24,6 +24,18 @@ var pmmMegaMenuAJAX = {
         });
     },
 
+    saveMenu: function(callback) {           
+        var data = {
+            'action': 'pmm_save_menu',
+            'id': $('#pickle-mega-menu-admin #menu-id').val(),
+            'form': $('form#save-menu').serialize()
+        };
+     
+        $.post(ajaxurl, data, function(response) {            
+            callback(response);
+        });
+    },
+
     saveSubMenu: function(id, callback) {           
         var data = {
             'action': 'pmm_save_submenu',

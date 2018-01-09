@@ -5,8 +5,7 @@ class PMM_Admin_Save_Menu {
     private $post_fields = array();
         
     public function __construct() {
-        add_action('admin_init', array($this, 'save_menu'));
-        
+        add_action('wp_ajax_pmm_save_menu', array($this, 'ajax_save_menu'));
         add_action('wp_ajax_pmm_save_submenu', array($this, 'ajax_save_submenu'));
         
         $this->post_fields = array(
@@ -15,6 +14,21 @@ class PMM_Admin_Save_Menu {
             'menu-item-title', 'menu-item-url', 'menu-item-description',
             'menu-item-attr-title', 'menu-item-target', 'menu-item-classes', 'menu-item-xfn'
         );
+    }
+
+    public function ajax_save_menu() {
+        $form_menu_items = array();
+        
+        parse_str($_POST['form'], $form_data);
+
+        foreach ($form_data['pmm_menu_items'] as $form_menu_item) :           
+            if ($form_menu_item['nav_type'] != 'subnav' && $form_menu_item['primary_nav'] == '')
+                $form_menu_items[] = $form_menu_item; 
+        endforeach;        
+
+        echo $this->update_menu(esc_html($form_data['menu_name']), $form_data['menu_id'], $form_menu_items);
+
+        wp_die();        
     }
     
     public function ajax_save_submenu() {
@@ -37,15 +51,8 @@ class PMM_Admin_Save_Menu {
 
         wp_die();        
     }
-    
-    public function save_menu() {       
-        if (!isset($_POST['pmm_admin']) || !wp_verify_nonce($_POST['pmm_admin'], 'pmm_save_menu'))
-            return;
-
-        $this->update_menu(esc_html($_POST['menu_name']), $_POST['menu_id']);
-    }
-    
-    private function update_menu($menu_name='', $menu_id=0) {               
+        
+    private function update_menu($menu_name='', $menu_id=0, $menu_items = '') {               
         // Add new menu.
         if (0 == $menu_id) :
             $new_menu_title = trim(esc_html($menu_name));
@@ -66,16 +73,16 @@ class PMM_Admin_Save_Menu {
 					$nav_menu_selected_title = $_menu_object->name;
 					
 					// Save menu items.
-		  			if ( isset( $_REQUEST['pmm_menu_items'] ) )
-                        $this->nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
+		  			if ( !empty($menu_items) )
+		  			  $this->update_menu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $menu_items);
 					
                     $message = $this->notices(array(
                        'type' => 'success',
                        'message' => sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ),
                     ));					
 					
-					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
-					exit();
+					//wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
+					//exit();
 				} 
             
             else :
@@ -117,21 +124,17 @@ class PMM_Admin_Save_Menu {
 
 			// Update menu items.
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$this->nav_menu_update_menu_items( $_menu_object->term_id, $nav_menu_selected_title );
-//exit();				
+    			$this->update_menu_nav_menu_items($_menu_object->term_id, $nav_menu_selected_title, $menu_items);
+
 				// If the menu ID changed, redirect to the new URL.
 				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
-					wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
-					exit();
+					//wp_redirect( admin_url( 'themes.php?page=pickle-mega-menu&menu=' . intval( $_nav_menu_selected_id ) ) );
+					//exit();
 				}
 			} 
      
         endif;
         
-    }
-    
-    private function update_primary_nav_menu_items() {
-echo "update primary nav\n";        
     }
 
     private function update_submenu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $sub_nav_id = 0, $post_menu_items = '') {
@@ -235,84 +238,26 @@ echo "update primary nav\n";
         return;       
     }
     
-    // https://developer.wordpress.org/reference/functions/wp_nav_menu_update_menu_items/
-    private function nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items = '') {
-        $unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
+    private function update_menu_nav_menu_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items = '') {              
+        $unsorted_menu_items = $this->get_menu_items($nav_menu_selected_id);
         $menu_items = array();
         
         // Index menu items by db ID
         foreach ( $unsorted_menu_items as $_item )
             $menu_items[$_item->db_id] = $_item;
-     
-        $post_fields = array(
-            'menu-item-db-id', 'menu-item-object-id', 'menu-item-object',
-            'menu-item-parent-id', 'menu-item-position', 'menu-item-type',
-            'menu-item-title', 'menu-item-url', 'menu-item-description',
-            'menu-item-attr-title', 'menu-item-target', 'menu-item-classes', 'menu-item-xfn'
-        );
 
-        wp_defer_term_counting( true );
-
-
-//echo '<pre>';
-//print_r($post_menu_items);
-//print_r($menu_items);
-//echo '</pre>';
-//exit;
-
-
+        wp_defer_term_counting( true );        
+        
         // Loop through all the menu items' POST variables
         if (!empty($post_menu_items)) : 
             foreach ( (array) $post_menu_items as $_key => $k ) :
      
-                // Menu item title can't be blank
-                if ( ! isset( $k['label'] ) || '' == $k['label'] )
-                    continue;
-                    
-                // convert to wp names for better menu compat and insert.
-                foreach ($k as $key => $value) :
-                    if (array_key_exists($key, $this->pmm_item_args_to_wp())) :
-                        $k[$this->pmm_item_args_to_wp()[$key]] = $value;
-                    endif;
-                endforeach;
-     
-                $args = array();
-                foreach ( $post_fields as $field )
-                    $args[$field] = isset( $k[$field] ) ? $k[$field] : '';
-
-                //$db_id = $this->get_menu_item_db_id($k['id']);
-                $db_id = 0;
-echo "$nav_menu_selected_id | $db_id\n";
-print_r($args);
-print_r($k);
-//exit;
-
-/*
-                $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
-     
-                if ( is_wp_error( $menu_item_db_id ) ) :                    
-                    $message = $this->notices(array(
-                       'type' => 'error',
-                       'message' => $menu_item_db_id->get_error_message(), 
-                    ));                    
-                else :
-                    unset( $menu_items[ $menu_item_db_id ] );
-                    
-                    // this is a force publish for now - long term we may need to fix this
-                    wp_update_post(array(
-                        'ID' => $menu_item_db_id,
-                        'post_status' => 'publish',
-                    ));
-                    
-                    $this->update_menu_item_meta($menu_item_db_id, $k);
-                endif;
-*/
+                $this->update_nav_menu_item($k, $nav_menu_selected_id);
 
             endforeach;       
         endif;
      
         // Remove menu items from the menu that weren't in $_POST - this needs to be modified to handle the specific submenu
-/*
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
                 if ( is_nav_menu_item( $menu_item_id ) ) {
@@ -320,21 +265,33 @@ print_r($k);
                 }
             }
         }
-*/
-
-exit;
      
         wp_defer_term_counting( false );
-            
+        
         $message = $this->notices(array(
            'type' => 'success',
            'message' => sprintf( __( '%s has been updated.' ), '<strong>' . $nav_menu_selected_title . '</strong>' ),
-           'dismissible' => true, 
+           'dismissible' => true,            
         ));
      
-        //unset( $menu_items, $unsorted_menu_items );
+        unset( $menu_items, $unsorted_menu_items );
    
         return $message;
+    }
+ 
+    private function get_menu_items($nav_menu_selected_id) {
+        $menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft, publish' ) );
+        $primary_menu_items = array();
+     
+        if (empty($menu_items))
+            return $primary_menu_items;
+            
+        foreach ($menu_items as $menu_item) :
+            if ($menu_item->pmm_menu_primary_nav == $submenu_id)
+                $primary_menu_items[] = $menu_item; 
+        endforeach;
+        
+        return $primary_menu_items;
     }
     
     private function get_menu_item_db_id($id = 0) {
