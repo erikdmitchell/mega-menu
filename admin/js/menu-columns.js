@@ -500,6 +500,10 @@ console.log('load new sub menu');
                     pmmMegaMenu.addColumn();
                     pmmMegaMenu.manualAddBlock(0, 0);
                     
+                    updateColumnWidth();
+                    
+                    $('.pmm-menu-grid').show(); // show grid.
+                    
                     hideAJAXLoader();
                 }
             });           
