@@ -171,8 +171,7 @@ class PMM_Admin_Save_Menu {
         // Remove menu items from the menu that weren't in $_POST - this needs to be modified to handle the specific submenu
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
-                if ( is_nav_menu_item( $menu_item_id ) ) {
-//echo "update_submenu_nav_menu_items() | delete post: $menu_item_id\n";                    
+                if ( is_nav_menu_item( $menu_item_id ) ) {                   
                     wp_delete_post( $menu_item_id );
                 }
             }
@@ -225,13 +224,6 @@ class PMM_Admin_Save_Menu {
             $args[$field] = isset( $menu_item[$field] ) ? $menu_item[$field] : '';
 
         $db_id = $this->get_menu_item_db_id($menu_item['id']);
-        //$db_id = 0;
-//echo "$nav_menu_selected_id | $db_id\n";
-//print_r($args);
-//print_r($menu_item);
-//exit;
-//print_r($menu_item);
-//echo "$db_id\n";
 
         $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
 
@@ -280,8 +272,7 @@ class PMM_Admin_Save_Menu {
         // Remove menu items from the menu that weren't in $_POST - this needs to be modified to handle the specific submenu       
         if ( ! empty( $menu_items ) ) {
             foreach ( array_keys( $menu_items ) as $menu_item_id ) {
-                if ( is_nav_menu_item( $menu_item_id ) ) {
-//echo "update_menu_nav_items() | delete post: $menu_item_id\n";                    
+                if ( is_nav_menu_item( $menu_item_id ) ) {                   
                     wp_delete_post( $menu_item_id );
                 }
             }
