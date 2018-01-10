@@ -39,7 +39,7 @@ function pmm_override_nav_menu($nav_menu, $args) {
     if ($args->theme_location != 'primary') // setting?!
         return $nav_menu;
 
-    $pmm = new PMM_Build_Menu(1183); // setting?!
+    $pmm = new PMM_Build_Menu(61); // setting?!
     
     return $pmm->display();
 }
