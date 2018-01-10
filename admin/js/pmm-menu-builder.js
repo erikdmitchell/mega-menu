@@ -425,7 +425,8 @@ console.log('load new menu');
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
             $(document).on('click', '.pmm-block .remove-block', this.removeBlock);
-            $(document).on('click', '.pmm-column .remove-column', this.removeColumn);                                    
+            $(document).on('click', '.pmm-column .remove-column', this.removeColumn);
+            $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                               
             
             loadMenu();
             
@@ -623,8 +624,13 @@ console.log('load new menu');
         },
         
         displayMessage: function(message) {
-            $(message).insertBefore($('#pickle-mega-menu-admin .menu-items-wrap'));
+            $('#pickle-mega-menu-admin .menu-items-wrap').prepend(message);
+        },
+        
+        dismissNotice: function() {
+            $(this).parent().remove();
         }
+        
     };
 
     pmmMegaMenu.init();

@@ -49,10 +49,8 @@
     margin-bottom: 10px;
 }
 #pickle-mega-menu-admin .pmm-menu-main-navigation {
-    //border: 1px dashed #000;
     min-height: 30px;
     margin-bottom: 15px;
-    //padding: 5px;
     overflow: hidden;
 }
 #pickle-mega-menu-admin .pmm-main-navigation-item-placeholder {

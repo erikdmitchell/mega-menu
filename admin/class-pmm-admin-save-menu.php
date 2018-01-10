@@ -335,17 +335,20 @@ class PMM_Admin_Save_Menu {
         $args=wp_parse_args($args, $default_args);
         $type = '';
         $dismissible = '';
+        $button = '';
 				
         if ( $args['type'] )
             $type = ' notice-' . sanitize_title( $args['type'] );
 				
-        if ( $args['dismissible'] )
+        if ( $args['dismissible'] ) :
             $dismissible = ' is-dismissible';
+            $button = '<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>';
+        endif;
 
         $class = ' class="notice' . $type . $dismissible . '"';
         $message = wp_kses_post( $args['message'] );
         
-		return sprintf( '<div%1$s%2$s><p>%3$s</p></div>', $id, $class, $message );        
+		return sprintf( '<div%1$s%2$s><p>%3$s</p>%4$s</div>', $id, $class, $message, $button );        
     }
     
     protected function update_menu_item_meta($post_id=0, $item='') {
