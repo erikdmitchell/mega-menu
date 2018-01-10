@@ -19,32 +19,8 @@ class PMM_Build_Menu {
         $this->menu_object_id = $menu_object->term_id;
         $this->menu_items = wp_get_nav_menu_items($this->menu_object_id);
     }
-/*
-mega-menu
-
-    mega-menu-item mega-menu-item-SLUG id: mega-menu-item-POST mega-menu-item-has-children
-    
-        mega-menu-link
-        
-        mega-sub-menu
-        
-            mega-menu-item
-                mega-menu-link
-                
-                mega-menu-row (li)
-                mega-sub-menu (ul)
-                
-                    mega-menu-column (li)
-                    
-                        mega-sub-menu (ul) 
-*/    
-    public function display() {
-        //return $this->build_menu();
-        
-        /*
-          primary nav, does it have sub, then add  
-        */
-        
+   
+    public function display() {        
         $html='';        
         
         if (empty($this->menu_items))
