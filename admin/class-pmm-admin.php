@@ -11,6 +11,7 @@ class PMM_Admin {
         add_action('admin_init', array($this, 'register_items'));
         add_action('wp_ajax_pmm_load_menu', array($this, 'ajax_load_menu'));
         add_action('wp_ajax_pmm_load_submenu', array($this, 'ajax_load_submenu'));
+        add_action('wp_ajax_pmm_delete_submenu', array($this, 'ajax_delete_submenu'));
     }
     
     public function scripts_styles() {
@@ -19,7 +20,7 @@ class PMM_Admin {
         wp_enqueue_script('pmm-menu-builder', PMM_URL.'admin/js/pmm-menu-builder.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);
         wp_enqueue_script('pmm-menu-ajax', PMM_URL.'admin/js/pmm-menu-builder-ajax.js', array('pmm-menu-builder'), '0.1.0', true);
             
-        wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-page.css', '', PMM_VERSION);         
+        wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-menu-builder.css', '', PMM_VERSION);         
     }
     
     public function menu() {
@@ -33,7 +34,7 @@ class PMM_Admin {
         
             $html.='<h1>Pickle Mega Menu</h1>';
         
-            $html.=$this->get_admin_page( 'main' );
+            $html.=$this->get_admin_page( 'menu-builder' );
         
         $html.='</div>';
         
@@ -135,5 +136,23 @@ class PMM_Admin {
 
         wp_die();        
     } 
+    
+    public function ajax_delete_submenu() {
+        $menu_items = wp_get_nav_menu_items( $_POST['menu_id'] );
+        $menu_items_to_remove = array($_POST['item_id']);
+        
+        foreach ($menu_items as $menu_item) :
+            if ('subnav' === $menu_item->pmm_nav_type && $_POST['sub_nav_id'] === $menu_item->pmm_menu_primary_nav )
+                $menu_items_to_remove[] = $menu_item->ID;
+        endforeach;
+        
+        foreach ($menu_items_to_remove as $post_id) :
+            wp_delete_post($post_id);
+        endforeach;
+
+        wp_send_json('<div class="notice notice-success is-dismissible"><p>Menu items removed.</p></div>');
+        
+        wp_die();
+    }
 	   
 }

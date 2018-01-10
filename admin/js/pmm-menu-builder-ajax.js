@@ -47,6 +47,19 @@ var pmmMegaMenuAJAX = {
         $.post(ajaxurl, data, function(response) {            
             callback(response);
         });
-    }
+    },
+    
+    removeSubMenu: function(id, itemID, callback) {           
+        var data = {
+            'action': 'pmm_delete_submenu',
+            'menu_id': $('#pickle-mega-menu-admin #menu-id').val(),
+            'sub_nav_id': id,
+            'item_id': itemID
+        };
+     
+        $.post(ajaxurl, data, function(response) {            
+            callback(response);
+        });
+    }    
     
 };

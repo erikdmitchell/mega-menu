@@ -51,7 +51,8 @@ jQuery( function($) {
                 if (!$(ui.helper).hasClass('add-submenu')) {
                     $(ui.helper).addClass('add-submenu');            
                 }
-                setNavigationItemID($(ui.helper), ui.item.index());             
+                setNavigationItemID($(ui.helper), ui.item.index());
+                addPrimaryNavItemActions($(ui.helper));             
             },
             stop: function(event, ui) {
                 // setup our id here.                               
@@ -129,10 +130,12 @@ console.log('load new menu');
         });        
     };
     
+    // setup an existing menu.
     var setupExistingMenu = function(primaryNavHTMl) {
         setupPrimaryNavHTML(primaryNavHTMl);
     };
     
+    // loads and setups submenu items.
     var setupExistingSubMenu = function(submenuHTML) {
         // append the submenu.
         $('#pmm-menu-grid').append(submenuHTML); 
@@ -191,6 +194,7 @@ console.log('load new menu');
             $(this).addClass('add-submenu');
             
             setNavigationItemID($(this), i);
+            addPrimaryNavItemActions($(this));
         });
         
         refreshSortables(); 
@@ -363,6 +367,14 @@ console.log('load new menu');
         $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(getID(primaryNavID)); // set primary nav value.
         $el.find('input[name="pmm_menu_items[' + uID + '][nav_type]"]').val('subnav'); // set type as something other than primary (subnav).        
     };
+
+    // adds actions to the primary nav item.    
+    var addPrimaryNavItemActions = function($el) {
+        $('<a/>', {
+            href: '',
+            class: 'remove-primary-item dashicons dashicons-trash' 
+        }).appendTo($el);         
+    };
     
     // adds actions to the item.    
     var addItemActions = function($el) {
@@ -407,7 +419,8 @@ console.log('load new menu');
         
         init: function() {
             $(document).on('click', '#pmm-save-menu', this.saveMenu);
-            $(document).on('click', '#pmm-menu-main-navigation .pmm-item', this.toggleSubmenu);
+            $(document).on('click', '#pmm-menu-main-navigation .pmm-navigation-item', this.toggleSubmenu);
+            $(document).on('click', '.pmm-navigation-item .remove-primary-item', this.removePrimaryNavItem);
             $(document).on('click', '#pmm-add-column', this.addColumnBtn);
             $(document).on('click', '.pmm-column .add-block', this.addBlock);
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
@@ -573,6 +586,25 @@ console.log('load new menu');
             e.preventDefault();
             
             $(this).parents('.pmm-item').remove();          
+        },
+        
+        removePrimaryNavItem: function(e) {
+            showAJAXLoader('#wpcontent');
+            
+            e.stopPropagation();
+            e.preventDefault();
+            
+            var $item = $(this).parents('.pmm-navigation-item');
+            var itemuID = $item.attr('uid');
+            var itemDBid = $('input[name="pmm_menu_items[' + itemuID + '][id]"]').val();
+            
+            $item.remove(); // remove item from screen.
+            
+            pmmMegaMenuAJAX.removeSubMenu(getID($item.attr('id')), itemDBid, function(response) {            
+                pmmMegaMenu.displayMessage(response);
+                
+                hideAJAXLoader();
+            });                    
         },
         
         removeBlock: function(e) {
