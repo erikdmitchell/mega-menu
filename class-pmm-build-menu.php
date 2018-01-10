@@ -55,11 +55,10 @@ mega-menu
         $html.='<ul class="pmm-mega-menu">';
         
         foreach ($primary_nav_items as $primary_nav_item) :
-            $classes = array("pmm-mega-menu-item", "pmm-mega-menu-item-{$primary_nav_item->post_name}", "pmm-mega-menu-item-{$primary_nav_item->ID}");
+            $classes = array("pmm-mega-menu-item", "pmm-mega-menu-primary-nav-item", "pmm-mega-menu-item-{$primary_nav_item->post_name}", "pmm-mega-menu-item-{$primary_nav_item->ID}");
             
             if ($this->has_subnav($primary_nav_item->pmm_order))
-                $classes[] = 'pmm-mega-menu-item-has-children';
-//print_r($primary_nav_item);        
+                $classes[] = 'pmm-mega-menu-item-has-children';       
 
             $html.='<li id="pmm-mega-menu-item-'.$primary_nav_item->ID.'" class="'.implode(' ', $classes).'">';
                 $html.='<a class="pmm-mega-menu-link" href="'.get_permalink($primary_nav_item->ID).'">'.$primary_nav_item->title.'</a>';
@@ -108,7 +107,7 @@ mega-menu
         $sub_menu_items = $this->get_sub_nav_items($sub_nav_id);
         $layout = $this->get_columns_and_rows($sub_menu_items);
         
-        $html.='<ul class="pmm-mega-menu-sub">';
+        $html.='<ul class="pmm-mega-menu-sub pmm-mega-menu-columns-'.count($layout).'">';
         
             foreach ($layout as $column => $blocks) :
                 $html.=$this->add_column($column, $blocks, $sub_menu_items);
