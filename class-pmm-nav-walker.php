@@ -21,12 +21,20 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 			$n = "\n";
 		}
 		$indent = ( $depth ) ? str_repeat( $t, $depth ) : '';
-
+//print_r($args);
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes = $this->update_item_classes($classes);
 		$classes[] = 'pmm-mega-menu-item-' . $item->ID;
 		$classes[] = 'pmm-mega-menu-item-' . $item->post_name;
-		$classes[] = 'pmm-mega-menu-primary-nav-item'; // make sure this does not apply to submenu items
+		
+		// do some primary nav work here.
+		if (0 === $depth) :
+    		$classes[] = 'pmm-mega-menu-primary-nav-item';
+    		
+    		if ($this->has_subnav($item->pmm_order, $args->menu->term_id)) :
+                $classes[] = 'pmm-mega-menu-item-has-children'; 
+            endif;
+        endif;
 
 		// Filters the arguments for a single nav menu item.
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
@@ -36,7 +44,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		// Filters the ID applied to a menu item's list item element.
-		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
+		$id = apply_filters( 'nav_menu_item_id', 'pmm-mega-menu-item-'. $item->ID, $item, $args, $depth );
 		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
 		$output .= $indent . '<li' . $id . $class_names .'>';
@@ -49,7 +57,6 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$atts['class'] = 'pmm-mega-menu-link'; // set class for link.
 
 		// Filters the HTML attributes applied to a menu item's anchor element.
-
 		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
 
 		$attributes = '';
@@ -86,6 +93,24 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
     	    return $classes;
     	    
         return str_replace('menu-item', 'pmm-mega-menu-item', $classes);
-	}    
+	}
+	
+    protected function has_subnav($sub_nav_id = 0, $menu_id = 0) {
+        $menu_items = wp_get_nav_menu_items($menu_id);
+        
+        foreach ($menu_items as $menu_item) :       
+            if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->pmm_menu_primary_nav === $sub_nav_id) :
+                return true;
+            endif;
+        endforeach;
+        
+        return false;       
+    }	   
     
 }
+
+                  
+
+                
+                   
+                        //$html.=$this->get_subnav($primary_nav_item->pmm_order);

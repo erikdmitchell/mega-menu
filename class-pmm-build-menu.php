@@ -2,12 +2,15 @@
 
 class PMM_Build_Menu {
     
+/*
     public $menu_id = 0;
     
     public $menu_object_id = 0;
     
     public $menu_items = '';
+*/
         
+/*
     public function __construct($menu_id=0) {
         $this->menu_id = $menu_id;
         
@@ -19,7 +22,9 @@ class PMM_Build_Menu {
         $this->menu_object_id = $menu_object->term_id;
         $this->menu_items = wp_get_nav_menu_items($this->menu_object_id);
     }
+*/
    
+/*
     public function display() {        
         $html='';        
         
@@ -50,7 +55,9 @@ class PMM_Build_Menu {
         return $html;
         
     }
+*/
     
+/*
     protected function get_primary_nav_items() {
         $primary_nav_items = array();
         
@@ -67,7 +74,9 @@ class PMM_Build_Menu {
         
         return $primary_nav_items;       
     }
+*/
     
+/*
     protected function has_subnav($sub_nav_id = 0) {
         foreach ($this->menu_items as $menu_item) :       
             if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->pmm_menu_primary_nav === $sub_nav_id) :
@@ -77,6 +86,7 @@ class PMM_Build_Menu {
         
         return false;       
     }
+*/
 
     public function get_subnav($sub_nav_id = 0) {       
         $html='';
