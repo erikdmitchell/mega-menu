@@ -39,9 +39,11 @@ add_filter('wp_get_nav_menu_items', 'pmm_get_nav_menu_items', 10, 3);
 function pmm_nav_walker_override($sorted_menu_items, $args) {
     // verify is megau menu?!
     // $args->menu will have the info
+    //print_r($args);    
     
-    // append our walker.
+    // append our walker and tweak args.
     $args->walker = new PMM_Nav_Walker();
+    $args->menu_class = 'pmm-mega-menu';
 
     return pmm_sorted_menu_items_primary_only($sorted_menu_items);
 }
