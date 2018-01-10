@@ -16,8 +16,8 @@ class PMM_Admin {
     public function scripts_styles() {
         wp_enqueue_script('jquery-ui-draggable');
         wp_enqueue_script('jquery-ui-accordion');
-        wp_enqueue_script('pmm-menu-columns', PMM_URL.'admin/js/menu-columns.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);
-        wp_enqueue_script('pmm-menu-ajax', PMM_URL.'admin/js/ajax.js', array('pmm-menu-columns'), '0.1.0', true);
+        wp_enqueue_script('pmm-menu-builder', PMM_URL.'admin/js/pmm-menu-builder.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);
+        wp_enqueue_script('pmm-menu-ajax', PMM_URL.'admin/js/pmm-menu-builder-ajax.js', array('pmm-menu-builder'), '0.1.0', true);
             
         wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-page.css', '', PMM_VERSION);         
     }
