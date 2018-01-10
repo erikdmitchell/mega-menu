@@ -10,6 +10,7 @@ class PMM_Admin {
         add_action('admin_init', array($this, 'select_menu'));
         add_action('admin_init', array($this, 'register_items'));
         add_action('wp_ajax_pmm_load_menu', array($this, 'ajax_load_menu'));
+        add_action('wp_ajax_pmm_load_menu_locations', array($this, 'ajax_load_menu_locations'));
         add_action('wp_ajax_pmm_load_submenu', array($this, 'ajax_load_submenu'));
         add_action('wp_ajax_pmm_delete_submenu', array($this, 'ajax_delete_submenu'));
     }
@@ -122,6 +123,44 @@ class PMM_Admin {
 
         wp_die();        
     }   
+
+    public function ajax_load_menu_locations() {
+        wp_send_json($this->get_menu_locations());
+
+        wp_die();        
+    }
+    
+    public function get_menu_locations() {
+        $html = '';
+        $locations = get_registered_nav_menus();
+        $menu_locations = get_nav_menu_locations();
+
+        $html.='<h3>Menu Location</h3>';
+                    
+        $html.='<fieldset class="menu-theme-locations">';
+            foreach ($locations as $location_slug => $location_name):
+                $nav_menu_name = '';
+                $nav_menu_id = 0;
+                 
+                if (array_key_exists($location_slug, $menu_locations)) : 
+                    $nav_menu = wp_get_nav_menu_object($menu_locations[$location_slug]);
+                    $nav_menu_name = $nav_menu->name;
+                    $nav_menu_id = $menu_locations[$location_slug];
+                endif;
+            
+                $html.='<div class="menu-settings-input checkbox-input">';
+                    $html.='<input type="checkbox" name="menu_locations['.$location_slug.']" id="locations-primary" value="'.$_POST['menu_id'].'" '.checked($nav_menu_id, $_POST['menu_id'], false).'>';
+                    $html.='<label for="locations-primary">'.$location_name.'</label>';
+                    
+                    if (!empty($nav_menu_name)) :
+                        $html.='<span class="theme-location-set">(Currently set to: '.$nav_menu_name.')</span>';
+                    endif;
+		        $html.='</div>';
+            endforeach;
+		$html.='</fieldset>';
+		
+		return $html;        
+    }
 
     public function ajax_load_submenu() {
         $menu = new PMM_Admin_Build_Menu($_POST['menu_id']);

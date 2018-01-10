@@ -6,9 +6,7 @@ $nav_menu_selected_id = isset( $_REQUEST['menu'] ) ? (int) $_REQUEST['menu'] : 0
 $nav_menu_object = wp_get_nav_menu_object($nav_menu_selected_id);
 $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                             
-// Get existing menu locations assignments
-$locations = get_registered_nav_menus();
-$menu_locations = get_nav_menu_locations();
+
 ?>
 
 
@@ -94,25 +92,7 @@ $menu_locations = get_nav_menu_locations();
                 
                 <input type="hidden" name="menu_id" id="menu-id" value="<?php echo $nav_menu_selected_id; ?>" />
                 
-                <div class="menu-locations">
-                    
-                    <h3>Menu Location</h3>
-                    
-                        <fieldset class="menu-theme-locations">
-                            <?php foreach ($locations as $location_slug => $location_name): ?>
-                                <div class="menu-settings-input checkbox-input">
-                                    <input type="checkbox" name="menu_locations[<?php echo $location_slug; ?>]" id="locations-primary" value="<?php echo $nav_menu_selected_id; ?>">
-                                    <label for="locations-primary"><?php echo $location_name; ?></label>
-                                    
-                                    <?php if (array_key_exists($location_slug, $menu_locations)) : ?>
-                                        <?php $nav_menu = wp_get_nav_menu_object($menu_locations[$location_slug]); ?>
-                                        <span class="theme-location-set">(Currently set to: <?php echo $nav_menu->name; ?>)</span>
-                                    <?php endif; ?>
-        				        </div>
-                            <?php endforeach; ?>
-    					</fieldset>                
-                    
-                </div>
+                <div class="pmm-menu-locations"></div>
             
             </form>
             

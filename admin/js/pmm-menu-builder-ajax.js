@@ -60,6 +60,17 @@ var pmmMegaMenuAJAX = {
         $.post(ajaxurl, data, function(response) {            
             callback(response);
         });
-    }    
+    },
+    
+    loadMenuLocations: function(callback) {           
+        var data = {
+            'action': 'pmm_load_menu_locations',
+            'menu_id': $('#pickle-mega-menu-admin #menu-id').val(),
+        };
+     
+        $.post(ajaxurl, data, function(response) {            
+            callback(response);
+        });
+    },    
     
 };

@@ -129,6 +129,13 @@ console.log('load new menu');
             }
         });        
     };
+
+    // load menu locations info.
+    var loadMenuLocations = function() {
+        pmmMegaMenuAJAX.loadMenuLocations(function(response) {            
+            $('.pmm-menu-locations').html(response);
+        });        
+    };
     
     // setup an existing menu.
     var setupExistingMenu = function(primaryNavHTMl) {
@@ -429,6 +436,7 @@ console.log('load new menu');
             $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                               
             
             loadMenu();
+            loadMenuLocations();
             
             updateColumnWidth();
             refreshSortables(); 
@@ -445,7 +453,8 @@ console.log('load new menu');
                 pmmMegaMenu.displayMessage(response);
                 
                 $('.pmm-menu-main-navigation').html(''); // clear.
-                loadMenu(); // reload primary nav.                
+                loadMenu(); // reload primary nav.
+                loadMenuLocations(); // reload menu locations.
                 
                 hideAJAXLoader();
             });               
