@@ -163,7 +163,7 @@ mega-menu
     protected function add_block($column_id, $block_id, $menu_items) {
         $html='';
         
-        $html.='<ul id="pmm-mega-menu-row-'.$column_id.'-'.$block_id.'" class="pmm-mega-menu-row pmm-mega-menu-sub">';
+        $html.='<ul id="pmm-mega-menu-row-'.$column_id.'-'.$block_id.'" class="pmm-mega-menu-row">';
             $html.=$this->add_items($column_id, $block_id, $menu_items);
         $html.='</ul>';
         
