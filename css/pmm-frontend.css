@@ -1,24 +1,37 @@
 .pmm-mega-menu {
-    clear: both;
     width: 100%;
-    background: #fff; /* dev */
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+    position: relative;
 }
-.pmm-mega-menu .pmm-mega-menu-primary-nav-item {
-    float: left;
-}
-.pmm-mega-menu .pmm-mega-menu-item {}
-.pmm-mega-menu .pmm-mega-menu-item .pmm-mega-menu-link {}
-.pmm-mega-menu .pmm-mega-menu-sub {
+.pmm-mega-menu,
+.pmm-mega-menu ul {
     margin: 0;
     padding: 0;
     list-style-type: none;    
 }
+.pmm-mega-menu .pmm-mega-menu-primary-nav-item {
+    float: left;
+}
+.pmm-mega-menu .pmm-mega-menu-primary-nav-item .pmm-mega-menu-link {
+    padding: 10px; /* dev */
+}
+.pmm-mega-menu .pmm-mega-menu-item {}
+.pmm-mega-menu .pmm-mega-menu-item .pmm-mega-menu-link {}
+.pmm-mega-menu .pmm-mega-menu-sub {
+    display: none;
+    position: absolute;
+    background: red; /* dev */
+    width: 100%;
+    z-index: 999;
+    left: 0;
+}
+.pmm-mega-menu .pmm-mega-menu-primary-nav-item.pmm-mega-menu-item-has-children:hover .pmm-mega-menu-sub {
+    display: block;
+}
+.pmm-mega-menu .pmm-mega-menu-primary-nav-item.pmm-mega-menu-item-has-children.pmm-mega-menu-item-11328 .pmm-mega-menu-sub {
+    display: block; /* dev */
+}
 .pmm-mega-menu .pmm-mega-menu-sub .pmm-mega-menu-column {
-    width: 100px;
+    width: 100%;
     padding: 5px;
 }
 .pmm-mega-menu .pmm-mega-menu-sub.pmm-mega-menu-columns-2 .pmm-mega-menu-column {
