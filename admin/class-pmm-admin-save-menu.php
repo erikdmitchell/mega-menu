@@ -20,15 +20,14 @@ class PMM_Admin_Save_Menu {
         $form_menu_items = array();
         
         parse_str($_POST['form'], $form_data);
+        $menu_locations = isset($form_data['menu_locations']) ? isset($form_data['menu_locations']) : '';
 
         foreach ($form_data['pmm_menu_items'] as $form_menu_item) :           
             if ($form_menu_item['nav_type'] != 'subnav' && $form_menu_item['primary_nav'] == '')
                 $form_menu_items[] = $form_menu_item; 
         endforeach; 
         
-        if (isset($form_data['menu_locations'])) :
-            $this->update_menu_locations($form_data['menu_locations']);
-        endif;
+        $this->update_menu_locations($menu_locations);
 
         echo $this->update_menu(esc_html($form_data['menu_name']), $form_data['menu_id'], $form_menu_items);
 
@@ -317,14 +316,11 @@ class PMM_Admin_Save_Menu {
         return $db_id;
     }
     
-    private function update_menu_locations($locations = '') {
-        if (empty($locations))
-            return;
-            
+    private function update_menu_locations($locations = '') {  
         $menu_locations = get_nav_menu_locations();
         $new_menu_locations = array_map( 'absint', $locations );
         $menu_locations = array_merge( $menu_locations, $new_menu_locations );
-      
+     
         // Set menu locations
         set_theme_mod( 'nav_menu_locations', $menu_locations );
     }
