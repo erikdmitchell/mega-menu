@@ -103,25 +103,6 @@ mega-menu
         return false;       
     }
 
-/*
-    protected function build_menu() {
-        $html='';
-        $layout = $this->get_columns_and_rows();
-        
-        $html.=$this->build_primary_nav();
-        
-        $html.='<div id="pmm-menu-'.$this->menu_id.'" class="pmm-menu columns-'.count($layout).'">';
-        
-            foreach ($layout as $column => $blocks) :
-                $html.=$this->add_column($column, $blocks);
-            endforeach;
-        
-        $html.='</div>';
-
-        return $html;
-    }
-*/
-
     public function get_subnav($sub_nav_id = 0) {       
         $html='';
         $sub_menu_items = $this->get_sub_nav_items($sub_nav_id);
@@ -170,11 +151,11 @@ mega-menu
     protected function add_column($id, $blocks, $menu_items) {
         $html='';
         
-        $html.='<div id="pmm-column-'.$id.'" class="pmm-column">';            
+        $html.='<li id="pmm-mega-menu-column-'.$id.'" class="pmm-mega-menu-column">';            
             foreach ($blocks as $block) :
                 $html.=$this->add_block($id, $block, $menu_items);
             endforeach;
-        $html.='</div>';
+        $html.='</li>';
         
         return $html;        
     }
@@ -183,9 +164,9 @@ mega-menu
     protected function add_block($column_id, $block_id, $menu_items) {
         $html='';
         
-        $html.='<div id="pmm-block-'.$column_id.'-'.$block_id.'" class="pmm-block">';
+        $html.='<ul id="pmm-mega-menu-row-'.$column_id.'-'.$block_id.'" class="pmm-mega-menu-row pmm-mega-menu-sub">';
             $html.=$this->add_items($column_id, $block_id, $menu_items);
-        $html.='</div>';
+        $html.='</ul>';
         
         return $html;
     }
@@ -210,8 +191,10 @@ mega-menu
         });
 
         foreach ($items as $item) :
+            $classes = array("pmm-mega-menu-item", "pmm-mega-menu-item-{$item->post_name}", "pmm-mega-menu-item-{$item->ID}");
+    
             if (isset($item->pmm_item_type) && '' !== $item->pmm_item_type)
-                $html.='<div class="pmm-item"><a href="'.get_permalink($item->ID).'">'.$item->title.'</a></div>';
+                $html.='<li id="pmm-mega-menu-item-'.$item->ID.'" class="'.implode(' ', $classes).'"><a class="pmm-mega-menu-link" href="'.get_permalink($item->ID).'">'.$item->title.'</a></li>';
         endforeach;
         
         return $html;
