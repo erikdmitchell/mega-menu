@@ -151,11 +151,11 @@ mega-menu
         return $sub_menu_items;
     }
     
-    protected function get_columns_and_rows() {
+    protected function get_columns_and_rows($menu_items = '') {
         $columns_and_rows = array();
         
         // get column (as key) and array of blocks (as value).
-        foreach ($this->menu_items as $item) :
+        foreach ($menu_items as $item) :
             $columns_and_rows[$item->pmm_column][] = $item->pmm_block;
         endforeach;
         
@@ -167,12 +167,12 @@ mega-menu
         return $columns_and_rows;            
     }
     
-    protected function add_column($id, $blocks) {
+    protected function add_column($id, $blocks, $menu_items) {
         $html='';
         
         $html.='<div id="pmm-column-'.$id.'" class="pmm-column">';            
             foreach ($blocks as $block) :
-                $html.=$this->add_block($id, $block);
+                $html.=$this->add_block($id, $block, $menu_items);
             endforeach;
         $html.='</div>';
         
@@ -180,22 +180,22 @@ mega-menu
     }
 
 
-    protected function add_block($column_id, $block_id) {
+    protected function add_block($column_id, $block_id, $menu_items) {
         $html='';
         
         $html.='<div id="pmm-block-'.$column_id.'-'.$block_id.'" class="pmm-block">';
-            $html.=$this->add_items($column_id, $block_id);
+            $html.=$this->add_items($column_id, $block_id, $menu_items);
         $html.='</div>';
         
         return $html;
     }
     
-    protected function add_items($column_id, $block_id) {
+    protected function add_items($column_id, $block_id, $menu_items) {
         $html='';
         $items=array();
         
         // get items in column and block.
-        foreach ($this->menu_items as $menu_item) :
+        foreach ($menu_items as $menu_item) :
             if ($menu_item->pmm_column == $column_id && $menu_item->pmm_block == $block_id) :
                 $items[] = $menu_item;
             endif;
