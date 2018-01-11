@@ -2,6 +2,9 @@
     
 class PMM_Nav_Walker extends Walker_Nav_Menu {
     
+    private $current_column = '';
+    private $current_block = '';
+    
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
@@ -44,17 +47,28 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 			$n = "\n";
 		}
 		$indent = ( $depth ) ? str_repeat( $t, $depth ) : '';
-//print_r($args);
+
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes = $this->update_item_classes($classes);
 		$classes[] = 'pmm-mega-menu-item-' . $item->ID;
 		$classes[] = 'pmm-mega-menu-item-' . $item->post_name;
 		$classes[] = 'DEPTH' . $depth;
 		
-		// do some primary nav work here.
-		if (0 === $depth) :
+		// add class to primary nav.
+		if (0 === $depth)
     		$classes[] = 'pmm-mega-menu-primary-nav-item';
-        endif;
+    		
+        // check for column and row //
+        if ($this->is_new_column($item))
+            $classes[] = 'pmm-NEW-COLUMN';
+            //$classes[] = 'pmm-NEW-ROW';
+            // $html.='<li id="pmm-mega-menu-column-'.$id.'" class="pmm-mega-menu-column">';
+            
+        if ($this->is_new_row($item))
+            $classes[] = 'pmm-NEW-ROW';
+            // $html.='<ul id="pmm-mega-menu-row-'.$column_id.'-'.$block_id.'" class="pmm-mega-menu-row">';
+
+        
 
 		// Filters the arguments for a single nav menu item.
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
@@ -121,6 +135,30 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
     	    return $classes;
     	    
         return str_replace('menu-item', 'pmm-mega-menu-item', $classes);
+	}
+	
+	protected function is_new_column($item) {   	
+    	if (0 == $item->pmm_block && 0 == $item->pmm_order) :
+    	    $this->current_column = $item->pmm_column;
+    	    
+    	    return true;
+        endif;
+    	    
+        return false;
+	}
+	
+	protected function is_end_column() {
+    	
+	}
+	
+	protected function is_new_row($item) {
+        if ($this->current_column == $item->pmm_column && $this->current_block != $item->pmm_block) :
+            $this->current_block = $item->pmm_block;
+            
+            return true;
+        endif;
+    	
+    	return false;
 	}
 	
 /*
