@@ -493,7 +493,7 @@ console.log('load new menu');
         openSubmenu: function($el) {           
             $('.pmm-menu-grid').show(); // show grid.
             
-            pmmMegaMenu.loadSubmenu(getID($el.attr('id'))); // get the submenu.
+            pmmMegaMenu.loadSubmenu($el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val()); // get the submenu.
         },
         
         closeSubmenu: function(id) {           
