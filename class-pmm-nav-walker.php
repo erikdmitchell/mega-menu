@@ -59,16 +59,17 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
     		$classes[] = 'pmm-mega-menu-primary-nav-item';
     		
         // check for column and row //
-        if ($this->is_new_column($item))
+        if ($this->is_new_column($item)) :
             $classes[] = 'pmm-NEW-COLUMN';
-            //$classes[] = 'pmm-NEW-ROW';
-            // $html.='<li id="pmm-mega-menu-column-'.$id.'" class="pmm-mega-menu-column">';
             
-        if ($this->is_new_row($item))
+            $output .= '<li id="pmm-mega-menu-column-'.$this->current_column.'" class="pmm-mega-menu-column"></li>';
+        endif;
+            
+        if ($this->is_new_row($item)) :
             $classes[] = 'pmm-NEW-ROW';
-            // $html.='<ul id="pmm-mega-menu-row-'.$column_id.'-'.$block_id.'" class="pmm-mega-menu-row">';
-
-        
+            
+            $output .= '<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_block.'" class="pmm-mega-menu-row"></ul>';
+        endif;
 
 		// Filters the arguments for a single nav menu item.
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
@@ -159,26 +160,6 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         endif;
     	
     	return false;
-	}
-	
-/*
-    protected function has_subnav($sub_nav_id = 0, $menu_id = 0) {
-        $menu_items = wp_get_nav_menu_items($menu_id);
-        
-        foreach ($menu_items as $menu_item) :       
-            if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->pmm_menu_primary_nav === $sub_nav_id) :
-                return true;
-            endif;
-        endforeach;
-        
-        return false;       
-    }	
-*/   
+	}  
     
 }
-
-                  
-
-                
-                   
-                        //$html.=$this->get_subnav($primary_nav_item->pmm_order);

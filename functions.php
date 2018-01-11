@@ -47,6 +47,7 @@ function pmm_nav_walker_override($sorted_menu_items, $args) {
 
     return $sorted_menu_items;
 }
+add_filter('wp_nav_menu_objects', 'pmm_nav_walker_override', 10, 2);
  
 /* Similar to wp_parse_args() just a bit extended to work with multidimensional arrays :) */
 function pmm_wp_parse_args( &$a, $b ) {
