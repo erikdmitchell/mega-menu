@@ -45,10 +45,12 @@ function pmm_nav_walker_override($sorted_menu_items, $args) {
     $args->walker = new PMM_Nav_Walker();
     $args->menu_class = 'pmm-mega-menu';
 
-    return pmm_sorted_menu_items_primary_only($sorted_menu_items);
+    //return pmm_sorted_menu_items_primary_only($sorted_menu_items);
+    return $sorted_menu_items;
 }
 add_filter('wp_nav_menu_objects', 'pmm_nav_walker_override', 10, 2);
 
+/*
 function pmm_sorted_menu_items_primary_only($menu_items = '') {
     if (empty($menu_items))
         return $menu_items;
@@ -68,7 +70,9 @@ function pmm_sorted_menu_items_primary_only($menu_items = '') {
     
     return $primary_nav_items;       
 }
+*/
 
+/*
 function pmm_override_nav_menu($nav_menu, $args) {
     if ($args->theme_location != 'primary') // setting?!
         return $nav_menu;
@@ -77,6 +81,7 @@ function pmm_override_nav_menu($nav_menu, $args) {
     
     return $pmm->display();
 }
+*/
 //add_filter('wp_nav_menu', 'pmm_override_nav_menu', 10, 2);
  
 /* Similar to wp_parse_args() just a bit extended to work with multidimensional arrays :) */

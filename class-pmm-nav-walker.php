@@ -2,17 +2,40 @@
     
 class PMM_Nav_Walker extends Walker_Nav_Menu {
     
-	function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent\n";
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+			$t = '';
+			$n = '';
+		} else {
+			$t = "\t";
+			$n = "\n";
+		}
+		$indent = str_repeat( $t, $depth );
+
+		// Default class.
+		$classes = array( 'pmm-mega-sub-menu', 'DEPTH'.$depth );
+
+		// Filters the CSS class(es) applied to a menu list element.
+		$class_names = join( ' ', apply_filters( 'nav_menu_submenu_css_class', $classes, $args, $depth ) );
+		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+
+		$output .= "{$n}{$indent}<ul$class_names>{$n}";
 	}
 	
-	function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "$indent\n";
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+			$t = '';
+			$n = '';
+		} else {
+			$t = "\t";
+			$n = "\n";
+		}
+		$indent = str_repeat( $t, $depth );
+		
+		$output .= "$indent</ul>{$n}";
 	}
 	
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';
@@ -26,14 +49,11 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$classes = $this->update_item_classes($classes);
 		$classes[] = 'pmm-mega-menu-item-' . $item->ID;
 		$classes[] = 'pmm-mega-menu-item-' . $item->post_name;
+		$classes[] = 'DEPTH' . $depth;
 		
 		// do some primary nav work here.
 		if (0 === $depth) :
     		$classes[] = 'pmm-mega-menu-primary-nav-item';
-    		
-    		if ($this->has_subnav($item->pmm_order, $args->menu->term_id)) :
-                $classes[] = 'pmm-mega-menu-item-has-children'; 
-            endif;
         endif;
 
 		// Filters the arguments for a single nav menu item.
@@ -84,8 +104,16 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
 	
-	function end_el( &$output, $item, $depth = 0, $args = array() ) {
-		$output .= "\n";
+	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+			$t = '';
+			$n = '';
+		} else {
+			$t = "\t";
+			$n = "\n";
+		}
+		
+		$output .= "</li>{$n}";
 	}
 	
 	protected function update_item_classes($classes) {
@@ -95,6 +123,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         return str_replace('menu-item', 'pmm-mega-menu-item', $classes);
 	}
 	
+/*
     protected function has_subnav($sub_nav_id = 0, $menu_id = 0) {
         $menu_items = wp_get_nav_menu_items($menu_id);
         
@@ -105,7 +134,8 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         endforeach;
         
         return false;       
-    }	   
+    }	
+*/   
     
 }
 
