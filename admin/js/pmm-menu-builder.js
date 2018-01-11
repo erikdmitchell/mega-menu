@@ -369,9 +369,10 @@ console.log('load new menu');
     // adds the proper primay nav item id.
     var addItemPrimaryNavID = function($el) {
         var uID = $el.attr('uId');
-        var primaryNavID = $('.pmm-navigation-item.show-submenu').attr('id');
-         
-        $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(getID(primaryNavID)); // set primary nav value.
+        var primaryNavuID = $('.pmm-navigation-item.show-submenu').attr('uid');
+        var primaryNavID = $('.pmm-navigation-item.show-submenu').find('input[name="pmm_menu_items[' + primaryNavuID + '][id]"]').val();
+
+        $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(primaryNavID); // set primary nav value.
         $el.find('input[name="pmm_menu_items[' + uID + '][nav_type]"]').val('subnav'); // set type as something other than primary (subnav).        
     };
 
@@ -474,7 +475,10 @@ console.log('load new menu');
             $('.pmm-menu-main-navigation .pmm-navigation-item').each(function() {
                 if ($(this).hasClass('show-submenu')) {
                     $(this).removeClass('show-submenu');
-                    pmmMegaMenu.closeSubmenu(getID($(this).attr('id')));
+
+                    var primaryNavID = $(this).find('input[name="pmm_menu_items[' + $(this).attr('uid') + '][id]"]').val();                    
+                    
+                    pmmMegaMenu.closeSubmenu(primaryNavID);
                 }    
             });
             
