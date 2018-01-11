@@ -5,6 +5,8 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
     private $current_column = '';
     private $current_block = '';
     private $column_count = 0;
+    private $end_row = '</ul>';
+    private $end_col = '</li>';
     
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
@@ -26,7 +28,6 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$output .= "{$n}{$indent}<ul$class_names>{$n}";
 	}
 	
-/*
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
@@ -36,10 +37,9 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 			$n = "\n";
 		}
 		$indent = str_repeat( $t, $depth );
-		
-		$output .= "$indent</ul>{$n}";
+
+		$output .= "$indent{$this->end_row}{$n}{$this->end_col}{$n}</ul>{$n}";
 	}
-*/
 	
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
@@ -68,21 +68,20 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         // check for column and row //
         if (0 !== $depth && $this->is_new_column($item)) :
             if ($this->current_column != 0) :
-                $output .= "</ul></li>\n"; // end col.
+                $output .= "{$this->end_row}\n{$this->end_col}\n";
             endif;
             
-            $output .= '<li id="pmm-mega-menu-column-'.$this->current_column.'" class="pmm-mega-menu-column pmm-mega-menu-columns-'.$this->column_count.'"><ul>';
+            $output .= '<li id="pmm-mega-menu-column-'.$this->current_column.'" class="pmm-mega-menu-column pmm-mega-menu-columns-'.$this->column_count.'">';
+            //$output .= '<!-- begin col -->';
         endif;
-            
-/*
+
         if (0 !== $depth && $this->is_new_row($item)) :            
             if ($this->current_block != 0) :
-                $output .= "</ul>\n"; // end row.
+                $output .= "{$this->end_row}\n";
             endif;
             
             $output .= '<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_block.'" class="pmm-mega-menu-row">';
         endif;
-*/
 
 		// Filters the arguments for a single nav menu item.
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
@@ -131,6 +130,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
 	
+/*
 	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
@@ -142,6 +142,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		
 		$output .= "</li>{$n}";
 	}
+*/
 	
 	protected function update_item_classes($classes) {
     	if (empty($classes))
