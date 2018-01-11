@@ -39,22 +39,15 @@ add_filter('wp_get_nav_menu_items', 'pmm_get_nav_menu_items', 10, 3);
 function pmm_nav_walker_override($sorted_menu_items, $args) {
     // verify is megau menu?!
     // $args->menu will have the info
+    //print_r($args);    
     
+    // append our walker and tweak args.
     $args->walker = new PMM_Nav_Walker();
-    
+    $args->menu_class = 'pmm-mega-menu';
+
     return $sorted_menu_items;
 }
 add_filter('wp_nav_menu_objects', 'pmm_nav_walker_override', 10, 2);
-
-function pmm_override_nav_menu($nav_menu, $args) {
-    if ($args->theme_location != 'primary') // setting?!
-        return $nav_menu;
-
-    $pmm = new PMM_Build_Menu(61); // setting?!
-    
-    return $pmm->display();
-}
-//add_filter('wp_nav_menu', 'pmm_override_nav_menu', 10, 2);
  
 /* Similar to wp_parse_args() just a bit extended to work with multidimensional arrays :) */
 function pmm_wp_parse_args( &$a, $b ) {

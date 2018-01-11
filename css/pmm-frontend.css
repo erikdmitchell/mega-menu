@@ -16,7 +16,7 @@
 }
 .pmm-mega-menu-item {}
 .pmm-mega-menu-item .pmm-mega-menu-link {}
-.pmm-mega-menu-sub {
+.pmm-mega-sub-menu {
     display: none;
     position: absolute;
     width: 100%;
@@ -24,19 +24,19 @@
     left: 0;
     background: #fff;
 }
-.pmm-mega-menu-primary-nav-item.pmm-mega-menu-item-has-children:hover .pmm-mega-menu-sub {
+.pmm-mega-menu-primary-nav-item.pmm-mega-menu-item-has-children:hover .pmm-mega-sub-menu {
     display: block;
 }
-.pmm-mega-menu-sub .pmm-mega-menu-column {
+.pmm-mega-sub-menu .pmm-mega-menu-column {
     width: 100%;
     padding: 5px;
 }
-.pmm-mega-menu-sub.pmm-mega-menu-columns-2 .pmm-mega-menu-column {
+.pmm-mega-sub-menu .pmm-mega-menu-column.pmm-mega-menu-columns-2 {
     float: left;
     width: 49%;
     margin-right: 2%;
 }
-.pmm-mega-menu-sub .pmm-mega-menu-column:last-child {
+.pmm-mega-sub-menu .pmm-mega-menu-column:last-child {
     margin-right: 0;
 }
 .pmm-mega-menu-column .pmm-mega-menu-row {}

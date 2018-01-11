@@ -18,7 +18,7 @@ class PMM_Admin_Save_Menu {
 
     public function ajax_save_menu() {
         $form_menu_items = array();
-        
+       
         parse_str($_POST['form'], $form_data);
         $menu_locations = isset($form_data['menu_locations']) ? $form_data['menu_locations'] : '';
 
@@ -332,7 +332,7 @@ class PMM_Admin_Save_Menu {
             $item->pmm_order = get_post_meta($item->db_id, '_pmm_menu_item_order', true);
             $item->pmm_item_type = get_post_meta($item->db_id, '_pmm_menu_item_type', true);
             $item->pmm_nav_type = get_post_meta($item->db_id, '_pmm_menu_nav_type', true);
-            $item->pmm_menu_primary_nav = get_post_meta($item->db_id, '_pmm_menu_primary_nav', true); 
+            $item->pmm_menu_primary_nav = get_post_meta($item->db_id, '_pmm_menu_primary_nav', true); // MAY BE ABLE TO REMOVE
         endforeach;                       
     
         return $items;
@@ -379,6 +379,7 @@ class PMM_Admin_Save_Menu {
             'classes' => 'menu-item-classes',
             'page_id' => 'menu-item-object-id',
             'db_id' => 'menu-item-db-id',
+            'primary_nav' => 'menu-item-parent-id',
         );
 
         /*
