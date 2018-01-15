@@ -445,8 +445,8 @@ console.log('load new menu');
     };
     
     // adds actions to the row. 
-    var addRowActions = function(rowId) {
-        //$('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowId));       
+    var addRowActions = function(rowID) {
+        $('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowID));       
     };
 
     // adds actions to the column. 
@@ -644,8 +644,6 @@ console.log('load new menu');
                id: rowID,
                class: 'pmm-row' 
             }).appendTo($col);
-            
-            addRowActions('pmm-row-' + colIdNum + '-' + order);
 
             pmmMegaMenu.openRowColumnModal(rowID);    
         },
@@ -771,6 +769,8 @@ console.log('load new menu');
             }
             
             updateSubmenuColumnWidth();
+            
+            addRowActions('pmm-row-' + rowIDs[0] + '-' + rowIDs[1]);
             
             refreshSortables();
             refreshDraggable();
