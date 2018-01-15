@@ -14,8 +14,6 @@
 .pmm-mega-menu-primary-nav-item .pmm-mega-menu-link {
     padding: 10px;
 }
-.pmm-mega-menu-item {}
-.pmm-mega-menu-item .pmm-mega-menu-link {}
 .pmm-mega-sub-menu {
     display: none;
     position: absolute;
@@ -39,6 +37,3 @@
 .pmm-mega-sub-menu .pmm-mega-menu-column:last-child {
     margin-right: 0;
 }
-.pmm-mega-menu-column .pmm-mega-menu-row {}
-.pmm-mega-menu-column .pmm-mega-menu-row .pmm-mega-menu-item {}
-.pmm-mega-menu-column .pmm-mega-menu-row .pmm-mega-menu-item .pmm-mega-menu-link {}
