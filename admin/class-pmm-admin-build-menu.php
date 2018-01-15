@@ -66,7 +66,7 @@ class PMM_Admin_Build_Menu {
         $html='';
         
         $html.='<div id="pmm-column-'.$id.'" class="pmm-column">';
-            $html.='<div class="row-actions">';
+            $html.='<div class="pmm-column-row-actions">';
                 $html.='<div class="add-row-wrap">';
                     $html.='<a href="#" class="add-row">Add Row</a>';
                 $html.='</div>';

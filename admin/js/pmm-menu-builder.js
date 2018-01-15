@@ -66,7 +66,7 @@ jQuery( function($) {
             connectWith: '.pmm-column',
             placeholder: 'pmm-row-placeholder',
             stop: function(event, ui) {
-                updateBlockIds();                
+                updateRowIds();                
             }            
         }).disableSelection();  
         
@@ -296,7 +296,7 @@ console.log('load new menu');
         });
     };
     
-    // update column, block and order (pos).
+    // update column, row and order (pos).
     var updateItemsHiddenFields = function() {
         $('.pmm-row .pmm-item').each(function() {
             var uID = $(this).attr('uId');
@@ -392,12 +392,13 @@ console.log('load new menu');
     
     // adds actions to the row. 
     var addRowActions = function(rowId) {
+console.log(rowId);        
         $('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowId));       
     };
 
     // adds actions to the column. 
     var addColumnActions = function(columnId) {       
-        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .row-actions'));       
+        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .pmm-column-row-actions'));       
     };
 
     // create/display loader.
@@ -563,7 +564,7 @@ console.log('load new menu');
             var colNum=$('.pmm-column').length;
             var colID = 'pmm-column-' + colNum;
             
-            $('<div id="' + colID +'" class="pmm-column"><div class="row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#pmm-menu-grid'); 
+            $('<div id="' + colID +'" class="pmm-column"><div class="pmm-column-row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#pmm-menu-grid'); 
             
             // add actions.
             addColumnActions(colID);

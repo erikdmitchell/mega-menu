@@ -101,18 +101,18 @@
 .pmm-menu-grid .pmm-column:last-child {
     margin-right: 0;
 } 
-.pmm-menu-grid .pmm-column .row-actions {
+.pmm-menu-grid .pmm-column .pmm-column-row-actions {
     overflow: hidden;
     margin-top: 5px;
     margin-bottom: 10px;
 }
-.pmm-menu-grid .pmm-column .row-actions a {
+.pmm-menu-grid .pmm-column .pmm-column-row-actions a {
     color: #fff;
 }
-.pmm-menu-grid .pmm-column .row-actions .add-row-wrap {
+.pmm-menu-grid .pmm-column .pmm-column-row-actions .add-row-wrap {
     float: right;
 }
-.pmm-menu-grid .pmm-column .row-actions .add-row-wrap a {
+.pmm-menu-grid .pmm-column .pmm-column-row-actions .add-row-wrap a {
     text-decoration: none;
     color: #fff;
 }
