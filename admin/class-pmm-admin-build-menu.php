@@ -139,8 +139,9 @@ class PMM_Admin_Build_Menu {
             
         // get our items.
         foreach ($primary_nav_items as $primary_nav_item) :
-            if (isset($primary_nav_item->pmm_item_type) && '' !== $primary_nav_item->pmm_item_type)
-                $html.=PickleMegaMenu()->admin->items[$primary_nav_item->pmm_item_type]->load_item($primary_nav_item->ID);
+            if (isset($primary_nav_item->pmm_item_type) && '' !== $primary_nav_item->pmm_item_type) :
+                $html.=PickleMegaMenu()->admin->items[$primary_nav_item->object]->load_item($primary_nav_item->ID);
+            endif;
         endforeach;
         
         return $html;

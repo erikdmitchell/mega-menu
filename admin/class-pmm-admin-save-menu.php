@@ -330,7 +330,7 @@ class PMM_Admin_Save_Menu {
             $item->pmm_column = get_post_meta($item->db_id, '_pmm_menu_item_column', true);
             $item->pmm_block = get_post_meta($item->db_id, '_pmm_menu_item_block', true);
             $item->pmm_order = get_post_meta($item->db_id, '_pmm_menu_item_order', true);
-            $item->pmm_item_type = get_post_meta($item->db_id, '_pmm_menu_item_type', true);
+            $item->pmm_item_type = get_post_meta($item->db_id, '_pmm_menu_item_type', true); // MAY BE ABLE TO REMOVE
             $item->pmm_nav_type = get_post_meta($item->db_id, '_pmm_menu_nav_type', true);
             $item->pmm_menu_primary_nav = get_post_meta($item->db_id, '_pmm_menu_primary_nav', true); // MAY BE ABLE TO REMOVE
         endforeach;                       
@@ -377,14 +377,14 @@ class PMM_Admin_Save_Menu {
             'label' => 'menu-item-title',
             'title' => 'menu-item-attr-title',
             'classes' => 'menu-item-classes',
+            'object' => 'menu-item-object',
+            'item_type' => 'menu-item-type',
             'page_id' => 'menu-item-object-id',
             'db_id' => 'menu-item-db-id',
             'primary_nav' => 'menu-item-parent-id',
         );
 
         /*
-        menu-item-object 
-        menu-item-type 
         menu-item-url 
         */
     }
