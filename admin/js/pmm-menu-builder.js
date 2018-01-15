@@ -103,7 +103,9 @@ jQuery( function($) {
                 addItemHiddenFields($el); // adds hidden fields to the item               
                 addItemActions($el); // add action icons.               
                 setItemID($el, ui.item.index()); // set item id.               
-                addItemPrimaryNavID($el); // adds the submenu id.               
+                addItemPrimaryNavID($el); // adds the submenu id.     
+                
+                adjustItemsWidth();          
             },           
             stop: function(event, ui) {                
                 updateItemIds(); // update all item ids.                
@@ -130,6 +132,7 @@ jQuery( function($) {
     
     // sets item width to row width.
     var adjustItemsWidth = function() {
+console.log('adjustItemsWidth()');        
         $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
            setItemWidth($(this));
         });
