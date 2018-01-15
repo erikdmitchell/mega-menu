@@ -94,14 +94,14 @@ class PMM_Admin_Build_Menu {
     protected function add_items($column_id, $row_id, $menu_items) {
         $html='';
         $items=array();
-        
+    
         // get items in column and row.
         foreach ($menu_items as $menu_item) :
             if ($menu_item->pmm_column == $column_id && $menu_item->pmm_row == $row_id) :
                 $items[] = $menu_item;
             endif;
         endforeach;
-        
+       
         if (empty($items))
             return;
             
@@ -111,10 +111,11 @@ class PMM_Admin_Build_Menu {
         });
 
         foreach ($items as $item) :
-            if (isset($item->pmm_item_type) && '' !== $item->pmm_item_type)
-                $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID);
+            if (isset($item->object) && '' !== $item->object) :
+                $html.=PickleMegaMenu()->admin->items[$item->object]->load_item($item->ID);                
+            endif;
         endforeach;
-        
+       
         return $html;
     }
     
