@@ -392,7 +392,6 @@ console.log('load new menu');
     
     // adds actions to the row. 
     var addRowActions = function(rowId) {
-console.log(rowId);        
         $('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowId));       
     };
 
@@ -435,11 +434,7 @@ console.log(rowId);
             $(document).on('click', '.pmm-column .remove-column', this.removeColumn);
             $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                              
             $(document).on('click', '#pmm-save-submenu', this.saveSubmenuButton);
-
-pmmModal.open({
-				content: 'content',
-				class: 'pmm-row-columns-modal'
-			});	
+            $(document).on('click', '.pmm-row-columns-selector', this.insertRowColumns);
 			                        
             loadMenu();
             loadMenuLocations();
@@ -596,7 +591,9 @@ pmmModal.open({
             }).appendTo($col);
             
             addRowActions('pmm-row-' + colIdNum + '-' + order);
-alert('add row popup');            
+
+            pmmMegaMenu.openRowColumnModal();
+           
             refreshSortables();
             refreshDraggable();    
         },
@@ -608,7 +605,9 @@ alert('add row popup');
                id: 'pmm-row-' + colIdNum + '-' + order,
                class: 'pmm-row' 
             }).appendTo($col);
-alert('add row popup');             
+
+            pmmMegaMenu.openRowColumnModal();
+            
             refreshSortables();
             refreshDraggable();            
         },
@@ -675,6 +674,45 @@ alert('add row popup');
 
         hideGrid: function() {
             $('.pmm-menu-grid, .pmm-submenu-options').hide();
+        },
+        
+        openRowColumnModal: function() {
+            var minColumns = 1;
+            var maxColumns = 4;
+            var modalContent = '';
+            
+            modalContent += '<div class="pmm-row-columns">';
+                
+                for (var i = minColumns; i <= maxColumns; i++) {
+                    modalContent += '<div class="pmm-rc-option total-columns-' + i + '">';
+                        modalContent += '<a href="#" class="pmm-row-columns-selector" data-columns="' + i + '">';
+                    
+                            for (var cols = 1; cols <= i; cols ++) {
+                                var content = '';
+                                
+                                if (i != 1) {
+                                    content = '1/' + i; 
+                                }
+                                
+                                modalContent += '<div class="column column-' + cols + '"><div>' + content + '</div></div>';
+                            }
+                    
+                        modalContent += '</a>';
+                    
+                    modalContent += '</div>';
+                }
+                    
+            modalContent += '</div>';
+            
+            pmmModal.open({
+				content: modalContent,
+				class: 'pmm-row-columns-modal'
+			});
+        },
+        
+        insertRowColumns: function() {
+            var columns = $(this).data('columns');
+console.log('insert ' + columns);            
         }
         
     };
