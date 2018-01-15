@@ -177,7 +177,7 @@
 }
 
 /* sub menu cols */
-.pmm-menu-grid .pmm-submenu-column,
+.pmm-menu-grid .pmm-row-column,
 .pmm-menu-grid .pmm-row-column-placeholder {
     float: left;
     margin-right: 15px;
@@ -188,7 +188,7 @@
 .pmm-menu-grid .pmm-row-column-placeholder {
     border: 1px dashed #000;  
 }
-.pmm-menu-grid .pmm-submenu-column:last-child {
+.pmm-menu-grid .pmm-row-column:last-child {
     margin-right: 0;
     border-right: 0;
 }
