@@ -584,15 +584,16 @@ console.log('load new menu');
             var $col = $(this).parents('.pmm-column');
             var colIdNum = getID($col.attr('id'));
             var order = $col.find('.pmm-row').length;
+            var rowID = 'pmm-row-' + colIdNum + '-' + order;
 
             $('<div/>', {
-               id: 'pmm-row-' + colIdNum + '-' + order,
+               id: rowID,
                class: 'pmm-row' 
             }).appendTo($col);
             
             addRowActions('pmm-row-' + colIdNum + '-' + order);
 
-            pmmMegaMenu.openRowColumnModal();
+            pmmMegaMenu.openRowColumnModal(rowID);
            
             refreshSortables();
             refreshDraggable();    
@@ -600,13 +601,15 @@ console.log('load new menu');
         
         manualAddRow: function(colIdNum, order) {
             $col=$('#pmm-column-' + colIdNum);
+            
+            var rowID = 'pmm-row-' + colIdNum + '-' + order;
 
             $('<div/>', {
-               id: 'pmm-row-' + colIdNum + '-' + order,
+               id: rowID,
                class: 'pmm-row' 
             }).appendTo($col);
 
-            pmmMegaMenu.openRowColumnModal();
+            pmmMegaMenu.openRowColumnModal(rowID);
             
             refreshSortables();
             refreshDraggable();            
@@ -676,16 +679,16 @@ console.log('load new menu');
             $('.pmm-menu-grid, .pmm-submenu-options').hide();
         },
         
-        openRowColumnModal: function() {
+        openRowColumnModal: function(rowID) {
             var minColumns = 1;
             var maxColumns = 4;
             var modalContent = '';
-            
+           
             modalContent += '<div class="pmm-row-columns">';
                 
                 for (var i = minColumns; i <= maxColumns; i++) {
                     modalContent += '<div class="pmm-rc-option total-columns-' + i + '">';
-                        modalContent += '<a href="#" class="pmm-row-columns-selector" data-columns="' + i + '">';
+                        modalContent += '<a href="#" class="pmm-row-columns-selector" data-columns="' + i + '" data-row="' + rowID + '">';
                     
                             for (var cols = 1; cols <= i; cols ++) {
                                 var content = '';
@@ -712,7 +715,8 @@ console.log('load new menu');
         
         insertRowColumns: function() {
             var columns = $(this).data('columns');
-console.log('insert ' + columns);            
+            var rowID = $(this).data('row');
+console.log('insert ' + columns + ' into row: ' + rowID);            
         }
         
     };
