@@ -36,14 +36,15 @@ var pmmMegaMenuAJAX = {
         });
     },
 
-    saveSubMenu: function(id, callback) {           
+    saveSubMenu: function(id, callback) { 
+console.log('AJAX saveSubMenu');                  
         var data = {
             'action': 'pmm_save_submenu',
             'menu_id': jQuery('#pickle-mega-menu-admin #menu-id').val(),
             'sub_nav_id': id,
             'form': jQuery('form#save-menu').serialize()
         };
-     
+console.log(data);     
         jQuery.post(ajaxurl, data, function(response) {            
             callback(response);
         });

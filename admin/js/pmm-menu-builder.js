@@ -434,8 +434,9 @@ console.log('load new menu');
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
             $(document).on('click', '.pmm-block .remove-block', this.removeBlock);
             $(document).on('click', '.pmm-column .remove-column', this.removeColumn);
-            $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                               
-            
+            $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                              
+            $(document).on('click', '#pmm-save-submenu', this.saveSubmenuButton);
+                        
             loadMenu();
             loadMenuLocations();
             
@@ -497,10 +498,15 @@ console.log('load new menu');
         },
         
         closeSubmenu: function(id) {           
+            pmmMegaMenu.saveSubmenu(id);
+        },
+        
+        // fires ajax to save sumbmenu.
+        saveSubmenu: function(id) {
             pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
               
-            // ajax to save submenu.
+            // ajax to save submenu.            
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
                 pmmMegaMenu.displayMessage(response);
 
@@ -510,7 +516,14 @@ console.log('load new menu');
                 pmmSavingSubmenu = false;
                 
                 hideAJAXLoader();
-            });       
+            });             
+        },
+        
+        // when our save submenu button is clicked.
+        saveSubmenuButton: function(e) {
+            e.preventDefault();
+            
+            pmmMegaMenu.saveSubmenu($(this).data('submenuId'));  
         },
         
         loadSubmenu: function(submenuID) {
@@ -539,6 +552,8 @@ console.log('load new menu');
                     
                     hideAJAXLoader();
                 }
+                
+                $('.pmm-menu-grid-wrap #pmm-save-submenu').attr('data-submenu-id', submenuID);
             });           
         },
         
