@@ -491,7 +491,7 @@ console.log('load new menu');
         },
         
         openSubmenu: function($el) {           
-            $('.pmm-menu-grid').show(); // show grid.
+            pmmMegaMenu.showGrid();
             
             pmmMegaMenu.loadSubmenu($el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val()); // get the submenu.
         },
@@ -533,7 +533,7 @@ console.log('load new menu');
                     // setup default menu
                     pmmMegaMenu.addColumn();
                     
-                    $('.pmm-menu-grid').show(); // show grid.
+                    pmmMegaMenu.showGrid();
                     
                     updateColumnWidth();
                     
@@ -644,6 +644,10 @@ console.log('load new menu');
         
         dismissNotice: function() {
             $(this).parent().remove();
+        },
+        
+        showGrid: function() {
+            $('.pmm-menu-grid, .pmm-submenu-options').show();
         }
         
     };

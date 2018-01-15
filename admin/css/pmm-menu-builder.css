@@ -176,6 +176,16 @@
     float: left;
 }
 
+/**  sub menu options **/
+#pickle-mega-menu-admin .pmm-submenu-options {
+    overflow: hidden;
+    display: none;
+    margin-top: 15px;
+}
+#pickle-mega-menu-admin .pmm-submenu-options .save-submenu-button {
+    float: right;
+}
+
 /* pages */
 .pages-list {
     

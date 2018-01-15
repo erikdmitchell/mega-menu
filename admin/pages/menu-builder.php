@@ -86,6 +86,13 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                             </div> 
                             
                         </div>
+                        
+                        <div class="pmm-submenu-options">    
+                            <span class="save-submenu-button">
+                                <a href="#" class="button button-primary" id="pmm-save-submenu">Save Sub Menu</a>
+                            </span> 
+                        </div> 
+                        
                     </div>
     
                 </div>
