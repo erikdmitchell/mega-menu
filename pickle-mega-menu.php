@@ -3,11 +3,11 @@
  * Plugin Name: Pickle Mega Menu
  * Plugin URI:
  * Description: Create awesome mega menus.
- * Version: 1.0.0-alpha
+ * Version: 1.0.0-beta
  * Author:
  * Author URI:
  * Requires at least: 4.0
- * Tested up to: 49.1
+ * Tested up to: 4.9.1
  * Text Domain: pickle-mega-menu
  */
 
@@ -22,7 +22,7 @@ if ( ! defined( 'PMM_PLUGIN_FILE' ) ) {
 
 final class PickleMegaMenu {
 
-    public $version = '1.0.0-alpha';
+    public $version = '1.0.0-beta';
 
     public $settings = '';
     
