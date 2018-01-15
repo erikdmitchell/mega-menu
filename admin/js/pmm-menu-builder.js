@@ -532,7 +532,6 @@ console.log('load new menu');
                 } else {
                     // setup default menu
                     pmmMegaMenu.addColumn();
-                    pmmMegaMenu.manualAddBlock(0, 0);
                     
                     $('.pmm-menu-grid').show(); // show grid.
                     
@@ -551,6 +550,9 @@ console.log('load new menu');
             
             // add actions.
             addColumnActions(colID);
+
+            // add default block.
+            pmmMegaMenu.manualAddBlock(getID(colID), 0);           
             
             // update column width
             updateColumnWidth();                     
