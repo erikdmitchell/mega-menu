@@ -16,9 +16,10 @@ class PMM_Admin {
     }
     
     public function scripts_styles() {
+        wp_enqueue_script('jquery-ui-sortable');
         wp_enqueue_script('jquery-ui-draggable');
         wp_enqueue_script('jquery-ui-accordion');
-        wp_enqueue_script('pmm-menu-builder', PMM_URL.'admin/js/pmm-menu-builder.js', array('jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);
+        wp_enqueue_script('pmm-menu-builder', PMM_URL.'admin/js/pmm-menu-builder.js', array('jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-accordion'), '0.1.0', true);
         wp_enqueue_script('pmm-menu-ajax', PMM_URL.'admin/js/pmm-menu-builder-ajax.js', array('pmm-menu-builder'), '0.1.0', true);
             
         wp_enqueue_style('pmm-admin-page', PMM_URL.'admin/css/pmm-menu-builder.css', '', PMM_VERSION);         
@@ -111,7 +112,7 @@ class PMM_Admin {
     }
 
     public function ajax_load_menu() {
-        $menu = new PMM_Admin_Build_Menu($_POST['id']);
+        $menu = new PMM_Admin_Build_Menu($_POST['id']);    
         $primary_nav_html = $menu->build_primary_nav();
 
         // if empty, no menu, else return menu.
