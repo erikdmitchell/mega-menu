@@ -767,7 +767,7 @@ console.log('load new menu');
             var rowIDs = getID(rowID);
 
             for (var i = 0; i < columns; i++) {            
-                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column">COLUMN</div>').appendTo($('#' + rowID));
+                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column"></div>').appendTo($('#' + rowID));
             }
             
             updateSubmenuColumnWidth();
