@@ -101,39 +101,39 @@
 .pmm-menu-grid .pmm-column:last-child {
     margin-right: 0;
 } 
-.pmm-menu-grid .pmm-column .block-actions {
+.pmm-menu-grid .pmm-column .row-actions {
     overflow: hidden;
     margin-top: 5px;
     margin-bottom: 10px;
 }
-.pmm-menu-grid .pmm-column .block-actions a {
+.pmm-menu-grid .pmm-column .row-actions a {
     color: #fff;
 }
-.pmm-menu-grid .pmm-column .block-actions .add-block-wrap {
+.pmm-menu-grid .pmm-column .row-actions .add-row-wrap {
     float: right;
 }
-.pmm-menu-grid .pmm-column .block-actions .add-block-wrap a {
+.pmm-menu-grid .pmm-column .row-actions .add-row-wrap a {
     text-decoration: none;
     color: #fff;
 }
-.pmm-menu-grid .pmm-block {
+.pmm-menu-grid .pmm-row {
     background: #eee;
 }
-.pmm-menu-grid .pmm-block {
+.pmm-menu-grid .pmm-row {
     background: #eee;
 }
-.pmm-menu-grid .pmm-column .pmm-block,
-.pmm-menu-grid .pmm-column .pmm-block-placeholder {
+.pmm-menu-grid .pmm-column .pmm-row,
+.pmm-menu-grid .pmm-column .pmm-row-placeholder {
     min-height: 40px;
     padding: 10px; 
     margin-bottom: 15px;
     overflow: hidden;
 }
-.pmm-menu-grid .pmm-column .pmm-block-placeholder {
+.pmm-menu-grid .pmm-column .pmm-row-placeholder {
     border: 1px dashed #000;  
 }
-.pmm-menu-grid .pmm-column .pmm-block .pmm-item,
-.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
+.pmm-menu-grid .pmm-column .pmm-row .pmm-item,
+.pmm-menu-grid .pmm-column .pmm-row .item-placeholder {
     background-color: #FFF;
     border: 1px solid #000;
     cursor: move;
@@ -143,14 +143,14 @@
     padding: 10px 15px;
     text-align: center;
 }
-.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
+.pmm-menu-grid .pmm-column .pmm-row .item-placeholder {
     border-style: dashed;    
 }
-.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions {
+.pmm-menu-grid .pmm-column .pmm-row .pmm-row-actions {
     float: right;
     margin-top: 10px;
 }
-.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions a {
+.pmm-menu-grid .pmm-column .pmm-row .pmm-row-actions a {
     color: #000;
 }
 

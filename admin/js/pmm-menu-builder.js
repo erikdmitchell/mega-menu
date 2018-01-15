@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
    
    // toggles the edit details for an item.
-   $(document).on('click', '.pmm-block .pmm-item .edit-item', function(e) {
+   $(document).on('click', '.pmm-row .pmm-item .edit-item', function(e) {
        e.preventDefault();
 
        $(this).parent().find('.options').slideToggle();
@@ -60,20 +60,20 @@ jQuery( function($) {
             }        
         }).disableSelection(); 
         
-        // make column (blocks) sortable.
+        // make column (rows) sortable.
         $( '.pmm-column' ).sortable({
-            items: '.pmm-block',
+            items: '.pmm-row',
             connectWith: '.pmm-column',
-            placeholder: 'pmm-block-placeholder',
+            placeholder: 'pmm-row-placeholder',
             stop: function(event, ui) {
                 updateBlockIds();                
             }            
         }).disableSelection();  
         
-        // make block (items) sortable.
-        $( '.pmm-block' ).sortable({
+        // make row (items) sortable.
+        $( '.pmm-row' ).sortable({
             items: '.pmm-item',
-            connectWith: '.pmm-block',
+            connectWith: '.pmm-row',
             placeholder: 'item-placeholder',
             receive: function(event, ui) {
                 // append edit if need be.
@@ -95,9 +95,9 @@ jQuery( function($) {
     
     // allows us to rerun our draggables.
     var refreshDraggable = function() {
-        // list items are draggable to blocks.
+        // list items are draggable to rows.
         $( '.pmm-menu-items-list .pmm-item-list .pmm-item' ).draggable({
-            connectToSortable: '.pmm-block, #pmm-menu-main-navigation',
+            connectToSortable: '.pmm-row, #pmm-menu-main-navigation',
             'helper': 'clone',
             revert: 'invalid',
             start: function(event, ui) {},
@@ -109,7 +109,7 @@ jQuery( function($) {
         });        
     };
     
-    // sets item width to block width.
+    // sets item width to row width.
     var adjustItemsWidth = function() {
         $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
            setItemWidth($(this));
@@ -124,8 +124,6 @@ jQuery( function($) {
             } else {
                 // setup default menu
 console.log('load new menu');
-                //pmmMegaMenu.addColumn();
-                //pmmMegaMenu.manualAddBlock(0, 0);
             }
         });        
     };
@@ -156,14 +154,14 @@ console.log('load new menu');
         });
         
         // get all items and loop through to add uid and update options.
-        $('#pmm-menu-grid .pmm-block').each(function() {
+        $('#pmm-menu-grid .pmm-row').each(function() {
             
             // we need this sub loop to get proper index.
             $(this).find('.pmm-item').each(function(i) {
                 $el = $(this);
 
-                var blockId = getID($el.parent().attr('id')).join('-');
-                var itemId = 'pmm-item-' + blockId + '-' + i;
+                var rowId = getID($el.parent().attr('id')).join('-');
+                var itemId = 'pmm-item-' + rowId + '-' + i;
                 
                 $el.addClass('editable');
                 $el.attr('id', itemId); // update id.
@@ -174,7 +172,7 @@ console.log('load new menu');
                 addItemPrimaryNavID($el); // adds the submenu id.
             });
             
-            addBlockActions($(this).attr('id'));
+            addRowActions($(this).attr('id'));
         }); 
         
         // update all item ids and subsequent hidden fields.
@@ -217,11 +215,11 @@ console.log('load new menu');
         $el.width(fullWidth - itemPadding);        
     };
     
-    // sets the id of our item within a block.
+    // sets the id of our item within a row.
     var setItemId = function(ui) {
         var $el = $(ui.helper);
-        var blockId = getID($el.parent().attr('id')).join('-');
-        var itemId = 'pmm-item-' + blockId + '-' + ui.item.index();
+        var rowId = getID($el.parent().attr('id')).join('-');
+        var itemId = 'pmm-item-' + rowId + '-' + ui.item.index();
 
         // set id.
         $el.attr('id', itemId);
@@ -254,7 +252,7 @@ console.log('load new menu');
         var fields = {
             'nav_type': 'primary',
             'order': order,
-            'block': '',
+            'row': '',
             'column': '',
             'primary_nav': '',
         };
@@ -286,10 +284,10 @@ console.log('load new menu');
     var updateItemIds = function() {
         var pattern = /.*-/g;
         
-        $('.pmm-block').each(function(blockIndex) {
-            var $block = $(this);
+        $('.pmm-row').each(function(rowIndex) {
+            var $row = $(this);
             
-            $block.find('.pmm-item').each(function(itemIndex) {
+            $row.find('.pmm-item').each(function(itemIndex) {
                 var uId = $(this).attr('uId');
                 var baseId = $(this).attr('id').match(pattern)[0];
 
@@ -300,12 +298,12 @@ console.log('load new menu');
     
     // update column, block and order (pos).
     var updateItemsHiddenFields = function() {
-        $('.pmm-block .pmm-item').each(function() {
+        $('.pmm-row .pmm-item').each(function() {
             var uID = $(this).attr('uId');
-            var itemLocation = getID($(this).attr('id')); // returns array [col, block, pos]
+            var itemLocation = getID($(this).attr('id')); // returns array [col, row, pos]
     
             $(this).find('input[name="pmm_menu_items[' + uID + '][column]"]').val(itemLocation[0]);
-            $(this).find('input[name="pmm_menu_items[' + uID + '][block]"]').val(itemLocation[1]);
+            $(this).find('input[name="pmm_menu_items[' + uID + '][row]"]').val(itemLocation[1]);
             $(this).find('input[name="pmm_menu_items[' + uID + '][order]"]').val(itemLocation[2]);          
         });        
     };
@@ -315,14 +313,14 @@ console.log('load new menu');
         return '_' + Math.random().toString(36).substr(2, 9);
     };
     
-    // update block ids.
-    var updateBlockIds = function() {      
+    // update row ids.
+    var updateRowIds = function() {      
         $('.pmm-column').each(function(colIndex) {
             var $col = $(this); 
             var colIdNum = getID($col.attr('id'));
            
-            $col.find('.pmm-block').each(function(blockIndex) {
-                $(this).attr('id', 'pmm-block-' + colIdNum + '-' + blockIndex);
+            $col.find('.pmm-row').each(function(rowIndex) {
+                $(this).attr('id', 'pmm-row-' + colIdNum + '-' + rowIndex);
             });
         });
     }; 
@@ -350,7 +348,7 @@ console.log('load new menu');
     
     // adds hidden fields to item.
     var addItemHiddenFields = function($el) {
-        var fields = ['column', 'block', 'order', 'primary_nav', 'nav_type'];
+        var fields = ['column', 'row', 'order', 'primary_nav', 'nav_type'];
         
         $.each(fields, function(key, value) {
             $('<input>').attr({
@@ -361,7 +359,7 @@ console.log('load new menu');
         });
     };
     
-    // clears the grid of any existing cols, blocks, etc.
+    // clears the grid of any existing cols, rows, etc.
     var clearGrid = function() {
         $('.pmm-menu-grid .pmm-column').remove();  
     };
@@ -392,14 +390,14 @@ console.log('load new menu');
         }).appendTo($el);         
     };
     
-    // adds actions to the block. 
-    var addBlockActions = function(blockId) {
-        $('<div class="pmm-block-actions"><a href="#" class="remove-block dashicons dashicons-trash"></a></div>').appendTo($('#' + blockId));       
+    // adds actions to the row. 
+    var addRowActions = function(rowId) {
+        $('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowId));       
     };
 
     // adds actions to the column. 
     var addColumnActions = function(columnId) {       
-        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .block-actions'));       
+        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .row-actions'));       
     };
 
     // create/display loader.
@@ -430,9 +428,9 @@ console.log('load new menu');
             $(document).on('click', '#pmm-menu-main-navigation .pmm-navigation-item', this.toggleSubmenu);
             $(document).on('click', '.pmm-navigation-item .remove-primary-item', this.removePrimaryNavItem);
             $(document).on('click', '#pmm-add-column', this.addColumnBtn);
-            $(document).on('click', '.pmm-column .add-block', this.addBlock);
+            $(document).on('click', '.pmm-column .add-row', this.addRow);
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
-            $(document).on('click', '.pmm-block .remove-block', this.removeBlock);
+            $(document).on('click', '.pmm-row .remove-row', this.removeRow);
             $(document).on('click', '.pmm-column .remove-column', this.removeColumn);
             $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                              
             $(document).on('click', '#pmm-save-submenu', this.saveSubmenuButton);
@@ -519,7 +517,6 @@ console.log('load new menu');
                 hideAJAXLoader();
             });
             
-            //$(this).removeClass('show-submenu');
             // use id to work backwards and find nav item base on value, then remove class.             
             $('.pmm-navigation-item input[value="' + id + '"]').parents('.pmm-navigation-item').removeClass('show-submenu');            
         },
@@ -566,44 +563,44 @@ console.log('load new menu');
             var colNum=$('.pmm-column').length;
             var colID = 'pmm-column-' + colNum;
             
-            $('<div id="' + colID +'" class="pmm-column"><div class="block-actions"><div class="add-block-wrap"><a href="#" class="add-block">Add Block</a></div></div></div>').appendTo('#pmm-menu-grid'); 
+            $('<div id="' + colID +'" class="pmm-column"><div class="row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#pmm-menu-grid'); 
             
             // add actions.
             addColumnActions(colID);
 
-            // add default block.
-            pmmMegaMenu.manualAddBlock(getID(colID), 0);           
+            // add default row.
+            pmmMegaMenu.manualAddRow(getID(colID), 0);           
             
             // update column width
             updateColumnWidth();                     
         },
         
-        addBlock: function(e) {
+        addRow: function(e) {
             if (typeof e !== 'undefined') {
                 e.preventDefault();
             }
           
             var $col = $(this).parents('.pmm-column');
             var colIdNum = getID($col.attr('id'));
-            var order = $col.find('.pmm-block').length;
+            var order = $col.find('.pmm-row').length;
 
             $('<div/>', {
-               id: 'pmm-block-' + colIdNum + '-' + order,
-               class: 'pmm-block' 
+               id: 'pmm-row-' + colIdNum + '-' + order,
+               class: 'pmm-row' 
             }).appendTo($col);
             
-            addBlockActions('pmm-block-' + colIdNum + '-' + order);
+            addRowActions('pmm-row-' + colIdNum + '-' + order);
             
             refreshSortables();
             refreshDraggable();    
         },
         
-        manualAddBlock: function(colIdNum, order) {
+        manualAddRow: function(colIdNum, order) {
             $col=$('#pmm-column-' + colIdNum);
 
             $('<div/>', {
-               id: 'pmm-block-' + colIdNum + '-' + order,
-               class: 'pmm-block' 
+               id: 'pmm-row-' + colIdNum + '-' + order,
+               class: 'pmm-row' 
             }).appendTo($col);
             
             refreshSortables();
@@ -643,10 +640,10 @@ console.log('load new menu');
             });                    
         },
         
-        removeBlock: function(e) {
+        removeRow: function(e) {
             e.preventDefault();
            
-            $(this).parents('.pmm-block').remove();          
+            $(this).parents('.pmm-row').remove();          
         },        
 
         removeColumn: function(e) {

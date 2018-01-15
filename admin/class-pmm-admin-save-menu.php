@@ -328,7 +328,7 @@ class PMM_Admin_Save_Menu {
     private function append_nav_item_meta_via_db_id($items) {   
         foreach ($items as $item) :
             $item->pmm_column = get_post_meta($item->db_id, '_pmm_menu_item_column', true);
-            $item->pmm_block = get_post_meta($item->db_id, '_pmm_menu_item_block', true);
+            $item->pmm_row = get_post_meta($item->db_id, '_pmm_menu_item_row', true);
             $item->pmm_order = get_post_meta($item->db_id, '_pmm_menu_item_order', true);
             $item->pmm_item_type = get_post_meta($item->db_id, '_pmm_menu_item_type', true); // MAY BE ABLE TO REMOVE
             $item->pmm_nav_type = get_post_meta($item->db_id, '_pmm_menu_nav_type', true);
@@ -365,7 +365,7 @@ class PMM_Admin_Save_Menu {
     
     protected function update_menu_item_meta($post_id=0, $item='') {
         update_post_meta($post_id, '_pmm_menu_item_column', $item['column']);
-        update_post_meta($post_id, '_pmm_menu_item_block', $item['block']);
+        update_post_meta($post_id, '_pmm_menu_item_row', $item['row']);
         update_post_meta($post_id, '_pmm_menu_item_order', $item['order']); 
         update_post_meta($post_id, '_pmm_menu_item_type', $item['item_type']);
         update_post_meta($post_id, '_pmm_menu_nav_type', $item['nav_type']);
