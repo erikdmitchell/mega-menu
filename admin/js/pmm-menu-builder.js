@@ -435,7 +435,12 @@ console.log(rowId);
             $(document).on('click', '.pmm-column .remove-column', this.removeColumn);
             $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                              
             $(document).on('click', '#pmm-save-submenu', this.saveSubmenuButton);
-                        
+
+pmmModal.open({
+				content: 'content',
+				class: 'pmm-row-columns-modal'
+			});	
+			                        
             loadMenu();
             loadMenuLocations();
             
@@ -591,7 +596,7 @@ console.log(rowId);
             }).appendTo($col);
             
             addRowActions('pmm-row-' + colIdNum + '-' + order);
-            
+alert('add row popup');            
             refreshSortables();
             refreshDraggable();    
         },
@@ -603,7 +608,7 @@ console.log(rowId);
                id: 'pmm-row-' + colIdNum + '-' + order,
                class: 'pmm-row' 
             }).appendTo($col);
-            
+alert('add row popup');             
             refreshSortables();
             refreshDraggable();            
         },
