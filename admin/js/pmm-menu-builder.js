@@ -321,11 +321,12 @@ console.log('load new menu');
     var updateItemsHiddenFields = function() {
         $('.pmm-row .pmm-item').each(function() {
             var uID = $(this).attr('uId');
-            var itemLocation = getID($(this).attr('id')); // returns array [col, row, pos]
-    
+            var itemLocation = getID($(this).attr('id')); // returns array [col, row, row column, pos]
+ 
             $(this).find('input[name="pmm_menu_items[' + uID + '][column]"]').val(itemLocation[0]);
             $(this).find('input[name="pmm_menu_items[' + uID + '][row]"]').val(itemLocation[1]);
-            $(this).find('input[name="pmm_menu_items[' + uID + '][order]"]').val(itemLocation[2]);          
+            $(this).find('input[name="pmm_menu_items[' + uID + '][row_column]"]').val(itemLocation[2]);
+            $(this).find('input[name="pmm_menu_items[' + uID + '][order]"]').val(itemLocation[3]);          
         });        
     };
     
@@ -369,7 +370,7 @@ console.log('load new menu');
     
     // adds hidden fields to item.
     var addItemHiddenFields = function($el) {
-        var fields = ['column', 'row', 'order', 'primary_nav', 'nav_type'];
+        var fields = ['column', 'row', 'row_column', 'order', 'primary_nav', 'nav_type'];
         
         $.each(fields, function(key, value) {
             $('<input>').attr({
