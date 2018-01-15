@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Mega Menu
+ * Plugin Name: Pickle Mega Menu
  * Plugin URI:
  * Description: Create awesome mega menus.
  * Version: 1.0.0-alpha
@@ -8,7 +8,7 @@
  * Author URI:
  * Requires at least: 4.0
  * Tested up to: 49.1
- * Text Domain: mega-menu
+ * Text Domain: pickle-mega-menu
  */
 
 // If this file is called directly, abort.
@@ -16,15 +16,17 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-if ( ! defined( 'MM_PLUGIN_FILE' ) ) {
-    define( 'MM_PLUGIN_FILE', __FILE__ );
+if ( ! defined( 'PMM_PLUGIN_FILE' ) ) {
+    define( 'PMM_PLUGIN_FILE', __FILE__ );
 }
 
-final class MegaMenu {
+final class PickleMegaMenu {
 
     public $version = '1.0.0-alpha';
 
     public $settings = '';
+    
+    public $admin = '';
 
     protected static $_instance = null;
 
@@ -55,10 +57,9 @@ final class MegaMenu {
      * @return void
      */
     private function define_constants() {
-        $this->define( 'MM_VERSION', $this->version );
-        $this->define( 'MM_PATH', plugin_dir_path( __FILE__ ) );
-        $this->define( 'MM_URL', plugin_dir_url( __FILE__ ) );
-
+        $this->define( 'PMM_VERSION', $this->version );
+        $this->define( 'PMM_PATH', plugin_dir_path( __FILE__ ) );
+        $this->define( 'PMM_URL', plugin_dir_url( __FILE__ ) );
     }
 
     /**
@@ -82,7 +83,18 @@ final class MegaMenu {
      * @return void
      */
     public function includes() {
-
+        include_once(PMM_PATH.'functions.php');
+        include_once(PMM_PATH.'class-pmm-nav-walker.php');
+         
+        include_once(PMM_PATH.'admin/class-pmm-admin.php');
+        include_once(PMM_PATH.'admin/class-pmm-admin-build-menu.php');
+        include_once(PMM_PATH.'admin/class-pmm-admin-save-menu.php');        
+        include_once(PMM_PATH.'admin/items/item.php');
+        include_once(PMM_PATH.'admin/items/pages.php');
+                
+        if (is_admin()) :
+            $this->admin=new PMM_Admin();
+        endif;
     }
 
     /**
@@ -98,8 +110,8 @@ final class MegaMenu {
         add_action( 'admin_init', array( $this, 'plugin_updater' ) );
         add_action( 'init', array( $this, 'get_settings' ), 99 );
         add_action( 'init', array( $this, 'init' ), 0 );
+*/        
         add_action( 'wp_enqueue_scripts', array( $this, 'scripts_styles' ) );
-*/
     }
 
     /**
@@ -129,7 +141,7 @@ final class MegaMenu {
      * @return void
      */
     public function scripts_styles() {
-        //wp_enqueue_style( 'font-awesome', DM_URL . 'css/font-awesome.min.css', '', '4.7.0' );
+        wp_enqueue_style('pmm-frontend-styles', PMM_URL.'css/pmm-frontend.css', '', $this->version);
     }
 
     /**
@@ -148,8 +160,8 @@ final class MegaMenu {
         }
 
         $username    = 'erikdmitchell';
-        $repo_name   = 'mega-menu';
-        $folder_name = 'mega-menu';
+        $repo_name   = 'pickle-mega-menu';
+        $folder_name = 'pickle-mega-menu';
 
         $config = array(
             'slug'               => plugin_basename( __FILE__ ), // this is the slug of your plugin.
@@ -164,15 +176,15 @@ final class MegaMenu {
             'readme'             => 'readme.txt', // which file to use as the readme for the version number.
         );
 
-        new DM_GitHub_Updater( $config );
+        new PMM_GitHub_Updater( $config );
     }
 
 }
 
-function Mega_Menu() {
-    return MegaMenu::instance();
+function PickleMegaMenu() {
+    return PickleMegaMenu::instance();
 }
 
 // Global for backwards compatibility.
-$GLOBALS['megamenu'] = Mega_Menu();
+$GLOBALS['picklemegamenu'] = PickleMegaMenu();
 

@@ -1,0 +1,203 @@
+#pickle-mega-menu-admin {
+    overflow: hidden;
+}
+#pickle-mega-menu-admin .pmm-manage-menus {
+    
+}
+#pickle-mega-menu-admin .menu-items-wrap {
+    margin-top: 15px;
+    overflow: hidden;
+}
+#pickle-mega-menu-admin .menu-items-column {
+    float: left;
+    width: 15%;
+    margin-right: 2%;
+}    
+                   
+#pickle-mega-menu-admin .menu-management-column {
+    float: left;
+    width: 83%;
+}                 
+#pickle-mega-menu-admin .menu-management-column .menu-management {
+    
+} 
+#pickle-mega-menu-admin .menu-options {
+    overflow: hidden;
+}
+#pickle-mega-menu-admin .menu-options .menu-name {
+    float: left;
+}
+#pickle-mega-menu-admin .menu-options .save-menu-button {
+    float: right;
+}
+
+#pickle-mega-menu-admin .menu-management-column .menu-columns {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#pickle-mega-menu-admin .menu-management-column .menu-columns .button {
+    float: right;
+}
+
+#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid-wrap {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 15px;
+}
+#pickle-mega-menu-admin .menu-management-column .pmm-menu-grid-wrap .description {
+    margin-bottom: 10px;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation {
+    min-height: 30px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+#pickle-mega-menu-admin .pmm-main-navigation-item-placeholder {
+    border-style: dashed;
+    padding: 5px 10px;
+    float: left;
+    margin-right: 2%;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-navigation-item {
+    border: 1px solid #000;
+    padding: 5px 10px;
+    float: left;
+    max-width: 13%;
+    margin-right: 2%;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-navigation-item .remove-primary-item {
+    float: left;
+    color: #000;
+    margin-right: 3px;
+    margin-top: -1px;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-navigation-item.add-submenu:after {
+    content: "\f140";
+    float: right;
+    font-family: 'dashicons';
+    cursor: pointer;
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-navigation-item.show-submenu:after {
+    content: "\f142";
+}
+#pickle-mega-menu-admin .pmm-menu-main-navigation .pmm-navigation-item.show-submenu {
+    border-color: green;
+    background-color: green;
+    color: #fff;
+}
+
+.pmm-menu-grid {
+    overflow: hidden;
+    display: none;
+}
+.pmm-menu-grid .pmm-column {
+    float: left;
+    margin-right: 15px;
+    background-color: #F93;
+    padding: 10px 15px;
+    min-height: 20px;
+}
+.pmm-menu-grid .pmm-column:last-child {
+    margin-right: 0;
+} 
+.pmm-menu-grid .pmm-column .block-actions {
+    overflow: hidden;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.pmm-menu-grid .pmm-column .block-actions a {
+    color: #fff;
+}
+.pmm-menu-grid .pmm-column .block-actions .add-block-wrap {
+    float: right;
+}
+.pmm-menu-grid .pmm-column .block-actions .add-block-wrap a {
+    text-decoration: none;
+    color: #fff;
+}
+.pmm-menu-grid .pmm-block {
+    background: #eee;
+}
+.pmm-menu-grid .pmm-block {
+    background: #eee;
+}
+.pmm-menu-grid .pmm-column .pmm-block,
+.pmm-menu-grid .pmm-column .pmm-block-placeholder {
+    min-height: 40px;
+    padding: 10px; 
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+.pmm-menu-grid .pmm-column .pmm-block-placeholder {
+    border: 1px dashed #000;  
+}
+.pmm-menu-grid .pmm-column .pmm-block .pmm-item,
+.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
+    background-color: #FFF;
+    border: 1px solid #000;
+    cursor: move;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 10px 15px;
+    text-align: center;
+}
+.pmm-menu-grid .pmm-column .pmm-block .item-placeholder {
+    border-style: dashed;    
+}
+.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions {
+    float: right;
+    margin-top: 10px;
+}
+.pmm-menu-grid .pmm-column .pmm-block .pmm-block-actions a {
+    color: #000;
+}
+
+/** ITEMS **/
+.pmm-item-list {
+    
+}
+.pmm-item-list .pmm-item {
+    overflow: hidden;
+}
+.pmm-item a.edit-item,
+.pmm-item .options {
+    display: none;
+}
+.pmm-item.editable a.edit-item {
+    display: block;
+}
+.pmm-item a.edit-item {
+    float: right;
+    text-decoration: none;
+}
+.pmm-item .remove-item {
+    float: left;
+}
+
+/* pages */
+.pages-list {
+    
+}
+.pages-list .page {
+    background-color: #eee;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+}
+
+/* admin ajax loader */
+.pmm-admin-ajax-loader-image-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(204, 204, 204, 0.70);
+	display: none;
+}
+.pmm-admin-ajax-loader-image-container .pmm-admin-ajax-loader-image {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
