@@ -69,9 +69,21 @@ console.log('updateColumnWidth()');
             stop: function(event, ui) {
                 updateRowIds();                
             }            
-        }).disableSelection();  
+        }).disableSelection(); 
+        
+        // make row columns sortable.
+        $( '.pmm-row' ).sortable({
+            items: '.pmm-submenu-column',
+            connectWith: '.pmm-row',
+            placeholder: 'pmm-row-column-placeholder',
+            stop: function(event, ui) {
+                updateSubmenuColumnIds();
+                updateSubmenuColumnWidth()                
+            }            
+        }).disableSelection();          
         
         // make row (items) sortable.
+/*
         $( '.pmm-row' ).sortable({
             items: '.pmm-item',
             connectWith: '.pmm-row',
@@ -91,7 +103,8 @@ console.log('updateColumnWidth()');
                 updateItemIds(); // update all item ids.
                 updateItemsHiddenFields(); // update all items hidden.
             }
-        }).disableSelection();               
+        }).disableSelection();
+*/               
     };
     
     // allows us to rerun our draggables.
@@ -374,6 +387,17 @@ console.log('load new menu');
         $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(primaryNavID); // set primary nav value.
         $el.find('input[name="pmm_menu_items[' + uID + '][nav_type]"]').val('subnav'); // set type as something other than primary (subnav).        
     };
+    
+    var updateSubmenuColumnIds = function() {      
+        $('.pmm-column .pmm-row').each(function() {
+            var $row = $(this);
+            var rowIDs = getID($row.attr('id'));
+
+            $row.find('.pmm-submenu-column').each(function(colIndex) {
+                $(this).attr('id', 'pmm-submenu-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + colIndex);
+            });
+        });
+    }; 
 
     var updateSubmenuColumnWidth = function() {
 console.log('updateSubmenuColumnWidth()');
