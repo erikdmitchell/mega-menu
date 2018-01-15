@@ -101,13 +101,9 @@ jQuery( function($) {
                 }
         
                 addItemHiddenFields($el); // adds hidden fields to the item               
-                addItemActions($el); // add action icons. 
-//console.log('recieve d');  
-//console.log($(ui.helper));              
-                setItemID($el, ui.item.index()); // set item id.
-//console.log('recieve e');                
-                addItemPrimaryNavID($el); // adds the submenu id.         
-//console.log('recieve f');                
+                addItemActions($el); // add action icons.               
+                setItemID($el, ui.item.index()); // set item id.               
+                addItemPrimaryNavID($el); // adds the submenu id.               
             },           
             stop: function(event, ui) {                
                 updateItemIds(); // update all item ids.                
@@ -435,6 +431,10 @@ console.log('load new menu');
     
     // adds actions to the item.    
     var addItemActions = function($el) {
+        if ($el.find('.remove-item').length) {
+            return;    
+        }
+        
         $('<a/>', {
             href: '',
             class: 'remove-item dashicons dashicons-trash' 
