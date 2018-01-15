@@ -176,6 +176,17 @@
     float: left;
 }
 
+/* sub menu cols */
+.pmm-menu-grid .pmm-submenu-column {
+    float: left;
+    margin-right: 15px;
+    padding: 10px 15px;
+    min-height: 20px;
+}
+.pmm-menu-grid .pmm-submenu-column:last-child {
+    margin-right: 0;
+}
+
 /*  sub menu options */
 #pickle-mega-menu-admin .pmm-submenu-options {
     overflow: hidden;

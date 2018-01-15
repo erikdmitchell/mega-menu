@@ -19,7 +19,7 @@ jQuery( function($) {
         var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
         
         colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
-
+console.log('updateColumnWidth()');
         $('.pmm-column').each(function() {
            $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
         });
@@ -374,6 +374,26 @@ console.log('load new menu');
         $el.find('input[name="pmm_menu_items[' + uID + '][nav_type]"]').val('subnav'); // set type as something other than primary (subnav).        
     };
 
+    var updateSubmenuColumnWidth = function() {
+console.log('updateSubmenuColumnWidth()');
+        
+        $('.pmm-column .pmm-row').each(function() {
+            var $row = $(this);
+            var $singleCol = $($row.find('.pmm-submenu-column')[0]);
+            var totalCols = $row.find('.pmm-submenu-column').length;
+            var colWidth = $row.width() / totalCols
+            var colMarginRight = parseInt($singleCol.css('margin-right'));
+            var colExtraSpace = parseInt($singleCol.css('padding-left')) + parseInt($singleCol.css('padding-right')) + colMarginRight;
+
+            $row.find('.pmm-submenu-column').each(function() { 
+                $(this).css('width', (colWidth - colExtraSpace)); 
+            });
+            
+            //adjustItemsWidth();
+            
+        });
+    };
+
     // adds actions to the primary nav item.    
     var addPrimaryNavItemActions = function($el) {
         $('<a/>', {
@@ -392,7 +412,7 @@ console.log('load new menu');
     
     // adds actions to the row. 
     var addRowActions = function(rowId) {
-        $('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowId));       
+        //$('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowId));       
     };
 
     // adds actions to the column. 
@@ -716,7 +736,15 @@ console.log('load new menu');
         insertRowColumns: function() {
             var columns = $(this).data('columns');
             var rowID = $(this).data('row');
-console.log('insert ' + columns + ' into row: ' + rowID);            
+            var rowIDs = getID(rowID);
+
+            for (var i = 0; i < columns; i++) {            
+                $('<div id="pmm-submenu-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-submenu-column">COLUMN</div>').appendTo($('#' + rowID));
+            }
+            
+            updateSubmenuColumnWidth();
+
+            pmmModal.close(); // close modal.         
         }
         
     };
