@@ -50,7 +50,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 			$n = "\n";
 		}
 		$indent = ( $depth ) ? str_repeat( $t, $depth ) : '';
-		
+	
         // set total cols if has children.
         if ($args->walker->has_children) 
             $this->column_count = $this->get_total_columns($args, $item);
@@ -80,6 +80,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
                 $output .= "{$this->end_row}\n";
             endif;
             
+            $output.='<!-- new row -->';
             $output .= '<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_block.'" class="pmm-mega-menu-row">';
         endif;
 
@@ -154,6 +155,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 	protected function is_new_column($item) {   	
     	if (0 == $item->pmm_block && 0 == $item->pmm_order) :
     	    $this->current_column = $item->pmm_column;
+    	    $this->current_block = ''; // reset to force new row.
     	    
     	    return true;
         endif;
@@ -161,12 +163,8 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         return false;
 	}
 	
-	protected function is_end_column() {
-    	
-	}
-	
 	protected function is_new_row($item) {
-        if ($this->current_column == $item->pmm_column && $this->current_block != $item->pmm_block) :
+        if ($this->current_column == $item->pmm_column && $this->current_block != $item->pmm_block) :       
             $this->current_block = $item->pmm_block;
             
             return true;
