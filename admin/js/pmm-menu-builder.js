@@ -25,6 +25,7 @@ console.log('updateColumnWidth()');
         });
         
         adjustItemsWidth();
+        updateSubmenuColumnWidth();
     };
     
     // gets id from an id string.

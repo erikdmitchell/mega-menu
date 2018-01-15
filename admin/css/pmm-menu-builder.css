@@ -182,9 +182,11 @@
     margin-right: 15px;
     padding: 10px 15px;
     min-height: 20px;
+    border-right: 1px solid #000;
 }
 .pmm-menu-grid .pmm-submenu-column:last-child {
     margin-right: 0;
+    border-right: 0;
 }
 
 /*  sub menu options */
