@@ -511,7 +511,8 @@ console.log('load new menu');
                 pmmMegaMenu.displayMessage(response);
 
                 clearGrid(); // empty grid.
-                $('.pmm-menu-grid').hide(); // hide grid.
+                
+                pmmMegaMenu.hideGrid();
 
                 pmmSavingSubmenu = false;
                 
@@ -663,6 +664,10 @@ console.log('load new menu');
         
         showGrid: function() {
             $('.pmm-menu-grid, .pmm-submenu-options').show();
+        },
+
+        hideGrid: function() {
+            $('.pmm-menu-grid, .pmm-submenu-options').hide();
         }
         
     };
