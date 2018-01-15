@@ -366,6 +366,7 @@ class PMM_Admin_Save_Menu {
     protected function update_menu_item_meta($post_id=0, $item='') {
         update_post_meta($post_id, '_pmm_menu_item_column', $item['column']);
         update_post_meta($post_id, '_pmm_menu_item_row', $item['row']);
+        update_post_meta($post_id, '_pmm_menu_item_row_column', $item['row_column']);        
         update_post_meta($post_id, '_pmm_menu_item_order', $item['order']); 
         update_post_meta($post_id, '_pmm_menu_item_type', $item['item_type']);
         update_post_meta($post_id, '_pmm_menu_nav_type', $item['nav_type']);
