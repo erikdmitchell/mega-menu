@@ -564,6 +564,7 @@ console.log('load new menu');
             showAJAXLoader('#wpcontent');
 
             // ajax to save submenu.            
+/*
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
                 pmmMegaMenu.displayMessage(response);
 
@@ -576,6 +577,7 @@ console.log('load new menu');
                 
                 hideAJAXLoader();
             });
+*/
             
             // use id to work backwards and find nav item base on value, then remove class. 
             if (close) {            

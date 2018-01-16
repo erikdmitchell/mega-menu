@@ -149,6 +149,7 @@
 .pmm-menu-grid .pmm-column .pmm-row .pmm-row-actions {
     float: right;
     margin-top: 10px;
+    clear: both;
 }
 .pmm-menu-grid .pmm-column .pmm-row .pmm-row-actions a {
     color: #000;
