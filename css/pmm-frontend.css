@@ -37,3 +37,6 @@
 .pmm-mega-sub-menu .pmm-mega-menu-column:last-child {
     margin-right: 0;
 }
+#pmm-mega-menu-item-11353 .pmm-mega-sub-menu {
+    display: block;
+}
