@@ -37,3 +37,6 @@
 .pmm-mega-sub-menu .pmm-mega-menu-column:last-child {
     margin-right: 0;
 }
+.pmm-mega-sub-menu .pmm-item-row {
+    overflow: hidden;
+}

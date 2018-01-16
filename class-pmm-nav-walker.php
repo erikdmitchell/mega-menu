@@ -3,11 +3,14 @@
 class PMM_Nav_Walker extends Walker_Nav_Menu {
     
     private $current_column = '';
-    private $current_block = '';
-    private $column_count = 0;
-    private $end_row = '</ul>';
-    private $end_col = '</li>';
+    private $current_row = '';
+    private $current_row_column = '';
     
+    private $end_item_row = '</ul>';
+    private $end_item_col = '</li>';
+    private $end_row_column = '</li>';
+    private $end_row_column_row = '</ul>';
+
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
@@ -38,7 +41,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		}
 		$indent = str_repeat( $t, $depth );
 
-		$output .= "$indent{$this->end_row}{$n}{$this->end_col}{$n}</ul>{$n}";
+		$output .= "$indent{$this->end_row_column_row}{$n}{$this->end_row_column}{$n}{$this->end_item_row}{$n}{$this->end_item_col}{$n}</ul>{$n}";
 	}
 	
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
@@ -50,11 +53,8 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 			$n = "\n";
 		}
 		$indent = ( $depth ) ? str_repeat( $t, $depth ) : '';
+		$column_count = 0;
 	
-        // set total cols if has children.
-        if ($args->walker->has_children) 
-            $this->column_count = $this->get_total_columns($args, $item);
-
         // setup classes.
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes = $this->update_item_classes($classes);
@@ -63,25 +63,46 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		
 		// add class to primary nav.
 		if (0 === $depth)
-    		$classes[] = 'pmm-mega-menu-primary-nav-item';
-    		
-        // check for column and row //
-        if (0 !== $depth && $this->is_new_column($item)) :
-            if ($this->current_column != 0) :
-                $output .= "{$this->end_row}\n{$this->end_col}\n";
-            endif;
-            
-            $output .= '<li id="pmm-mega-menu-column-'.$this->current_column.'" class="pmm-mega-menu-column pmm-mega-menu-columns-'.$this->column_count.'">';
-            //$output .= '<!-- begin col -->';
-        endif;
+    		$classes[] = 'pmm-mega-menu-primary-nav-item';   		
 
-        if (0 !== $depth && $this->is_new_row($item)) :            
-            if ($this->current_block != 0) :
-                $output .= "{$this->end_row}\n";
+        // buld out our mega menu.
+        if (0 !== $depth) :
+        
+            if ($this->is_new_item_column($item)) :
+                if ($item->pmm_column != 0) :
+                    $output.=$this->end_row_column_row; // MAY NEED CHECK 
+                    $output.=$this->end_row_column;
+                    $output.=$this->end_item_row;
+                    $output.=$this->end_item_col;            
+                endif;
+                
+                //$output.='<!-- new item column -->';
+                $output .= '<li id="pmm-mega-menu-column-'.$this->current_column.'" class="pmm-mega-menu-column pmm-mega-menu-columns-'.$this->get_total_columns($args, $item).' pmm-item-column">';
             endif;
             
-            $output.='<!-- new row -->';
-            $output .= '<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_block.'" class="pmm-mega-menu-row">';
+            if ($this->is_new_item_row($item)) :
+                if ($this->current_row != 0) :
+                    $output.=$this->end_row_column_row; // MAY NEED CHECK 
+                    $output.=$this->end_row_column;
+                    $output.=$this->end_item_row;
+                endif;
+                
+                
+                
+                //$output.='<!-- new item row -->';
+                $output .= '<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_row.'" class="pmm-mega-menu-row pmm-item-row">';
+            endif;
+            
+            if ($this->is_new_row_column($item)) :
+                if ($this->current_row_column != 0) :
+                    $output.=$this->end_row_column_row; // MAY NEED CHECK 
+                    $output.=$this->end_row_column;
+                endif;
+            
+                $output.='<li id="pmm-mega-menu-column-'.$this->current_column.'-'.$this->current_row.'-'.$this->current_row_column.'" class="pmm-mega-menu-column pmm-row-column pmm-mega-menu-columns-'.$this->get_total_row_columns($args, $item).'">';
+                $output.='<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_row.'-'.$this->current_row_column.'-'.$item->pmm_row.'" class="pmm-mega-menu-row pmm-row-column-row">';  // MAY NEED CHECK  
+            endif;
+        
         endif;
 
 		// Filters the arguments for a single nav menu item.
@@ -96,6 +117,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
 		$output .= $indent . '<li' . $id . $class_names .'>';
+		//$output .= '<!-- item -->';
 
 		$atts = array();
 		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
@@ -131,6 +153,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
 	
+
 /*
 	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
@@ -152,36 +175,46 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         return str_replace('menu-item', 'pmm-mega-menu-item', $classes);
 	}
 	
-	protected function is_new_column($item) {   	
-    	if (0 == $item->pmm_block && 0 == $item->pmm_order) :
-    	    $this->current_column = $item->pmm_column;
-    	    $this->current_block = ''; // reset to force new row.
-    	    
-    	    return true;
+	protected function is_new_item_column($item) {
+        if ($item->pmm_row == 0 && $item->pmm_row_column == 0 && $item->pmm_order == 0) :
+            $this->current_column = $item->pmm_column;
+            $this->current_row = ''; // reset to force new row.    	
+        
+            return true;
+        else :
+            return false;
         endif;
-    	    
-        return false;
+	}
+
+	protected function is_new_item_row($item) {
+        if ($this->current_column == $item->pmm_column && $this->current_row != $item->pmm_row) :
+            $this->current_row = $item->pmm_row; 
+        
+            return true;
+        else :
+            return false;
+        endif;   	
 	}
 	
-	protected function is_new_row($item) {
-        if ($this->current_column == $item->pmm_column && $this->current_block != $item->pmm_block) :       
-            $this->current_block = $item->pmm_block;
+	protected function is_new_row_column($item) {
+        if ($item->pmm_column == $this->current_column && $item->pmm_order == 0) :
+            $this->current_row_column = $item->pmm_row_column;
             
             return true;
-        endif;
-    	
-    	return false;
-	} 
-	
+        else:
+            return false;
+        endif;    	
+	}
+		
 	protected function get_total_columns($args, $item) {
-        $sub_nav_id = $item->ID;
+    	$item_parent_id = $item->menu_item_parent;
         $menu_items = wp_get_nav_menu_items($args->menu->term_id);
         $sub_menu_items = array();
         $columns = array();
-       
+ 
         // get sub nav items.
         foreach ($menu_items as $menu_item) :       
-            if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->menu_item_parent == $sub_nav_id) :
+            if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->menu_item_parent == $item_parent_id) :
                 $sub_menu_items[] = $menu_item;
             endif;
         endforeach;
@@ -195,8 +228,34 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         endforeach;
         
         $columns = array_unique($columns);
-        
+       
         return count($columns);   	
+	}
+	
+	protected function get_total_row_columns($args, $item) {
+    	$item_parent_id = $item->menu_item_parent;
+        $menu_items = wp_get_nav_menu_items($args->menu->term_id);
+        $sub_menu_items = array();
+        $columns = array();
+ 
+        // get sub nav items.
+        foreach ($menu_items as $menu_item) :       
+            if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->menu_item_parent == $item_parent_id && $menu_item->pmm_column == $item->pmm_column && $menu_item->pmm_row == $item->pmm_row) :
+                $sub_menu_items[] = $menu_item;
+            endif;
+        endforeach;
+       
+        if (empty($sub_menu_items))
+            return 0;
+
+        // get columns.
+        foreach ($sub_menu_items as $item) :
+            $columns[] = $item->pmm_row_column;
+        endforeach;
+        
+        $columns = array_unique($columns);
+       
+        return count($columns);  
 	} 
     
 }
