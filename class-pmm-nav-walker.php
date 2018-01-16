@@ -5,7 +5,6 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
     private $current_column = '';
     private $current_row = '';
     private $current_row_column = '';
-    private $column_count = 0;
     
     private $end_item_row = '</ul>';
     private $end_item_col = '</li>';
@@ -54,11 +53,8 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 			$n = "\n";
 		}
 		$indent = ( $depth ) ? str_repeat( $t, $depth ) : '';
+		$column_count = 0;
 	
-        // set total cols if has children.
-        if ($args->walker->has_children) 
-            $this->column_count = $this->get_total_columns($args, $item);
-
         // setup classes.
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes = $this->update_item_classes($classes);
@@ -67,7 +63,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		
 		// add class to primary nav.
 		if (0 === $depth)
-    		$classes[] = 'pmm-mega-menu-primary-nav-item';
+    		$classes[] = 'pmm-mega-menu-primary-nav-item';   		
 
         // buld out our mega menu.
         if (0 !== $depth) :
@@ -81,7 +77,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
                 endif;
                 
                 //$output.='<!-- new item column -->';
-                $output .= '<li id="pmm-mega-menu-column-'.$this->current_column.'" class="pmm-mega-menu-column pmm-mega-menu-columns-'.$this->column_count.' pmm-item-column">';
+                $output .= '<li id="pmm-mega-menu-column-'.$this->current_column.'" class="pmm-mega-menu-column pmm-mega-menu-columns-'.$this->get_total_columns($args, $item).' pmm-item-column">';
             endif;
             
             if ($this->is_new_item_row($item)) :
@@ -91,8 +87,10 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
                     $output.=$this->end_item_row;
                 endif;
                 
+                
+                
                 //$output.='<!-- new item row -->';
-                $output .= '<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_row.'" class="pmm-mega-menu-row pmm-item-row">';
+                $output .= '<ul id="pmm-mega-menu-row-'.$this->current_column.'-'.$this->current_row.'" class="pmm-mega-menu-row pmm-item-row pmm-mega-menu-columns-'.$this->get_total_row_columns($args, $item).'">';
             endif;
             
             if ($this->is_new_row_column($item)) :
@@ -180,7 +178,6 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 	protected function is_new_item_column($item) {
         if ($item->pmm_row == 0 && $item->pmm_row_column == 0 && $item->pmm_order == 0) :
             $this->current_column = $item->pmm_column;
-            //$this->current_row_column = $item->pmm_row_column;
             $this->current_row = ''; // reset to force new row.    	
         
             return true;
@@ -209,15 +206,16 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         endif;    	
 	}
 		
-	protected function get_total_columns($args, $item) { // CHECK
-        $sub_nav_id = $item->ID;
+	protected function get_total_columns($args, $item) {
+    	$item_parent_id = get_post_meta($item->ID, '_menu_item_menu_item_parent', true);
+        //$sub_nav_id = $item->ID;
         $menu_items = wp_get_nav_menu_items($args->menu->term_id);
         $sub_menu_items = array();
         $columns = array();
-       
+ 
         // get sub nav items.
         foreach ($menu_items as $menu_item) :       
-            if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->menu_item_parent == $sub_nav_id) :
+            if ($menu_item->pmm_nav_type == 'subnav' && $menu_item->menu_item_parent == $item_parent_id) :
                 $sub_menu_items[] = $menu_item;
             endif;
         endforeach;
@@ -231,8 +229,17 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
         endforeach;
         
         $columns = array_unique($columns);
-        
+       
         return count($columns);   	
+	}
+	
+	protected function get_total_row_columns($args, $item) {
+        $sub_nav_id = $item->ID;
+        $menu_items = wp_get_nav_menu_items($args->menu->term_id);
+        $sub_menu_items = array();
+        $columns = array();
+            	
+    	return 0;
 	} 
     
 }
