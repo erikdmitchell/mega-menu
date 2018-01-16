@@ -131,8 +131,7 @@ jQuery( function($) {
     };
     
     // sets item width to row width.
-    var adjustItemsWidth = function() {
-console.log('adjustItemsWidth()');        
+    var adjustItemsWidth = function() {        
         $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
            setItemWidth($(this));
         });
@@ -556,32 +555,39 @@ console.log('load new menu');
         },
         
         // fires ajax to save sumbmenu.
-        saveSubmenu: function(id) {
+        saveSubmenu: function(id, close) {
+            if (typeof close === "undefined" || close === null) {
+                close = 1;  
+            }
+
             pmmSavingSubmenu = true;
             showAJAXLoader('#wpcontent');
-              
+
             // ajax to save submenu.            
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
                 pmmMegaMenu.displayMessage(response);
 
-                clearGrid(); // empty grid.
-                
-                pmmMegaMenu.hideGrid();
+                if (close) {
+                    clearGrid(); // empty grid.
+                    pmmMegaMenu.hideGrid();
+                }
 
                 pmmSavingSubmenu = false;
                 
                 hideAJAXLoader();
             });
             
-            // use id to work backwards and find nav item base on value, then remove class.             
-            $('.pmm-navigation-item input[value="' + id + '"]').parents('.pmm-navigation-item').removeClass('show-submenu');            
+            // use id to work backwards and find nav item base on value, then remove class. 
+            if (close) {            
+                $('.pmm-navigation-item input[value="' + id + '"]').parents('.pmm-navigation-item').removeClass('show-submenu');            
+            }
         },
         
         // when our save submenu button is clicked.
         saveSubmenuButton: function(e) {
             e.preventDefault();
-            
-            pmmMegaMenu.saveSubmenu($(this).data('submenuId'));  
+           
+            pmmMegaMenu.saveSubmenu($(this).data('submenuId'), 0);  
         },
         
         loadSubmenu: function(submenuID) {
