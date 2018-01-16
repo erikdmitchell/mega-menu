@@ -175,17 +175,17 @@ console.log('load new menu');
         });
         
         // get all items and loop through to add uid and update options.
-        $('#pmm-menu-grid .pmm-row').each(function() {
-            
+        $('#pmm-menu-grid .pmm-row').each(function() {            
+
             // we need this sub loop to get proper index.
             $(this).find('.pmm-item').each(function(i) {
                 $el = $(this);
 
-                var rowId = getID($el.parent().attr('id')).join('-');
-                var itemId = 'pmm-item-' + rowId + '-' + i;
-                
+                var rowID = getID($el.parent().attr('id')).join('-');
+                var itemID = 'pmm-item-' + rowID + '-' + i;
+
                 $el.addClass('editable');
-                $el.attr('id', itemId); // update id.
+                $el.attr('id', itemID); // update id.
                 $el.attr('uid', uniqueID()); // add unique id.
                 addItemHiddenFields($el); // adds hidden fields.
                 updateItemOptions($el); // update fields/options. 
@@ -193,8 +193,8 @@ console.log('load new menu');
                 addItemPrimaryNavID($el); // adds the submenu id.
             });
             
-            addRowActions($(this).attr('id'));
-        }); 
+            addRowActions($(this).attr('id'));   
+        });
         
         // update all item ids and subsequent hidden fields.
         updateItemIds();       
@@ -304,7 +304,7 @@ console.log('load new menu');
     var updateItemIds = function() {
         var pattern = /.*-/g;
         
-        $('.pmm-row').each(function(rowIndex) {
+        $('.pmm-row .pmm-row-column').each(function(rowIndex) {
             var $row = $(this);
             
             $row.find('.pmm-item').each(function(itemIndex) {
@@ -321,7 +321,7 @@ console.log('load new menu');
         $('.pmm-row .pmm-item').each(function() {
             var uID = $(this).attr('uId');
             var itemLocation = getID($(this).attr('id')); // returns array [col, row, row column, pos]
- 
+
             $(this).find('input[name="pmm_menu_items[' + uID + '][column]"]').val(itemLocation[0]);
             $(this).find('input[name="pmm_menu_items[' + uID + '][row]"]').val(itemLocation[1]);
             $(this).find('input[name="pmm_menu_items[' + uID + '][row_column]"]').val(itemLocation[2]);
@@ -446,7 +446,7 @@ console.log('load new menu');
     
     // adds actions to the row. 
     var addRowActions = function(rowID) {
-        $('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowID));       
+        //$('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowID));       
     };
 
     // adds actions to the column. 
