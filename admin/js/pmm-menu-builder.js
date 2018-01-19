@@ -547,12 +547,11 @@ console.log('load new menu');
         
         openSubmenu: function($el) {           
             pmmMegaMenu.showGrid();
-console.log('openSubmenu()');           
+            
             pmmMegaMenu.loadSubmenu($el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val()); // get the submenu.
         },
         
-        closeSubmenu: function(id) {  
-console.log('closeSubmenu()');                    
+        closeSubmenu: function(id) {           
             pmmMegaMenu.saveSubmenu(id);
         },
         
@@ -566,7 +565,6 @@ console.log('closeSubmenu()');
             showAJAXLoader('#wpcontent');
 
             // ajax to save submenu.            
-/*
             pmmMegaMenuAJAX.saveSubMenu(id, function(response) {
                 pmmMegaMenu.displayMessage(response);
 
@@ -579,7 +577,6 @@ console.log('closeSubmenu()');
                 
                 hideAJAXLoader();
             });
-*/
             
             // use id to work backwards and find nav item base on value, then remove class. 
             if (close) {            
