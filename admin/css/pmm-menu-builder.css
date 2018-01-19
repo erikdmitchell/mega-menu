@@ -134,6 +134,7 @@
 }
 .pmm-menu-grid .pmm-column .pmm-row .pmm-item,
 .pmm-menu-grid .pmm-column .pmm-row .item-placeholder {
+    position: relative;
     background-color: #FFF;
     border: 1px solid #000;
     cursor: move;
@@ -174,7 +175,25 @@
     text-decoration: none;
 }
 .pmm-item .remove-item {
-    float: left;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+}
+.pmm-item .options { 
+    text-align: left;   
+}
+.pmm-item .options .option-field {
+    margin-top: 3px;
+}
+.pmm-item .options label {
+    font-weight: normal;
+    font-style: italic;
+}
+.pmm-item .options input { 
+    width: 100%;  
+}
+.pmm-item span.pmm-item-title {
+    display: inline-block;
 }
 
 /* sub menu cols */

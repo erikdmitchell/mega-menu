@@ -489,6 +489,7 @@ console.log('load new menu');
             $(document).on('click', '#pickle-mega-menu-admin .notice-dismiss', this.dismissNotice);                                              
             $(document).on('click', '#pmm-save-submenu', this.saveSubmenuButton);
             $(document).on('click', '.pmm-row-columns-selector', this.insertRowColumns);
+            $(document).on('input', '.pmm-menu-grid .pmm-item .options .option-field input.label', this.changeNavigationLabel);
 			                        
             loadMenu();
             loadMenuLocations();
@@ -546,11 +547,12 @@ console.log('load new menu');
         
         openSubmenu: function($el) {           
             pmmMegaMenu.showGrid();
-            
+console.log('openSubmenu()');           
             pmmMegaMenu.loadSubmenu($el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val()); // get the submenu.
         },
         
-        closeSubmenu: function(id) {           
+        closeSubmenu: function(id) {  
+console.log('closeSubmenu()');                    
             pmmMegaMenu.saveSubmenu(id);
         },
         
@@ -785,6 +787,13 @@ console.log('load new menu');
             refreshDraggable();
             
             pmmModal.close(); // close modal.                    
+        },
+        
+        changeNavigationLabel: function() {
+            var $item = $(this).parents('.pmm-item');
+            var $itemSpan = $item.find('span');
+            
+            $itemSpan.text($(this).val()); // live update of item title (label)
         }
         
     };

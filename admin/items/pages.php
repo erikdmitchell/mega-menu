@@ -30,7 +30,7 @@ class PMM_Item_Pages extends PMM_Item {
             $object_id = $id;
         
         $html.='<div id="page-'.$id.'" class="page pmm-item" data-type="page">';
-            $html.=get_the_title($object_id);
+            $html.='<span class="pmm-item-title">'.get_the_title($object_id).'</span>';
             $html.=$this->edit_link();
             $html.=$this->display_options(array(
                 'post_title' => get_the_title($object_id),
