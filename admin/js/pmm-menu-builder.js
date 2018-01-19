@@ -16,7 +16,11 @@ jQuery( function($) {
     // sets all columns to equal width.
     var updateColumnWidth = function(gridID) {
         if (typeof gridID === 'undefined') { gridID = 'pmm-menu-grid' };
-       
+
+$('#' + gridID + ' .pmm-row').each(function() {
+    console.log($(this));    
+});
+        
         var totalCols = $('#' + gridID + ' .pmm-column').length;
         var colWidthPerc = (100 / totalCols) + '%';
         var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
@@ -29,7 +33,26 @@ jQuery( function($) {
         });
         
         adjustItemsWidth();
-        updateSubmenuColumnWidth();
+        //updateSubmenuColumnWidth();
+        
+/*
+        $('.pmm-column .pmm-row').each(function() {
+            var $row = $(this);
+            var $singleCol = $($row.find('.pmm-row-column')[0]);
+            var totalCols = $row.find('.pmm-row-column').length;
+            var colWidth = $row.width() / totalCols
+            var colMarginRight = parseInt($singleCol.css('margin-right'));
+            var colExtraSpace = parseInt($singleCol.css('padding-left')) + parseInt($singleCol.css('padding-right')) + colMarginRight;
+
+            $row.find('.pmm-row-column').each(function() { 
+                $(this).css('width', (colWidth - colExtraSpace)); 
+            });
+            
+            $row.find('.pmm-row-column:last').css('margin-right', 0);
+            
+            adjustItemsWidth();
+        });    
+*/        
     };
     
     // gets id from an id string.
@@ -417,25 +440,6 @@ console.log('load new menu');
         });
     }; 
 
-    var updateSubmenuColumnWidth = function() {        
-        $('.pmm-column .pmm-row').each(function() {
-            var $row = $(this);
-            var $singleCol = $($row.find('.pmm-row-column')[0]);
-            var totalCols = $row.find('.pmm-row-column').length;
-            var colWidth = $row.width() / totalCols
-            var colMarginRight = parseInt($singleCol.css('margin-right'));
-            var colExtraSpace = parseInt($singleCol.css('padding-left')) + parseInt($singleCol.css('padding-right')) + colMarginRight;
-
-            $row.find('.pmm-row-column').each(function() { 
-                $(this).css('width', (colWidth - colExtraSpace)); 
-            });
-            
-            $row.find('.pmm-row-column:last').css('margin-right', 0);
-            
-            adjustItemsWidth();
-        });
-    };
-
     // adds actions to the primary nav item.    
     var addPrimaryNavItemActions = function($el) {
         $('<a/>', {
@@ -663,6 +667,7 @@ console.log('load new menu');
             }
           
             var $col = $(this).parents('.pmm-column');
+            var gridID = $(this).parents('.pmm-menu-grid').attr('id'); 
             var colIdNum = getID($col.attr('id'));
             var order = $col.find('.pmm-row').length;
             var rowID = 'pmm-row-' + colIdNum + '-' + order;
@@ -672,7 +677,7 @@ console.log('load new menu');
                class: 'pmm-row' 
             }).appendTo($col);
 
-            pmmMegaMenu.openRowColumnModal(rowID);    
+            pmmMegaMenu.openRowColumnModal(gridID, rowID);    
         },
         
         manualAddRow: function(gridID, colIdNum, order) {
@@ -798,7 +803,7 @@ console.log('load new menu');
                 $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column"></div>').appendTo($('#' + gridID + ' #' + rowID));
             }
             
-            updateSubmenuColumnWidth();
+            updateColumnWidth(gridID);
             
             addRowActions('pmm-row-' + rowIDs[0] + '-' + rowIDs[1]);
             
