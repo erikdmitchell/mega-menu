@@ -19,8 +19,22 @@ jQuery( function($) {
 
 $('#' + gridID + ' .pmm-row').each(function() {
     console.log($(this));    
+
+        var totalCols = $(this).find('.pmm-column').length;
+        var colWidthPerc = (100 / totalCols) + '%';
+        var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
+        var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
+       
+        colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
+        
+console.log(totalCols);
+
+        $(this).find('.pmm-column').each(function() {
+           $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
+        });        
 });
         
+/*
         var totalCols = $('#' + gridID + ' .pmm-column').length;
         var colWidthPerc = (100 / totalCols) + '%';
         var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
@@ -31,28 +45,9 @@ $('#' + gridID + ' .pmm-row').each(function() {
         $('.pmm-column').each(function() {
            $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
         });
+*/
         
-        adjustItemsWidth();
-        //updateSubmenuColumnWidth();
-        
-/*
-        $('.pmm-column .pmm-row').each(function() {
-            var $row = $(this);
-            var $singleCol = $($row.find('.pmm-row-column')[0]);
-            var totalCols = $row.find('.pmm-row-column').length;
-            var colWidth = $row.width() / totalCols
-            var colMarginRight = parseInt($singleCol.css('margin-right'));
-            var colExtraSpace = parseInt($singleCol.css('padding-left')) + parseInt($singleCol.css('padding-right')) + colMarginRight;
-
-            $row.find('.pmm-row-column').each(function() { 
-                $(this).css('width', (colWidth - colExtraSpace)); 
-            });
-            
-            $row.find('.pmm-row-column:last').css('margin-right', 0);
-            
-            adjustItemsWidth();
-        });    
-*/        
+        adjustItemsWidth();       
     };
     
     // gets id from an id string.
@@ -800,7 +795,7 @@ console.log('load new menu');
             var rowIDs = getID(rowID);
 
             for (var i = 0; i < columns; i++) {            
-                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column"></div>').appendTo($('#' + gridID + ' #' + rowID));
+                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column pmm-column"></div>').appendTo($('#' + gridID + ' #' + rowID));
             }
             
             updateColumnWidth(gridID);
