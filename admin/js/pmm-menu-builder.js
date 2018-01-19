@@ -1,11 +1,13 @@
 jQuery(document).ready(function($) {
    
    // toggles the edit details for an item.
-   $(document).on('click', '.pmm-row .pmm-item .edit-item', function(e) {
+/*
+   $(document).on('click', '.pmm-item .edit-item', function(e) {
        e.preventDefault();
 
        $(this).parent().find('.options').slideToggle();
    });
+*/
 
 });
 
@@ -498,6 +500,7 @@ console.log('load new menu');
             $(document).on('click', '#pmm-save-submenu', this.saveSubmenuButton);
             $(document).on('click', '.pmm-row-columns-selector', this.insertRowColumns);
             $(document).on('input', '.pmm-menu-grid .pmm-item .options .option-field input.label', this.changeNavigationLabel);
+            $(document).on('click', '.pmm-item .edit-item', this.slideItemOptions);
 			                        
             loadMenu();
             loadMenuLocations();
@@ -799,6 +802,13 @@ console.log('load new menu');
             var $itemSpan = $item.find('span');
             
             $itemSpan.text($(this).val()); // live update of item title (label)
+        },
+        
+        slideItemOptions: function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            $(this).parent().find('.options').slideToggle();
         }
         
     };
