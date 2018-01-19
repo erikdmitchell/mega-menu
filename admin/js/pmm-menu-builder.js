@@ -651,7 +651,7 @@ console.log('load new menu');
             addColumnActions(colID);
 
             // add default row.
-            pmmMegaMenu.manualAddRow(getID(colID), 0);           
+            pmmMegaMenu.manualAddRow(gridID, getID(colID), 0);           
             
             // update column width
             updateColumnWidth(gridID);                     
@@ -675,8 +675,8 @@ console.log('load new menu');
             pmmMegaMenu.openRowColumnModal(rowID);    
         },
         
-        manualAddRow: function(colIdNum, order) {
-            $col=$('#pmm-column-' + colIdNum);
+        manualAddRow: function(gridID, colIdNum, order) {
+            $col=$('#' + gridID + ' #pmm-column-' + colIdNum);
             
             var rowID = 'pmm-row-' + colIdNum + '-' + order;
 
@@ -685,7 +685,7 @@ console.log('load new menu');
                class: 'pmm-row' 
             }).appendTo($col);
 
-            pmmMegaMenu.openRowColumnModal(rowID);            
+            pmmMegaMenu.openRowColumnModal(gridID, rowID);            
         },
 
         addColumnBtn: function(e) {
@@ -754,7 +754,7 @@ console.log('load new menu');
             $('.pmm-menu-grid, .pmm-submenu-options').hide();
         },
         
-        openRowColumnModal: function(rowID) {
+        openRowColumnModal: function(gridID, rowID) {
             var minColumns = 1;
             var maxColumns = 8;
             var modalContent = '';
@@ -763,7 +763,7 @@ console.log('load new menu');
                 
                 for (var i = minColumns; i <= maxColumns; i++) {
                     modalContent += '<div class="pmm-rc-option total-columns-' + i + '">';
-                        modalContent += '<a href="#" class="pmm-row-columns-selector" data-columns="' + i + '" data-row="' + rowID + '">';
+                        modalContent += '<a href="#" class="pmm-row-columns-selector" data-columns="' + i + '" data-grid="' + gridID + '" data-row="' + rowID + '">';
                     
                             for (var cols = 1; cols <= i; cols ++) {
                                 var content = '';
@@ -790,11 +790,12 @@ console.log('load new menu');
         
         insertRowColumns: function() {
             var columns = $(this).data('columns');
+            var gridID = $(this).data('grid');
             var rowID = $(this).data('row');
             var rowIDs = getID(rowID);
 
             for (var i = 0; i < columns; i++) {            
-                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column"></div>').appendTo($('#' + rowID));
+                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column"></div>').appendTo($('#' + gridID + ' #' + rowID));
             }
             
             updateSubmenuColumnWidth();
