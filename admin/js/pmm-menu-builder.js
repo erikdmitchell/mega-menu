@@ -16,6 +16,8 @@ jQuery( function($) {
     // sets all columns to equal width.
     var updateColumnWidth = function(gridID) {
         if (typeof gridID === 'undefined') { gridID = 'pmm-menu-grid' };
+        
+//console.log($('#' + gridID))        
 
 $('#' + gridID + ' .pmm-row').each(function() {
     console.log($(this));    
@@ -31,7 +33,9 @@ console.log(totalCols);
 
         $(this).find('.pmm-column').each(function() {
            $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
-        });        
+        }); 
+        
+        $(this).find('.pmm-column:last').css('margin-right', 0);       
 });
         
 /*
