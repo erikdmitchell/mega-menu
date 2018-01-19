@@ -44,7 +44,7 @@ class PMM_Admin_Save_Menu {
                 if ($form_menu_item['nav_type'] == 'subnav' && $form_menu_item['primary_nav'] == $_POST['sub_nav_id'])
                     $form_submenu_items[] = $form_menu_item; 
             endforeach;
-print_r($form_submenu_items);     
+    
             echo $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
         else :
 // no items        
