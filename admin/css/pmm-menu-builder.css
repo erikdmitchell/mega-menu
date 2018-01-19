@@ -312,3 +312,9 @@
 	top: 50%;
 	left: 50%;
 }
+
+/* item submenu specific */
+.pmm-item-submenu-grid {
+    background: #fff;
+    padding: 10px;
+}
