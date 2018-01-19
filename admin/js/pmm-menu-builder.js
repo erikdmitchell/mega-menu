@@ -746,7 +746,7 @@ console.log('load new menu');
         
         openRowColumnModal: function(rowID) {
             var minColumns = 1;
-            var maxColumns = 4;
+            var maxColumns = 8;
             var modalContent = '';
            
             modalContent += '<div class="pmm-row-columns">';
