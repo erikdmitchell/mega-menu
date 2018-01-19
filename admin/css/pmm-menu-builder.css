@@ -208,6 +208,7 @@
 .pmm-menu-grid .pmm-row-column-placeholder {
     border: 1px dashed #000;  
 }
+.pmm-menu-grid .pmm-row-column:last-of-type,
 .pmm-menu-grid .pmm-row-column:last-child {
     margin-right: 0;
 }

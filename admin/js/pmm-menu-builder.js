@@ -420,6 +420,8 @@ console.log('load new menu');
                 $(this).css('width', (colWidth - colExtraSpace)); 
             });
             
+            $row.find('.pmm-row-column:last').css('margin-right', 0);
+            
             adjustItemsWidth();
         });
     };
@@ -446,7 +448,7 @@ console.log('load new menu');
     
     // adds actions to the row. 
     var addRowActions = function(rowID) {
-        //$('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowID));       
+        $('<div class="pmm-row-actions"><a href="#" class="remove-row dashicons dashicons-trash"></a></div>').appendTo($('#' + rowID));       
     };
 
     // adds actions to the column. 
