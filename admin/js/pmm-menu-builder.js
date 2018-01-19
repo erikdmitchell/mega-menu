@@ -52,6 +52,12 @@ jQuery( function($) {
                 if (!$(ui.helper).hasClass('add-submenu')) {
                     $(ui.helper).addClass('add-submenu');            
                 }
+                
+                // append edit if need be.
+                if (!$(ui.helper).hasClass('editable')) {
+                    $(ui.helper).addClass('editable');            
+                }
+                
                 setNavigationItemID($(ui.helper), ui.item.index());
                 addPrimaryNavItemActions($(ui.helper));             
             },
@@ -217,7 +223,7 @@ console.log('load new menu');
         $primaryNav.append(html);
         
         $primaryNav.find('.pmm-item').each(function(i) {
-            $(this).addClass('add-submenu');
+            $(this).addClass('add-submenu editable');
             
             setNavigationItemID($(this), i);
             addPrimaryNavItemActions($(this));
