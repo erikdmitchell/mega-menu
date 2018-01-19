@@ -14,12 +14,14 @@ jQuery(document).ready(function($) {
 jQuery( function($) {
 
     // sets all columns to equal width.
-    var updateColumnWidth = function() {
-        var totalCols = $('.pmm-column').length;
+    var updateColumnWidth = function(gridID) {
+        if (typeof gridID === 'undefined') { gridID = 'pmm-menu-grid' };
+       
+        var totalCols = $('#' + gridID + ' .pmm-column').length;
         var colWidthPerc = (100 / totalCols) + '%';
         var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
         var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
-        
+       
         colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
 
         $('.pmm-column').each(function() {
@@ -452,6 +454,11 @@ console.log('load new menu');
             href: '',
             class: 'remove-item dashicons dashicons-trash' 
         }).appendTo($el);         
+
+        $('<a/>', {
+            href: '',
+            class: 'add-item-submenu dashicons dashicons-menu' 
+        }).appendTo($el); 
     };
     
     // adds actions to the row. 
@@ -491,7 +498,7 @@ console.log('load new menu');
             $(document).on('click', '#pmm-save-menu', this.saveMenu);
             $(document).on('click', '#pmm-menu-main-navigation .pmm-navigation-item', this.toggleSubmenu);
             $(document).on('click', '.pmm-navigation-item .remove-primary-item', this.removePrimaryNavItem);
-            $(document).on('click', '#pmm-add-column', this.addColumnBtn);
+            $(document).on('click', '.pmm-add-column', this.addColumnBtn);
             $(document).on('click', '.pmm-column .add-row', this.addRow);
             $(document).on('click', '.pmm-item .remove-item', this.removeItem); 
             $(document).on('click', '.pmm-row .remove-row', this.removeRow);
@@ -501,6 +508,7 @@ console.log('load new menu');
             $(document).on('click', '.pmm-row-columns-selector', this.insertRowColumns);
             $(document).on('input', '.pmm-menu-grid .pmm-item .options .option-field input.label', this.changeNavigationLabel);
             $(document).on('click', '.pmm-item .edit-item', this.slideItemOptions);
+            $(document).on('click', '.pmm-item .add-item-submenu', this.toggleItemSubmenu);
 			                        
             loadMenu();
             loadMenuLocations();
@@ -633,11 +641,11 @@ console.log('load new menu');
             });           
         },
         
-        addColumn: function() {            
-            var colNum=$('.pmm-column').length;
+        addColumn: function(gridID) {                     
+            var colNum=$('#' + gridID + ' .pmm-column').length;
             var colID = 'pmm-column-' + colNum;
             
-            $('<div id="' + colID +'" class="pmm-column"><div class="pmm-column-row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#pmm-menu-grid'); 
+            $('<div id="' + colID +'" class="pmm-column"><div class="pmm-column-row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#' + gridID); 
             
             // add actions.
             addColumnActions(colID);
@@ -646,7 +654,7 @@ console.log('load new menu');
             pmmMegaMenu.manualAddRow(getID(colID), 0);           
             
             // update column width
-            updateColumnWidth();                     
+            updateColumnWidth(gridID);                     
         },
         
         addRow: function(e) {
@@ -681,11 +689,13 @@ console.log('load new menu');
         },
 
         addColumnBtn: function(e) {
-            if (typeof e !== 'undefined') {
+            //if (typeof e !== 'undefined') {
                 e.preventDefault();
-            } 
+            //}
             
-            pmmMegaMenu.addColumn();                    
+            var gridID = $(this).parents('.pmm-menu-grid').attr('id');
+            
+            pmmMegaMenu.addColumn(gridID);                    
         },
         
         removeItem: function(e) {
@@ -809,7 +819,66 @@ console.log('load new menu');
             e.preventDefault();
             
             $(this).parent().find('.options').slideToggle();
-        }
+        },
+        
+        toggleItemSubmenu: function(e) {
+            e.preventDefault();
+            
+            var closeOnly = false;
+            
+            // mark if currently open, we are only closing it.
+            if ($(this).hasClass('show-submenu')) {
+                closeOnly = true;
+            }
+            
+            // close any open submenus.
+/*
+            $('.pmm-menu-main-navigation .pmm-navigation-item').each(function() {
+                if ($(this).hasClass('show-submenu')) {
+                    $(this).removeClass('show-submenu');
+
+                    var primaryNavID = $(this).find('input[name="pmm_menu_items[' + $(this).attr('uid') + '][id]"]').val();                    
+                    
+                    pmmMegaMenu.closeSubmenu(primaryNavID);
+                }    
+            });
+*/
+            
+            // open new submenu. check that it's not already open.
+            if (closeOnly === true)
+                return;
+                
+            $(this).addClass('show-submenu');                
+            pmmMegaMenu.openItemSubmenu($(this));
+        },
+        
+        openItemSubmenu: function($el) {
+            var $grid = '';
+            var $item = $el.parent('.pmm-item');
+            var $row = $el.parents('.pmm-row');
+            var classes = 'pmm-item-submenu-grid';
+            var itemID = $item.attr('id');
+            var gridID = 'pmm-item-submenu-grid-' + getID(itemID).join('-');
+        
+console.log('open item submenu');  
+console.log('build/show grid');
+    $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '">';
+        $grid += '<div class="menu-columns">';
+            $grid += '<a href="#" class="button pmm-add-column">Add Column</a>';
+        $grid += '</div>';
+    $grid += '</div>';
+
+    $grid += '<div class="pmm-submenu-options">';    
+        $grid += '<span class="save-submenu-button">';
+            $grid += '<a href="#" class="button button-primary" id="pmm-save-submenu">Save Sub Menu</a>';
+        $grid += '</span>'; 
+    $grid += '</div>';  
+    
+    $($grid).appendTo($row).show();     
+console.log('load menu if exists');
+            
+            //pmmMegaMenu.loadSubmenu($el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val()); // get the submenu.
+        }                
         
     };
 

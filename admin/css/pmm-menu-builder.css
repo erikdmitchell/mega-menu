@@ -91,6 +91,9 @@
     overflow: hidden;
     display: none;
 }
+.pmm-menu-grid.pmm-item-submenu-grid {
+    clear: both;
+}
 .pmm-menu-grid .pmm-column {
     float: left;
     margin-right: 15px;
