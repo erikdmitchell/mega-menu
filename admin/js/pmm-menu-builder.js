@@ -16,42 +16,38 @@ jQuery( function($) {
     // sets all columns to equal width.
     var updateColumnWidth = function(gridID) {
         if (typeof gridID === 'undefined') { gridID = 'pmm-menu-grid' };
-        
-//console.log($('#' + gridID))        
 
-$('#' + gridID + ' .pmm-row').each(function() {
-    console.log($(this));    
-
-        var totalCols = $(this).find('.pmm-column').length;
-        var colWidthPerc = (100 / totalCols) + '%';
-        var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
-        var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
-       
-        colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
+        // top level cols (not wrapped).
+        $('#' + gridID + ' > .pmm-column').each(function() {
+            var colWidthDetails = calcColumnWidth($('#' + gridID + ' > .pmm-column').length);
         
-console.log(totalCols);
-
-        $(this).find('.pmm-column').each(function() {
-           $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
-        }); 
-        
-        $(this).find('.pmm-column:last').css('margin-right', 0);       
-});
-        
-/*
-        var totalCols = $('#' + gridID + ' .pmm-column').length;
-        var colWidthPerc = (100 / totalCols) + '%';
-        var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
-        var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
-       
-        colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
-
-        $('.pmm-column').each(function() {
-           $(this).css('width', colWidthPerc).css('width', '-=' + colExtraSpace + 'px'); 
+            $(this).css('width', colWidthDetails[0]).css('width', '-=' + colWidthDetails[1] + 'px');        
         });
-*/
+       
+        // all cols inside rows.
+        $('#' + gridID + ' .pmm-row').each(function() {
+            var colWidthDetails = calcColumnWidth($(this).find('.pmm-column').length);
         
-        adjustItemsWidth();       
+            $(this).find('.pmm-column').each(function() {
+               $(this).css('width', colWidthDetails[0]).css('width', '-=' + colWidthDetails[1] + 'px'); 
+            }); 
+            
+            $(this).find('.pmm-column:last').css('margin-right', 0);       
+        });
+
+        
+        //adjustItemsWidth();       
+    };
+    
+    // calculates col width.
+    var calcColumnWidth = function(totalCols) {
+        var colWidthPerc = (100 / totalCols) + '%';
+        var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
+        var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
+       
+        colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
+        
+        return [colWidthPerc, colExtraSpace];        
     };
     
     // gets id from an id string.
