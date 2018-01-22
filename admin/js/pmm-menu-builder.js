@@ -19,14 +19,14 @@ jQuery( function($) {
 
         // top level cols (not wrapped).
         $('#' + gridID + ' > .pmm-column').each(function() {
-            var colWidthDetails = calcColumnWidth($('#' + gridID + ' > .pmm-column').length);
-        
+            var colWidthDetails = calcColumnWidth($('#' + gridID + ' > .pmm-column:first'), $('#' + gridID + ' > .pmm-column').length);
+       
             $(this).css('width', colWidthDetails[0]).css('width', '-=' + colWidthDetails[1] + 'px');        
         });
        
         // all cols inside rows.
         $('#' + gridID + ' .pmm-row').each(function() {
-            var colWidthDetails = calcColumnWidth($(this).find('.pmm-column').length);
+            var colWidthDetails = calcColumnWidth($(this).find('.pmm-column:first'), $(this).find('.pmm-column').length);
         
             $(this).find('.pmm-column').each(function() {
                $(this).css('width', colWidthDetails[0]).css('width', '-=' + colWidthDetails[1] + 'px'); 
@@ -40,13 +40,13 @@ jQuery( function($) {
     };
     
     // calculates col width.
-    var calcColumnWidth = function(totalCols) {
+    var calcColumnWidth = function($col, totalCols) {       
         var colWidthPerc = (100 / totalCols) + '%';
-        var colMarginRight = parseInt($('.pmm-column').css('margin-right'));
-        var colExtraSpace = parseInt($('.pmm-column').css('padding-left')) + parseInt($('.pmm-column').css('padding-right')) + parseInt($('.pmm-column').css('margin-right'));
+        var colMarginRight = parseInt($col.css('margin-right'));
+        var colExtraSpace = parseInt($col.css('padding-left')) + parseInt($col.css('padding-right')) + colMarginRight;
        
         colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
-        
+       
         return [colWidthPerc, colExtraSpace];        
     };
     
