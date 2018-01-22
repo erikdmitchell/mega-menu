@@ -45,7 +45,7 @@ jQuery( function($) {
         var colMarginRight = parseInt($col.css('margin-right'));
         var colExtraSpace = parseInt($col.css('padding-left')) + parseInt($col.css('padding-right')) + colMarginRight;
        
-        colExtraSpace = colExtraSpace - (colMarginRight/totalCols); // last col no margin.
+        colExtraSpace = Math.ceil(colExtraSpace - (colMarginRight/totalCols)); // last col no margin.
        
         return [colWidthPerc, colExtraSpace];        
     };
