@@ -36,7 +36,7 @@ jQuery( function($) {
         });
 
         
-        //adjustItemsWidth();       
+        adjustItemsWidth(gridID);       
     };
     
     // calculates col width.
@@ -159,8 +159,8 @@ jQuery( function($) {
     };
     
     // sets item width to row width.
-    var adjustItemsWidth = function() {        
-        $('#pmm-menu-grid .pmm-column .pmm-item').each(function() {
+    var adjustItemsWidth = function(gridID) {        
+        $('#' + gridID + ' .pmm-column .pmm-item').each(function() {
            setItemWidth($(this));
         });
     };
