@@ -1,16 +1,3 @@
-jQuery(document).ready(function($) {
-   
-   // toggles the edit details for an item.
-/*
-   $(document).on('click', '.pmm-item .edit-item', function(e) {
-       e.preventDefault();
-
-       $(this).parent().find('.options').slideToggle();
-   });
-*/
-
-});
-
 jQuery( function($) {
 
     // sets all columns to equal width.
@@ -339,7 +326,9 @@ console.log('load new menu');
                 var uId = $(this).attr('uId');
                 var baseId = $(this).attr('id').match(pattern)[0];
 
-                $(this).attr('id', baseId + itemIndex);                
+                $(this).attr('id', baseId + itemIndex);
+                
+                $(this).append('ID: ' + baseId + itemIndex);                
             });           
         });
     };
@@ -644,7 +633,7 @@ console.log('load new menu');
             var colNum=$('#' + gridID + ' .pmm-column').length;
             var colID = 'pmm-column-' + colNum;
             
-            $('<div id="' + colID +'" class="pmm-column"><div class="pmm-column-row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#' + gridID); 
+            $('<div id="' + colID +'" class="pmm-column">ID: ' + colID + '<div class="pmm-column-row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#' + gridID); 
             
             // add actions.
             addColumnActions(colID);
@@ -795,7 +784,7 @@ console.log('load new menu');
             var rowIDs = getID(rowID);
 
             for (var i = 0; i < columns; i++) {            
-                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column pmm-column"></div>').appendTo($('#' + gridID + ' #' + rowID));
+                $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column pmm-column">ID: pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '</div>').appendTo($('#' + gridID + ' #' + rowID));
             }
             
             updateColumnWidth(gridID);
@@ -860,11 +849,14 @@ console.log('load new menu');
             var classes = 'pmm-item-submenu-grid';
             var itemID = $item.attr('id');
             var gridID = 'pmm-item-submenu-grid-' + getID(itemID).join('-');
+            
+            $item.addClass('submenu-grid-open');
         
 console.log('open item submenu');  
 console.log('build/show grid');
     $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '">';
         $grid += '<div class="menu-columns">';
+            $grid += 'item: ' + itemID + ' | grid: ' + gridID;
             $grid += '<a href="#" class="button pmm-add-column">Add Column</a>';
         $grid += '</div>';
     $grid += '</div>';

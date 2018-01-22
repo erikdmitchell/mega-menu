@@ -318,3 +318,16 @@
     background: #fff;
     padding: 10px;
 }
+.pmm-item-submenu-grid .pmm-column {
+    background: #ffa74e;
+}
+.pmm-item-submenu-grid .pmm-row-column {
+    background: #ddd;
+}
+.pmm-menu-grid .pmm-column .pmm-row .pmm-item.submenu-grid-open {
+    background-color: green;
+    color: #fff;
+}
+.pmm-menu-grid .pmm-column .pmm-row .pmm-item.submenu-grid-open a {
+    color: #fff;
+}
