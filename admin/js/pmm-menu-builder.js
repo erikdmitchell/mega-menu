@@ -417,7 +417,7 @@ console.log('load new menu');
         $('.pmm-column .pmm-row').each(function() {
             var $row = $(this);
             var rowIDs = getID($row.attr('id'));
-
+console.log(rowIDs);
             $row.find('.pmm-row-column').each(function(colIndex) {
                 $(this).attr('id', 'pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + colIndex);
             });
@@ -654,14 +654,8 @@ console.log('load new menu');
             var gridID = $(this).parents('.pmm-menu-grid').attr('id'); 
             var colIdNum = getID($col.attr('id'));
             var order = $col.find('.pmm-row').length;
-            var rowID = 'pmm-row-' + colIdNum + '-' + order;
 
-            $('<div/>', {
-               id: rowID,
-               class: 'pmm-row' 
-            }).appendTo($col);
-
-            pmmMegaMenu.openRowColumnModal(gridID, rowID);    
+            pmmMegaMenu.manualAddRow(gridID, colIdNum, order);;    
         },
         
         manualAddRow: function(gridID, colIdNum, order) {
@@ -747,7 +741,7 @@ console.log('load new menu');
             var minColumns = 1;
             var maxColumns = 8;
             var modalContent = '';
-           
+console.log(rowID);           
             modalContent += '<div class="pmm-row-columns">';
                 
                 for (var i = minColumns; i <= maxColumns; i++) {
@@ -782,7 +776,7 @@ console.log('load new menu');
             var gridID = $(this).data('grid');
             var rowID = $(this).data('row');
             var rowIDs = getID(rowID);
-
+console.log(rowIDs);
             for (var i = 0; i < columns; i++) {            
                 $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column pmm-column">ID: pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '</div>').appendTo($('#' + gridID + ' #' + rowID));
             }
@@ -852,8 +846,8 @@ console.log('load new menu');
             
             $item.addClass('submenu-grid-open');
         
-console.log('open item submenu');  
-console.log('build/show grid');
+//console.log('open item submenu');  
+//console.log('build/show grid');
     $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '">';
         $grid += '<div class="menu-columns">';
             $grid += 'item: ' + itemID + ' | grid: ' + gridID;
@@ -868,7 +862,7 @@ console.log('build/show grid');
     $grid += '</div>';  
     
     $($grid).appendTo($row).show();     
-console.log('load menu if exists');
+//console.log('load menu if exists');
             
             //pmmMegaMenu.loadSubmenu($el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val()); // get the submenu.
         }                
