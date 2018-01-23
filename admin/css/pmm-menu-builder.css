@@ -324,10 +324,10 @@
 .pmm-item-submenu-grid .pmm-row-column {
     background: #ddd;
 }
-.pmm-menu-grid .pmm-column .pmm-row .pmm-item.submenu-grid-open {
+.pmm-menu-grid .pmm-column .pmm-row .pmm-item.show-submenu {
     background-color: green;
     color: #fff;
 }
-.pmm-menu-grid .pmm-column .pmm-row .pmm-item.submenu-grid-open a {
+.pmm-menu-grid .pmm-column .pmm-row .pmm-item.show-submenu a {
     color: #fff;
 }

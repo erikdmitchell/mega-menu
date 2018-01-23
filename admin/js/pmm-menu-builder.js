@@ -405,8 +405,7 @@ console.log('load new menu');
     // adds the proper primay nav item id.
     var addItemPrimaryNavID = function($el) {
         var uID = $el.attr('uId');
-        var primaryNavuID = $('.pmm-navigation-item.show-submenu').attr('uid');
-        var primaryNavID = $('.pmm-navigation-item.show-submenu').find('input[name="pmm_menu_items[' + primaryNavuID + '][id]"]').val();
+        var primaryNavID = $el.parents('.pmm-menu-grid').data('parentid');
 
         $el.find('input[name="pmm_menu_items[' + uID + '][primary_nav]"]').val(primaryNavID); // set primary nav value.
         $el.find('input[name="pmm_menu_items[' + uID + '][nav_type]"]').val('subnav'); // set type as something other than primary (subnav).        
@@ -417,7 +416,7 @@ console.log('load new menu');
         $('.pmm-column .pmm-row').each(function() {
             var $row = $(this);
             var rowIDs = getID($row.attr('id'));
-console.log(rowIDs);
+
             $row.find('.pmm-row-column').each(function(colIndex) {
                 $(this).attr('id', 'pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + colIndex);
             });
@@ -552,10 +551,12 @@ console.log(rowIDs);
             pmmMegaMenu.openSubmenu($(this));
         },
         
-        openSubmenu: function($el) {           
-            pmmMegaMenu.showGrid();
+        openSubmenu: function($el) { 
+            var elID = $el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val();
             
-            pmmMegaMenu.loadSubmenu($el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val()); // get the submenu.
+            pmmMegaMenu.showGrid(elID);
+         
+            pmmMegaMenu.loadSubmenu(elID); // get the submenu.
         },
         
         closeSubmenu: function(id) {           
@@ -618,7 +619,7 @@ console.log(rowIDs);
                     // setup default menu
                     pmmMegaMenu.addColumn();
                     
-                    pmmMegaMenu.showGrid();
+                    pmmMegaMenu.showGrid(submenuID);
                     
                     updateColumnWidth();
                     
@@ -672,9 +673,7 @@ console.log(rowIDs);
         },
 
         addColumnBtn: function(e) {
-            //if (typeof e !== 'undefined') {
-                e.preventDefault();
-            //}
+            e.preventDefault();
             
             var gridID = $(this).parents('.pmm-menu-grid').attr('id');
             
@@ -729,7 +728,8 @@ console.log(rowIDs);
             $(this).parent().remove();
         },
         
-        showGrid: function() {
+        showGrid: function(parentID) {
+            $('.pmm-menu-grid').attr('data-parentid', parentID);
             $('.pmm-menu-grid, .pmm-submenu-options').show();
         },
 
@@ -741,7 +741,7 @@ console.log(rowIDs);
             var minColumns = 1;
             var maxColumns = 8;
             var modalContent = '';
-console.log(rowID);           
+           
             modalContent += '<div class="pmm-row-columns">';
                 
                 for (var i = minColumns; i <= maxColumns; i++) {
@@ -776,7 +776,7 @@ console.log(rowID);
             var gridID = $(this).data('grid');
             var rowID = $(this).data('row');
             var rowIDs = getID(rowID);
-console.log(rowIDs);
+
             for (var i = 0; i < columns; i++) {            
                 $('<div id="pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '" class="pmm-row-column pmm-column">ID: pmm-row-column-' + rowIDs[0] + '-' + rowIDs[1] + '-' + i + '</div>').appendTo($('#' + gridID + ' #' + rowID));
             }
@@ -844,11 +844,11 @@ console.log(rowIDs);
             var itemID = $item.attr('id');
             var gridID = 'pmm-item-submenu-grid-' + getID(itemID).join('-');
             
-            $item.addClass('submenu-grid-open');
+            $item.addClass('show-submenu');
         
 //console.log('open item submenu');  
 //console.log('build/show grid');
-    $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '">';
+    $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '" data-parentid="' + $item.find('input[name="pmm_menu_items[' + $item.attr('uid') + '][id]"]').val() + '">';
         $grid += '<div class="menu-columns">';
             $grid += 'item: ' + itemID + ' | grid: ' + gridID;
             $grid += '<a href="#" class="button pmm-add-column">Add Column</a>';
