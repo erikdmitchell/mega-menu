@@ -177,20 +177,22 @@ console.log('load new menu');
     };
     
     // loads and setups submenu items.
-    var setupExistingSubMenu = function(submenuHTML) {
+    var setupExistingSubMenu = function(submenuHTML, gridID) {
+        var $grid = $('#' + gridID);
+        
         // append the submenu.
-        $('#pmm-menu-grid').append(submenuHTML); 
+        $grid.append(submenuHTML); 
         
         // updated col width.
-        updateColumnWidth();      
+        updateColumnWidth(gridID);      
              
         // add column actions.
-        $('#pmm-menu-grid .pmm-column').each(function() {
+        $('#' + gridID + ' .pmm-column').each(function() {
             addColumnActions($(this).attr('id'));
         });
         
         // get all items and loop through to add uid and update options.
-        $('#pmm-menu-grid .pmm-row').each(function() {            
+        $('#' + gridID + ' .pmm-row').each(function() {            
 
             // we need this sub loop to get proper index.
             $(this).find('.pmm-item').each(function(i) {
@@ -216,7 +218,7 @@ console.log('load new menu');
         updateItemsHiddenFields();
         
         // sets up our sortables, draggables, etc.
-        updateColumnWidth();
+        updateColumnWidth(gridID);
         refreshSortables(); 
         refreshDraggable(); 
         
@@ -327,8 +329,6 @@ console.log('load new menu');
                 var baseId = $(this).attr('id').match(pattern)[0];
 
                 $(this).attr('id', baseId + itemIndex);
-                
-                $(this).append('ID: ' + baseId + itemIndex);                
             });           
         });
     };
@@ -553,10 +553,10 @@ console.log('load new menu');
         
         openSubmenu: function($el) { 
             var elID = $el.find('input[name="pmm_menu_items[' + $el.attr('uid') + '][id]"]').val();
-            
+
             pmmMegaMenu.showGrid(elID);
-         
-            pmmMegaMenu.loadSubmenu(elID); // get the submenu.
+
+            pmmMegaMenu.loadSubmenu(elID, $('.pmm-menu-grid').attr('id')); // get the submenu.
         },
         
         closeSubmenu: function(id) {           
@@ -599,11 +599,11 @@ console.log('load new menu');
             pmmMegaMenu.saveSubmenu($(this).data('submenuId'), 0);  
         },
         
-        loadSubmenu: function(submenuID) {
+        loadSubmenu: function(submenuID, gridID) {
             // make sure we are not currently saving another submenu.
             if (pmmSavingSubmenu) {
                 setTimeout(function() {
-                    pmmMegaMenu.loadSubmenu(submenuID);
+                    pmmMegaMenu.loadSubmenu(submenuID, gridID);
                 }, 1000);
                 
                 return;
@@ -612,9 +612,9 @@ console.log('load new menu');
             showAJAXLoader('#wpcontent');
             
             // ajax to get submenu.
-            pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {
+            pmmMegaMenuAJAX.loadSubMenu(submenuID, function(response) {             
                 if (response.success == true) {                                     
-                    setupExistingSubMenu(response.data); // we have a sub menu.
+                    setupExistingSubMenu(response.data, gridID); // we have a sub menu.
                 } else {
                     // setup default menu
                     pmmMegaMenu.addColumn();
@@ -847,25 +847,22 @@ console.log('load new menu');
             
             $item.addClass('show-submenu');
         
-//console.log('open item submenu');  
-//console.log('build/show grid');
-    $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '" data-parentid="' + parentID + '">';
-        $grid += '<div class="menu-columns">';
-            $grid += 'item: ' + itemID + ' | grid: ' + gridID;
-            $grid += '<a href="#" class="button pmm-add-column">Add Column</a>';
-        $grid += '</div>';
-    $grid += '</div>';
-
-    $grid += '<div class="pmm-submenu-options">';    
-        $grid += '<span class="save-submenu-button">';
-            $grid += '<a href="#" class="button button-primary" id="pmm-save-submenu" data-submenu-id="' + parentID + '">Save Sub Menu</a>';
-        $grid += '</span>'; 
-    $grid += '</div>';  
-    
-    $($grid).appendTo($row).show();     
-//console.log('load menu if exists');
+            $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '" data-parentid="' + parentID + '">';
+                $grid += '<div class="menu-columns">';
+                    $grid += 'item: ' + itemID + ' | grid: ' + gridID;
+                    $grid += '<a href="#" class="button pmm-add-column">Add Column</a>';
+                $grid += '</div>';
+            $grid += '</div>';
+        
+            $grid += '<div class="pmm-submenu-options">';    
+                $grid += '<span class="save-submenu-button">';
+                    $grid += '<a href="#" class="button button-primary" id="pmm-save-submenu" data-submenu-id="' + parentID + '">Save Sub Menu</a>';
+                $grid += '</span>'; 
+            $grid += '</div>';  
             
-            //pmmMegaMenu.loadSubmenu(parentID); // get the submenu.
+            $($grid).appendTo($row).show();
+            
+            pmmMegaMenu.loadSubmenu(parentID, gridID); // get the submenu.
         }
         
         //submenuGrid = function() {}                
