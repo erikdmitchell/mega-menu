@@ -188,7 +188,7 @@ console.log('load new menu');
              
         // add column actions.
         $('#' + gridID + ' .pmm-column').each(function() {
-            addColumnActions($(this).attr('id'));
+            addColumnActions($(this).attr('id'), gridID);
         });
         
         // get all items and loop through to add uid and update options.
@@ -454,8 +454,8 @@ console.log('load new menu');
     };
 
     // adds actions to the column. 
-    var addColumnActions = function(columnId) {       
-        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + columnId + ' .pmm-column-row-actions'));       
+    var addColumnActions = function(columnID, gridID) {               
+        $('<a href="#" class="remove-column dashicons dashicons-trash"></a>').appendTo($('#' + gridID + ' #' + columnID + ' .pmm-column-row-actions'));       
     };
 
     // create/display loader.
@@ -637,7 +637,7 @@ console.log('load new menu');
             $('<div id="' + colID +'" class="pmm-column">ID: ' + colID + '<div class="pmm-column-row-actions"><div class="add-row-wrap"><a href="#" class="add-row">Add Row</a></div></div></div>').appendTo('#' + gridID); 
             
             // add actions.
-            addColumnActions(colID);
+            addColumnActions(colID, gridID);
 
             // add default row.
             pmmMegaMenu.manualAddRow(gridID, getID(colID), 0);           
@@ -849,7 +849,6 @@ console.log('load new menu');
         
             $grid = '<div id="' + gridID + '" class="pmm-menu-grid ' + classes + '" data-parentid="' + parentID + '">';
                 $grid += '<div class="menu-columns">';
-                    $grid += 'item: ' + itemID + ' | grid: ' + gridID;
                     $grid += '<a href="#" class="button pmm-add-column">Add Column</a>';
                 $grid += '</div>';
             $grid += '</div>';
