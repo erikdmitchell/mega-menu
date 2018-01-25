@@ -199,6 +199,18 @@
     display: inline-block;
 }
 
+/* icon */
+.accordion-section.icon .icon-item .pmm-item .options {
+    display: block;
+}
+.accordion-section.icon .icon-item .pmm-item .options .option-field.title,
+.accordion-section.icon .icon-item .pmm-item .options .option-field.classes {
+    display: none;
+}
+.accordion-section.icon .icon-item .pmm-item .options input {
+    width: 99%;
+}
+
 /* sub menu cols */
 .pmm-menu-grid .pmm-row-column,
 .pmm-menu-grid .pmm-row-column-placeholder {

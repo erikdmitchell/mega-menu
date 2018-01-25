@@ -86,7 +86,7 @@ class PMM_Admin {
 
                 foreach (PickleMegaMenu()->admin->items as $item) :
 
-                    $html.='<li class="control-section accordion-section open '.$item->slug.'" id="'.$item->slug.'">';
+                    $html.='<li class="control-section accordion-section '.$item->slug.'" id="'.$item->slug.'">';
                         $html.='<h3 class="accordion-section-title hndle" tabindex="0">'.$item->label.'</h3>';
                         $html.='<div class="accordion-section-content">';
                             $html.='<div class="inside">';

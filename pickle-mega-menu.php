@@ -91,6 +91,7 @@ final class PickleMegaMenu {
         include_once(PMM_PATH.'admin/class-pmm-admin-save-menu.php');        
         include_once(PMM_PATH.'admin/items/item.php');
         include_once(PMM_PATH.'admin/items/pages.php');
+        include_once(PMM_PATH.'admin/items/icon.php');
                 
         if (is_admin()) :
             $this->admin=new PMM_Admin();
