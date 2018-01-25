@@ -105,7 +105,7 @@ class PMM_Admin_Build_Menu {
         
         // output with our columns.
         foreach ($items_columns as $items_column) :
-            $html.='<div id="pmm-row-column-'.$column_id.'-'.$row_id.'-'.$items_column.'" class="pmm-row-column">';
+            $html.='<div id="pmm-row-column-'.$column_id.'-'.$row_id.'-'.$items_column.'" class="pmm-row-column pmm-column">';
                 $html.=$this->add_items($column_id, $row_id, $items_column, $menu_items);
             $html.='</div>';        
         endforeach;

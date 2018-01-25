@@ -82,7 +82,7 @@ $nav_menu_name = isset($nav_menu_object->name) ? $nav_menu_object->name : '';
                         <div id="pmm-menu-grid" class="pmm-menu-grid">
                             
                             <div class="menu-columns">
-                                <a href="#" id="pmm-add-column" class="button">Add Column</a>
+                                <a href="#" class="button pmm-add-column">Add Column</a>
                             </div> 
                             
                         </div>
