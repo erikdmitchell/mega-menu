@@ -60,7 +60,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 		$classes = $this->update_item_classes($classes);
 		$classes[] = 'pmm-mega-menu-item-' . $item->ID;
 		$classes[] = 'pmm-mega-menu-item-' . $item->post_name;
-		
+
 		// add class to primary nav.
 		if (0 === $depth)
     		$classes[] = 'pmm-mega-menu-primary-nav-item';   		
