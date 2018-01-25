@@ -203,6 +203,7 @@
 .accordion-section.icon .icon-item .pmm-item .options {
     display: block;
 }
+.accordion-section.icon .icon-item .pmm-item .pmm-item-title,
 .accordion-section.icon .icon-item .pmm-item .options .option-field.title,
 .accordion-section.icon .icon-item .pmm-item .options .option-field.classes {
     display: none;

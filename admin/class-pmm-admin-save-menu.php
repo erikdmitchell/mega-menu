@@ -227,7 +227,8 @@ class PMM_Admin_Save_Menu {
             $args[$field] = isset( $menu_item[$field] ) ? $menu_item[$field] : '';
 
         $db_id = $this->get_menu_item_db_id($menu_item['id']);
-
+print_r($menu_item);
+print_r($args);
         $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
 
         if ( is_wp_error( $menu_item_db_id ) ) :                    
@@ -247,7 +248,7 @@ class PMM_Admin_Save_Menu {
             return $menu_item_db_id;
         endif;
         
-        return;       
+        return;      
     }
     
     private function update_menu_nav_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items = '') {              
@@ -383,11 +384,8 @@ class PMM_Admin_Save_Menu {
             'page_id' => 'menu-item-object-id',
             'db_id' => 'menu-item-db-id',
             'primary_nav' => 'menu-item-parent-id',
+            'url' => 'menu-item-url',
         );
-
-        /*
-        menu-item-url 
-        */
     }
 	   
 }

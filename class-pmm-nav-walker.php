@@ -128,7 +128,7 @@ class PMM_Nav_Walker extends Walker_Nav_Menu {
 
 		// Filters the HTML attributes applied to a menu item's anchor element.
 		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
-
+print_r($item);
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {
 			if ( ! empty( $value ) ) {

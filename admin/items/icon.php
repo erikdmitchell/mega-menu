@@ -19,6 +19,12 @@ class PMM_Item_Icon extends PMM_Item {
     			    'default' => '',
     			    'input' => 'text',
 			    ),
+                'url' => array(
+    			    'slug' => 'url',
+    			    'label' => 'URL',
+    			    'default' => '',
+    			    'input' => 'url',
+			    ),
 			 ),
 		));
 	}
@@ -41,11 +47,11 @@ class PMM_Item_Icon extends PMM_Item {
             $object_id = $id;
         
         $html.='<div id="page-'.$id.'" class="icon pmm-item" data-type="icon">';
-            //$html.='<span class="pmm-item-title">Custom Icon</span>';
+            $html.='<span class="pmm-item-title">Custom Icon</span>';
             $html.=$this->edit_link();
             $html.=$this->display_options();
             $html.='<input type="hidden" name="id" value="'.$id.'" />';
-            $html.='<input type="hidden" name="item_type" value="icon" />';
+            $html.='<input type="hidden" name="item_type" value="custom" />';
             $html.='<input type="hidden" name="object_id" value="'.$object_id.'" />'; 
             $html.='<input type="hidden" name="object" value="icon" />';                       
         $html.='</div>';    	
