@@ -61,7 +61,7 @@ class PMM_Item {
         $html.='<div class="options">';
         
             foreach ($this->options as $type => $option) :
-                $html.='<div class="option-field">';               
+                $html.='<div class="option-field '.$type.'">';               
                     $html.=$this->option_field($option, $defaults);
                 $html.='</div>';
             endforeach;

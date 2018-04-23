@@ -22,8 +22,8 @@ class PMM_Admin_Build_Menu {
         $sub_menu_items = $this->get_sub_nav_items($sub_nav_id);
         $layout = $this->get_columns_and_rows($sub_menu_items);
 
-        foreach ($layout as $column => $blocks) :
-            $html.=$this->add_column($column, $blocks, $sub_menu_items);
+        foreach ($layout as $column => $rows) :
+            $html.=$this->add_column($column, $rows, $sub_menu_items);
         endforeach;
 
         return $html;
@@ -46,62 +46,84 @@ class PMM_Admin_Build_Menu {
     protected function get_columns_and_rows($menu_items = '') {
         $layout = array();
         
-        // get column (as key) and array of blocks (as value).
+        // get column (as key) and array of rows (as value).
         if (!isset($menu_items) || empty($menu_items))
             return $layout;
         
         foreach ($menu_items as $item) :
-            $layout[$item->pmm_column][] = $item->pmm_block;
+            $layout[$item->pmm_column][] = $item->pmm_row;
         endforeach;
         
-        // make blocks unique.
-        foreach ($layout as $column => $blocks) :
-            $layout[$column] = array_values( array_unique( $blocks ) );
+        // make rows unique.
+        foreach ($layout as $column => $rows) :
+            $layout[$column] = array_values( array_unique( $rows ) );
         endforeach;
         
         return $layout;            
     }
     
-    protected function add_column($id, $blocks, $menu_items) { //USED
+    protected function add_column($id, $rows, $menu_items) {
         $html='';
         
         $html.='<div id="pmm-column-'.$id.'" class="pmm-column">';
-            $html.='<div class="block-actions">';
-                $html.='<div class="add-block-wrap">';
-                    $html.='<a href="#" class="add-block">Add Block</a>';
+            $html.='<div class="pmm-column-row-actions">';
+                $html.='<div class="add-row-wrap">';
+                    $html.='<a href="#" class="add-row">Add Row</a>';
                 $html.='</div>';
             $html.='</div>';
             
-            foreach ($blocks as $block) :
-                $html.=$this->add_block($id, $block, $menu_items);
+            foreach ($rows as $row) :
+                $html.=$this->add_row($id, $row, $menu_items);
             endforeach;
         $html.='</div>';
         
         return $html;
     }
 
-
-    protected function add_block($column_id, $block_id, $menu_items) { //USED
+    protected function add_row($column_id, $row_id, $menu_items) {
         $html='';
-        
-        $html.='<div id="pmm-block-'.$column_id.'-'.$block_id.'" class="pmm-block">';
-            $html.=$this->add_items($column_id, $block_id, $menu_items);
+
+        $html.='<div id="pmm-row-'.$column_id.'-'.$row_id.'" class="pmm-row">';
+            $html.=$this->add_row_columns($column_id, $row_id, $menu_items);
         $html.='</div>';
         
         return $html;
     }
     
-    protected function add_items($column_id, $block_id, $menu_items) {
+    protected function add_row_columns($column_id, $row_id, $menu_items) {
         $html='';
-        $items=array();
-        
-        // get items in column and block.
+        $items_columns=array();
+    
+        // get items columns.
         foreach ($menu_items as $menu_item) :
-            if ($menu_item->pmm_column == $column_id && $menu_item->pmm_block == $block_id) :
-                $items[] = $menu_item;
+            if ($menu_item->pmm_column == $column_id && $menu_item->pmm_row == $row_id) :
+                $items_columns[] = $menu_item->pmm_row_column;
             endif;
         endforeach;
         
+        $items_columns = array_unique($items_columns);
+        
+        // output with our columns.
+        foreach ($items_columns as $items_column) :
+            $html.='<div id="pmm-row-column-'.$column_id.'-'.$row_id.'-'.$items_column.'" class="pmm-row-column pmm-column">';
+                $html.=$this->add_items($column_id, $row_id, $items_column, $menu_items);
+            $html.='</div>';        
+        endforeach;
+        
+        return $html;
+    }
+    
+    protected function add_items($column_id, $row_id, $row_column_id, $menu_items) {
+        $html='';
+        $items=array();
+    
+        // get items in column and row.
+        foreach ($menu_items as $menu_item) :
+            if ($menu_item->pmm_column == $column_id && $menu_item->pmm_row == $row_id && $menu_item->pmm_row_column == $row_column_id) :
+                $items[] = $menu_item;
+            endif;
+        endforeach;
+       
         if (empty($items))
             return;
             
@@ -111,10 +133,11 @@ class PMM_Admin_Build_Menu {
         });
 
         foreach ($items as $item) :
-            if (isset($item->pmm_item_type) && '' !== $item->pmm_item_type)
-                $html.=PickleMegaMenu()->admin->items[$item->pmm_item_type]->load_item($item->ID);
+            if (isset($item->object) && '' !== $item->object) :
+                $html.=PickleMegaMenu()->admin->items[$item->object]->load_item($item->ID);                
+            endif;
         endforeach;
-        
+       
         return $html;
     }
     

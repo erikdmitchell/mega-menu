@@ -44,7 +44,7 @@ class PMM_Admin_Save_Menu {
                 if ($form_menu_item['nav_type'] == 'subnav' && $form_menu_item['primary_nav'] == $_POST['sub_nav_id'])
                     $form_submenu_items[] = $form_menu_item; 
             endforeach;
-     
+   
             echo $this->update_submenu_nav_menu_items($form_data['menu_id'], $form_data['menu_name'], $_POST['sub_nav_id'], $form_submenu_items);
         else :
 // no items        
@@ -227,7 +227,8 @@ class PMM_Admin_Save_Menu {
             $args[$field] = isset( $menu_item[$field] ) ? $menu_item[$field] : '';
 
         $db_id = $this->get_menu_item_db_id($menu_item['id']);
-
+print_r($menu_item);
+print_r($args);
         $menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, $db_id, $args );
 
         if ( is_wp_error( $menu_item_db_id ) ) :                    
@@ -247,7 +248,7 @@ class PMM_Admin_Save_Menu {
             return $menu_item_db_id;
         endif;
         
-        return;       
+        return;      
     }
     
     private function update_menu_nav_items($nav_menu_selected_id, $nav_menu_selected_title, $post_menu_items = '') {              
@@ -328,7 +329,7 @@ class PMM_Admin_Save_Menu {
     private function append_nav_item_meta_via_db_id($items) {   
         foreach ($items as $item) :
             $item->pmm_column = get_post_meta($item->db_id, '_pmm_menu_item_column', true);
-            $item->pmm_block = get_post_meta($item->db_id, '_pmm_menu_item_block', true);
+            $item->pmm_row = get_post_meta($item->db_id, '_pmm_menu_item_row', true);
             $item->pmm_order = get_post_meta($item->db_id, '_pmm_menu_item_order', true);
             $item->pmm_item_type = get_post_meta($item->db_id, '_pmm_menu_item_type', true); // MAY BE ABLE TO REMOVE
             $item->pmm_nav_type = get_post_meta($item->db_id, '_pmm_menu_nav_type', true);
@@ -365,7 +366,8 @@ class PMM_Admin_Save_Menu {
     
     protected function update_menu_item_meta($post_id=0, $item='') {
         update_post_meta($post_id, '_pmm_menu_item_column', $item['column']);
-        update_post_meta($post_id, '_pmm_menu_item_block', $item['block']);
+        update_post_meta($post_id, '_pmm_menu_item_row', $item['row']);
+        update_post_meta($post_id, '_pmm_menu_item_row_column', $item['row_column']);        
         update_post_meta($post_id, '_pmm_menu_item_order', $item['order']); 
         update_post_meta($post_id, '_pmm_menu_item_type', $item['item_type']);
         update_post_meta($post_id, '_pmm_menu_nav_type', $item['nav_type']);
@@ -382,11 +384,8 @@ class PMM_Admin_Save_Menu {
             'page_id' => 'menu-item-object-id',
             'db_id' => 'menu-item-db-id',
             'primary_nav' => 'menu-item-parent-id',
+            'url' => 'menu-item-url',
         );
-
-        /*
-        menu-item-url 
-        */
     }
 	   
 }
